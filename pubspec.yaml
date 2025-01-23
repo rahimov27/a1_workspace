@@ -76,6 +76,12 @@ flutter:
     - family: sf
       fonts:
         - asset: fonts/SFPRODISPLAYBOLD.OTF
+    - family: sf-regular
+      fonts:
+        - asset: fonts/SFPRODISPLAYREGULAR.OTF
+    - family: sf-medium
+      fonts:
+        - asset: fonts/SFPRODISPLAYMEDIUM.OTF
 
   #
   # For details regarding fonts from package dependencies,

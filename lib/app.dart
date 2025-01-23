@@ -1,4 +1,5 @@
-import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
+import 'package:a1_workspace/shared/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -6,8 +7,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      theme: theme,
+      home: const LoginPage(),
     );
   }
 }
