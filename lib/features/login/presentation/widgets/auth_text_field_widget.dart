@@ -8,6 +8,7 @@ class AuthTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: const TextStyle(color: AppColors.mainWhite),
       cursorColor: AppColors.mainRed.withOpacity(0.8),
       decoration: InputDecoration(
         hintText: hintText,
