@@ -1,4 +1,4 @@
-import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: theme,
       // home: const LoginPage(),
-      home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }

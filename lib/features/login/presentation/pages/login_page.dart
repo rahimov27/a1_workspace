@@ -38,7 +38,9 @@ class LoginPage extends StatelessWidget {
                   child: ForgotPasswordText(),
                 ),
                 SizedBox(height: 40),
-                AppButtonWIdget()
+                AppButtonWidget(
+                  text: "Войти",
+                )
               ],
             ),
           ),
