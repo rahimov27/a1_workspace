@@ -1,4 +1,5 @@
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class _MainMenuState extends State<MainMenu> {
     return [
       const HomePage(),
       const HomePage(),
-      const HomePage(),
+      const ServicePage(),
       const HomePage(),
       const HomePage(),
     ];
