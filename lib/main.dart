@@ -1,5 +1,5 @@
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
-import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
+import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
@@ -43,7 +43,7 @@ class _MainMenuState extends State<MainMenu> {
       const HomePage(),
       const ServicePage(),
       const HomePage(),
-      const LoginPage(),
+      const ProfilePage(),
     ];
   }
 
@@ -122,7 +122,7 @@ class _MainMenuState extends State<MainMenu> {
           padding: const EdgeInsets.only(top: 10),
           child: Image.asset("assets/svg/profile-inactive.png"),
         ),
-        title: "Settings",
+        title: "Профиль",
         activeColorPrimary: AppColors.mainRed,
         inactiveColorPrimary: Colors.grey,
       ),
