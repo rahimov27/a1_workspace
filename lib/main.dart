@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:a1_workspace/features/history/presentation/pages/history_page.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
@@ -41,7 +42,7 @@ class _MainMenuState extends State<MainMenu> {
   List<Widget> _buildScreens() {
     return [
       const HomePage(),
-      const HomePage(),
+      const CalendarPage(),
       const ServicePage(),
       const HistoryPage(),
       const ProfilePage(),
