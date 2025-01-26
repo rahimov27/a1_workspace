@@ -20,7 +20,14 @@ class CalendarPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SfCalendar(
-          headerHeight: 50,
+          minDate: DateTime(2024, 1, 1, 1),
+          showDatePickerButton: true,
+          headerDateFormat: "MMMM yyy",
+          todayTextStyle: const TextStyle(
+            fontFamily: "sf",
+            fontSize: 20,
+          ),
+          todayHighlightColor: Colors.transparent,
           headerStyle: const CalendarHeaderStyle(
             backgroundColor: Colors.transparent,
             textStyle: TextStyle(
@@ -31,6 +38,8 @@ class CalendarPage extends StatelessWidget {
           scheduleViewSettings: const ScheduleViewSettings(
             appointmentItemHeight: 70,
             monthHeaderSettings: MonthHeaderSettings(
+              monthTextStyle: TextStyle(fontFamily: "sf", fontSize: 18),
+              textAlign: TextAlign.start,
               height: 60,
               backgroundColor: Colors.black,
             ),
@@ -51,8 +60,8 @@ class CalendarPage extends StatelessWidget {
   List<Meeting> _getDataSource() {
     final List<Meeting> meetings = <Meeting>[];
     final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime(today.year, today.month, today.day, 10);
-    final DateTime endTime = startTime.add(const Duration(hours: 2));
+    final DateTime startTime = DateTime(today.year, today.month, today.day, 9);
+    final DateTime endTime = startTime.add(const Duration(hours: 1));
     meetings.add(Meeting('Тонировка', startTime, endTime, Colors.blue, false));
     meetings.add(Meeting('Химчистка', startTime.add(const Duration(hours: 4)),
         endTime.add(const Duration(hours: 4)), Colors.green, false));
