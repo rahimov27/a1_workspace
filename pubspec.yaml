@@ -38,6 +38,7 @@ dependencies:
   persistent_bottom_nav_bar: ^6.2.1
   dropdown_button2: ^2.3.9
   syncfusion_flutter_calendar: ^28.1.41
+  flutter_native_splash: ^2.4.4
 
 dev_dependencies:
   flutter_test:
