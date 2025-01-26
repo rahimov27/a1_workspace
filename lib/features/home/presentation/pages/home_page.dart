@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
     ];
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: false,
         title: const HomeTitleWidget(),
       ),

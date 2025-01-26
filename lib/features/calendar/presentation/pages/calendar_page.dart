@@ -10,6 +10,7 @@ class CalendarPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: const Text(
           'История',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
