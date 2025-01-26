@@ -6,6 +6,7 @@ import 'package:a1_workspace/features/service/presentation/pages/service_page.da
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
 void main() => runApp(const App());
@@ -58,11 +59,11 @@ class _MainMenuState extends State<MainMenu> {
         ),
         icon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/home-active.png"),
+          child: SvgPicture.asset("assets/svg/home-active.svg"),
         ),
         inactiveIcon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/home-inactive.png"),
+          child: SvgPicture.asset("assets/svg/home-inactive.svg"),
         ),
         title: "Дом",
         activeColorPrimary: AppColors.mainRed,
@@ -75,12 +76,12 @@ class _MainMenuState extends State<MainMenu> {
         ),
         icon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/calendar-active.png"),
+          child: SvgPicture.asset("assets/svg/calendar-active.svg"),
         ),
         title: "Календарь",
         inactiveIcon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/calendar-inactive.png"),
+          child: SvgPicture.asset("assets/svg/calendar-inactive.svg"),
         ),
         activeColorPrimary: AppColors.mainRed,
         inactiveColorPrimary: Colors.grey,
@@ -90,7 +91,7 @@ class _MainMenuState extends State<MainMenu> {
           fontSize: 12,
           fontFamily: "sf-medium",
         ),
-        icon: Image.asset("assets/svg/add.png"),
+        icon: SvgPicture.asset("assets/svg/Add.svg"),
         activeColorPrimary: AppColors.mainRed,
         inactiveColorPrimary: Colors.grey,
       ),
@@ -101,11 +102,11 @@ class _MainMenuState extends State<MainMenu> {
         ),
         inactiveIcon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/clock-inactive.png"),
+          child: SvgPicture.asset("assets/svg/history-inactive.svg"),
         ),
         icon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/clock-active.png"),
+          child: SvgPicture.asset("assets/svg/history-active.svg"),
         ),
         title: "История",
         activeColorPrimary: Colors.deepOrange,
@@ -118,11 +119,11 @@ class _MainMenuState extends State<MainMenu> {
         ),
         icon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/profile-active.png"),
+          child: SvgPicture.asset("assets/svg/profile-active.svg"),
         ),
         inactiveIcon: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Image.asset("assets/svg/profile-inactive.png"),
+          child: SvgPicture.asset("assets/svg/profile-inactive.svg"),
         ),
         title: "Профиль",
         activeColorPrimary: AppColors.mainRed,
