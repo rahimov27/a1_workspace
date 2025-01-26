@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/history/presentation/pages/history_page.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
@@ -42,7 +43,7 @@ class _MainMenuState extends State<MainMenu> {
       const HomePage(),
       const HomePage(),
       const ServicePage(),
-      const HomePage(),
+      const HistoryPage(),
       const ProfilePage(),
     ];
   }
