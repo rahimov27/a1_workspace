@@ -136,13 +136,13 @@ class _MainMenuState extends State<MainMenu> {
   Widget build(BuildContext context) {
     return PersistentTabView(
       context,
+      bottomScreenMargin: 70,
       controller: _controller,
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineToSafeArea: true,
       backgroundColor: AppColors.navbarBackground,
       handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
       stateManagement: true,
       navBarHeight: 70,
       hideNavigationBarWhenKeyboardAppears: true,

@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
       "Защитная пленка",
       "3-х Мойка"
     ];
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
@@ -33,36 +34,41 @@ class HomePage extends StatelessWidget {
         title: const HomeTitleWidget(),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 34),
-          child: Column(
-            children: [
-              const HomeSubtitleWidget(
-                title: "Записи",
-                hasButton: true,
-              ),
-              const SizedBox(height: 14),
-              const HomeRecordCard(
-                name: "Азамат Бакытбеков",
-                number: "+996555121212",
-                service: "Тонировка",
-                date: "Вс, 19 янв",
-              ),
-              const SizedBox(height: 8),
-              const HomeRecordCard(
-                name: "Азамат Бакытбеков",
-                number: "+996555121212",
-                service: "Тонировка",
-                date: "Вс, 19 янв",
-              ),
-              const SizedBox(height: 30),
-              const HomeSubtitleWidget(
-                title: "Услуги",
-                hasButton: false,
-              ),
-              const SizedBox(height: 14),
-              Expanded(
-                child: GridView.builder(
+        child: SingleChildScrollView(
+          // Позволяет прокручивать содержимое
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 34),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const HomeSubtitleWidget(
+                  title: "Записи",
+                  hasButton: true,
+                ),
+                const SizedBox(height: 14),
+                const HomeRecordCard(
+                  name: "Азамат Бакытбеков",
+                  number: "+996555121212",
+                  service: "Тонировка",
+                  date: "Вс, 19 янв",
+                ),
+                const SizedBox(height: 8),
+                const HomeRecordCard(
+                  name: "Азамат Бакытбеков",
+                  number: "+996555121212",
+                  service: "Тонировка",
+                  date: "Вс, 19 янв",
+                ),
+                const SizedBox(height: 30),
+                const HomeSubtitleWidget(
+                  title: "Услуги",
+                  hasButton: false,
+                ),
+                const SizedBox(height: 14),
+                GridView.builder(
+                  physics:
+                      const NeverScrollableScrollPhysics(), // Отключаем скролл GridView
+                  shrinkWrap: true, // Подстраиваем GridView под содержимое
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
@@ -77,8 +83,8 @@ class HomePage extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
