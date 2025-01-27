@@ -1,11 +1,16 @@
 import 'package:a1_workspace/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:a1_workspace/features/history/presentation/pages/history_page.dart';
+import 'package:a1_workspace/features/home/data/datasources/remote/home_remote_datasource.dart';
+import 'package:a1_workspace/features/home/data/repositories/home_repository_impl.dart';
+import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -19,7 +24,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Persistent Bottom Navigation Bar Example",
       theme: theme,
-      home: const MainMenu(),
+      home: BlocProvider(
+        create: (context) => HomeBloc(
+            repository: HomeRepositoryImpl(
+                remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()))),
+        child: const MainMenu(),
+      ),
     );
   }
 }
