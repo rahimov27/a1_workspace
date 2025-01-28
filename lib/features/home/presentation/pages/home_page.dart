@@ -49,24 +49,26 @@ class _HomePageState extends State<HomePage> {
         title: const HomeTitleWidget(),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          // Позволяет прокручивать содержимое
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 34),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const HomeSubtitleWidget(
-                  title: "Записи",
-                  hasButton: true,
-                ),
-                const SizedBox(height: 14),
-                BlocBuilder<HomeBloc, HomeState>(
-                  builder: (context, state) {
-                    if (state is GetRecordsLoading) {
-                      return const CircularProgressIndicator();
-                    } else if (state is GetRecordsSuccess) {
-                      return Column(
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is GetRecordsLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is GetRecordsSuccess) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 34),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const HomeSubtitleWidget(
+                        title: "Записи",
+                        hasButton: true,
+                      ),
+                      const SizedBox(height: 14),
+                      Column(
                         children: [
                           HomeRecordCard(
                             name: state.records[0].firstName,
@@ -82,40 +84,42 @@ class _HomePageState extends State<HomePage> {
                             date: state.records[1].date,
                           ),
                         ],
-                      );
-                    } else {
-                      return const Text("No data");
-                    }
-                  },
-                ),
-                const SizedBox(height: 8),
-                const SizedBox(height: 30),
-                const HomeSubtitleWidget(
-                  title: "Услуги",
-                  hasButton: false,
-                ),
-                const SizedBox(height: 14),
-                GridView.builder(
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Отключаем скролл GridView
-                  shrinkWrap: true, // Подстраиваем GridView под содержимое
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 3.5 / 2,
+                      ),
+                      const SizedBox(height: 8),
+                      const SizedBox(height: 30),
+                      const HomeSubtitleWidget(
+                        title: "Услуги",
+                        hasButton: false,
+                      ),
+                      const SizedBox(height: 14),
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 3.5 / 2,
+                        ),
+                        itemCount: 6,
+                        itemBuilder: (context, index) {
+                          return HomeServiceCardWidget(
+                            icon: icons[index],
+                            title: titles[index],
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return HomeServiceCardWidget(
-                      icon: icons[index],
-                      title: titles[index],
-                    );
-                  },
                 ),
-              ],
-            ),
-          ),
+              );
+            } else {
+              return const Center(
+                child: Text("No data"),
+              );
+            }
+          },
         ),
       ),
     );

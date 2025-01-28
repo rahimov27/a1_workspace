@@ -10,6 +10,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetRecordsEvent>(
       (event, emit) async {
         emit(GetRecordsLoading());
+        await Future.delayed(const Duration(seconds: 3));
         try {
           final records = await repository.getRecords();
           if (records.isNotEmpty) {
