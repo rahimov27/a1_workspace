@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +7,7 @@ class HomeRecordCard extends StatelessWidget {
   final String number;
   final String service;
   final String date;
+
   const HomeRecordCard({
     super.key,
     required this.name,
@@ -13,6 +15,12 @@ class HomeRecordCard extends StatelessWidget {
     required this.service,
     required this.date,
   });
+
+  String formatDate(String date) {
+    DateTime parsedDate = DateTime.parse(date);
+    return DateFormat('dd MMM yyyy, HH:mm')
+        .format(parsedDate); // Форматирование даты
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +69,7 @@ class HomeRecordCard extends StatelessWidget {
                       fontFamily: "sf-medium"),
                 ),
                 Text(
-                  date,
+                  formatDate(date), // Форматированная дата
                   style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.greyHomeCard,

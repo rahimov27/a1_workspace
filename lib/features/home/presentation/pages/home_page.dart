@@ -66,11 +66,22 @@ class _HomePageState extends State<HomePage> {
                     if (state is GetRecordsLoading) {
                       return const CircularProgressIndicator();
                     } else if (state is GetRecordsSuccess) {
-                      return HomeRecordCard(
-                        name: state.records[0].firstName,
-                        number: state.records[0].phone,
-                        service: "Тонировка",
-                        date: state.records[0].id,
+                      return Column(
+                        children: [
+                          HomeRecordCard(
+                            name: state.records[0].firstName,
+                            number: state.records[0].phone,
+                            service: state.records[0].service,
+                            date: state.records[0].date,
+                          ),
+                          const SizedBox(height: 8),
+                          HomeRecordCard(
+                            name: state.records[1].firstName,
+                            number: state.records[1].phone,
+                            service: state.records[1].service,
+                            date: state.records[1].date,
+                          ),
+                        ],
                       );
                     } else {
                       return const Text("No data");
@@ -78,12 +89,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 const SizedBox(height: 8),
-                const HomeRecordCard(
-                  name: "Азамат Бакытбеков",
-                  number: "+996555121212",
-                  service: "Тонировка",
-                  date: "Вс, 19 янв",
-                ),
                 const SizedBox(height: 30),
                 const HomeSubtitleWidget(
                   title: "Услуги",
