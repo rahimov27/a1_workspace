@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 class ServiceTextField extends StatelessWidget {
   final String text;
-  const ServiceTextField({super.key, required this.text});
+  final TextEditingController controller;
+  const ServiceTextField({super.key, required this.text, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
       child: TextField(
+        controller: controller,
         style: const TextStyle(color: AppColors.mainWhite),
         cursorColor: AppColors.mainRed.withOpacity(0.8),
         decoration: InputDecoration(

@@ -14,7 +14,6 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
     try {
       final response = await dio.get("http://127.0.0.1:8000/api/clients/");
       if (response.statusCode == 200) {
-        print(response.data);
         final List records = response.data;
         return records
             .map((record) => HomeRecordsModel.fromJson(record))

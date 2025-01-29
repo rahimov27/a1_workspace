@@ -3,8 +3,12 @@ import 'package:a1_workspace/features/history/presentation/pages/history_page.da
 import 'package:a1_workspace/features/home/data/datasources/remote/home_remote_datasource.dart';
 import 'package:a1_workspace/features/home/data/repositories/home_repository_impl.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
+import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
+import 'package:a1_workspace/features/service/data/datasources/remote/client_remote_datasources.dart';
+import 'package:a1_workspace/features/service/data/repositories/client_repository_impl.dart';
+import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
@@ -24,10 +28,22 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Persistent Bottom Navigation Bar Example",
       theme: theme,
-      home: BlocProvider(
-        create: (context) => HomeBloc(
-            repository: HomeRepositoryImpl(
-                remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()))),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => HomeBloc(
+              repository: HomeRepositoryImpl(
+                remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()),
+              ),
+            )..add(
+                GetRecordsEvent()), // Добавляем событие сразу при инициализации
+          ),
+          BlocProvider(
+              create: (context) => ClientBloc(
+                  repository: ClientRepositoryImpl(
+                      remoteDatasource:
+                          ClientRemoteDatasourceImpl(dio: Dio())))),
+        ],
         child: const MainMenu(),
       ),
     );

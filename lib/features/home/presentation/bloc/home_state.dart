@@ -15,4 +15,3 @@ class GetRecordsError extends HomeState {
   final String error;
   GetRecordsError({required this.error});
 }
-
