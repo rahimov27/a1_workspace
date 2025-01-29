@@ -18,13 +18,19 @@ class _ServicePageState extends State<ServicePage> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _serviceController = TextEditingController();
+  final TextEditingController _priceController =
+      TextEditingController(); // Новый контроллер для цены
   String? _selectedService;
+  String? _selectedStatus = "В ожидании"; // Статус по умолчанию
 
   @override
   void dispose() {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _phoneController.dispose();
+    _serviceController.dispose();
+    _priceController.dispose(); // Уничтожаем контроллер для цены
     super.dispose();
   }
 
@@ -32,12 +38,15 @@ class _ServicePageState extends State<ServicePage> {
     final firstName = _firstNameController.text;
     final lastName = _lastNameController.text;
     final phone = _phoneController.text;
-    final service = _selectedService;
+    final service = _serviceController.text;
+    final price = _priceController.text;
+    final status = _selectedStatus;
 
     if (firstName.isEmpty ||
         lastName.isEmpty ||
         phone.isEmpty ||
-        service == null) {
+        service.isEmpty ||
+        price.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Пожалуйста, заполните все поля!')),
       );
@@ -48,6 +57,8 @@ class _ServicePageState extends State<ServicePage> {
               lastName: lastName,
               phone: phone,
               service: service,
+              price: price,
+              status: status!,
             ),
           );
     }
@@ -102,19 +113,50 @@ class _ServicePageState extends State<ServicePage> {
                   controller: _phoneController,
                 ),
                 const SizedBox(height: 12),
-                CustomDropdownButton(
-                  onSelected: (service) {
+                ServiceTextField(
+                  text: "Услуга",
+                  controller: _serviceController,
+                ),
+                const SizedBox(height: 12),
+                ServiceTextField(
+                  text: "Цена",
+                  controller: _priceController, // Добавляем поле для цены
+                ),
+                const SizedBox(height: 12),
+                // Статус работы
+                DropdownButton<String>(
+                  value: _selectedStatus,
+                  onChanged: (String? newValue) {
                     setState(() {
-                      _selectedService = service;
+                      _selectedStatus = newValue;
                     });
                   },
-                  selectedValue: _selectedService,
+                  items: <String>["В ожидании", "В процессе", "Завершено"]
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  style: const TextStyle(
+                    color: AppColors.mainWhite,
+                    fontSize: 14,
+                  ),
+                  dropdownColor: AppColors.mainGrey,
+                  hint: const Text(
+                    "Статус",
+                    style: TextStyle(
+                      fontFamily: "sf-medium",
+                      fontSize: 14,
+                      color: AppColors.mainWhite,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 40),
                 BlocBuilder<ClientBloc, ClientState>(
                   builder: (context, state) {
                     if (state is ClientRecordLoading) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     return ElevatedButton(
                       onPressed: _onAddPressed,
@@ -125,87 +167,6 @@ class _ServicePageState extends State<ServicePage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomDropdownButton extends StatefulWidget {
-  final Function(String) onSelected;
-  final String? selectedValue;
-
-  const CustomDropdownButton({
-    super.key,
-    required this.onSelected,
-    this.selectedValue,
-  });
-
-  @override
-  State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
-}
-
-class _CustomDropdownButtonState extends State<CustomDropdownButton> {
-  final List<String> _options = ["Тонировка", "Полировка", "Химчистка"];
-
-  void _showCustomDropdownMenu(BuildContext context) {
-    final RenderBox renderBox = context.findRenderObject() as RenderBox;
-    final Offset offset = renderBox.localToGlobal(Offset.zero);
-
-    showMenu(
-      context: context,
-      position: RelativeRect.fromLTRB(
-        offset.dx,
-        offset.dy + renderBox.size.height + 5,
-        offset.dx + renderBox.size.width,
-        0,
-      ),
-      items: _options.map((String value) {
-        return PopupMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
-          ),
-        );
-      }).toList(),
-      color: AppColors.mainGrey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-    ).then((String? newValue) {
-      if (newValue != null) {
-        widget.onSelected(newValue);
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _showCustomDropdownMenu(context),
-      child: Container(
-        height: 50,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          color: AppColors.mainGrey,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              widget.selectedValue ?? "Услуга",
-              style: const TextStyle(
-                  fontFamily: "sf-medium",
-                  fontSize: 14,
-                  color: AppColors.mainWhite),
-            ),
-            SvgPicture.asset("assets/svg/down-icon.svg"),
-          ],
         ),
       ),
     );
