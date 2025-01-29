@@ -7,21 +7,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeRepository repository;
 
   HomeBloc({required this.repository}) : super(HomeInitial()) {
-    on<GetRecordsEvent>(
-      (event, emit) async {
-        emit(GetRecordsLoading());
-        await Future.delayed(const Duration(seconds: 3));
-        try {
-          final records = await repository.getRecords();
-          if (records.isNotEmpty) {
-            emit(GetRecordsSuccess(records: records)); // Передаем данные
-          } else {
-            emit(GetRecordsError(error: 'No records found'));
-          }
-        } catch (e) {
-          emit(GetRecordsError(error: e.toString()));
-        }
-      },
-    );
+    on<GetRecordsEvent>((event, emit) async {
+      emit(GetRecordsLoading());
+      try {
+        final records = await repository.getRecords();
+        print("Полученные данные: $records"); // Дебаг вывода
+        emit(GetRecordsSuccess(records: records));
+      } catch (e) {
+        print("Ошибка при загрузке данных: $e");
+        emit(GetRecordsError(error: e.toString()));
+      }
+    });
   }
 }

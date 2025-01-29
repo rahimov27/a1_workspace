@@ -5,22 +5,25 @@ class HomeRecordsModel {
   final String phone;
   final String service;
   final String date;
-  HomeRecordsModel(
-      {required this.firstName,
-      required this.id,
-      required this.service,
-      required this.date,
-      required this.lastName,
-      required this.phone});
+
+  HomeRecordsModel({
+    required this.firstName,
+    required this.id,
+    required this.service,
+    required this.date,
+    required this.lastName,
+    required this.phone,
+  });
 
   factory HomeRecordsModel.fromJson(Map<String, dynamic> json) {
     return HomeRecordsModel(
-        firstName: json['first_name'],
-        id: json['id'].toString(),
-        lastName: json['last_name'],
-        phone: json['phone'],
-        service: json['service'],
-        date: json['date']);
+      firstName: json['first_name'] ?? "Неизвестно",
+      id: json['id']?.toString() ?? "0",
+      lastName: json['last_name'] ?? "Неизвестно",
+      phone: json['phone'] ?? "Нет номера",
+      service: json['service'] ?? "Не указан",
+      date: json['date'] ?? "Нет даты",
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -30,7 +33,7 @@ class HomeRecordsModel {
       "last_name": lastName,
       "phone": phone,
       "service": service,
-      "date": date
+      "date": date,
     };
   }
 }

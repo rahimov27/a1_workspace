@@ -1,7 +1,10 @@
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:a1_workspace/features/service/presentation/widgets/service_text_field.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
-import 'package:flutter/material.dart';
+import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
+import 'package:a1_workspace/features/service/presentation/bloc/client_state.dart';
+import 'package:a1_workspace/features/service/presentation/bloc/client_event.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ServicePage extends StatefulWidget {
@@ -12,6 +15,44 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  String? _selectedService;
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  void _onAddPressed() {
+    final firstName = _firstNameController.text;
+    final lastName = _lastNameController.text;
+    final phone = _phoneController.text;
+    final service = _selectedService;
+
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        phone.isEmpty ||
+        service == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Пожалуйста, заполните все поля!')),
+      );
+    } else {
+      context.read<ClientBloc>().add(
+            CreateClientRecordEvent(
+              firstName: firstName,
+              lastName: lastName,
+              phone: phone,
+              service: service,
+            ),
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,31 +68,62 @@ class _ServicePageState extends State<ServicePage> {
           ),
         ),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14),
-          child: Column(
-            children: [
-              SizedBox(height: 24),
-              ServiceTextField(
-                text: "Имя",
-              ),
-              SizedBox(height: 12),
-              ServiceTextField(
-                text: "Фамилия",
-              ),
-              SizedBox(height: 12),
-              ServiceTextField(
-                text: "Номер телефона",
-              ),
-              SizedBox(height: 12),
-              CustomDropdownButton(),
-              SizedBox(height: 40),
-              AppButtonWidget(
-                text: "Добавить",
-                borderRadius: 8,
-              )
-            ],
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: BlocListener<ClientBloc, ClientState>(
+            listener: (context, state) {
+              if (state is ClientRecordError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.error)),
+                );
+              } else if (state is ClientRecordSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Услуга добавлена успешно!')),
+                );
+              }
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
+                ServiceTextField(
+                  text: "Имя",
+                  controller: _firstNameController,
+                ),
+                const SizedBox(height: 12),
+                ServiceTextField(
+                  text: "Фамилия",
+                  controller: _lastNameController,
+                ),
+                const SizedBox(height: 12),
+                ServiceTextField(
+                  text: "Номер телефона",
+                  controller: _phoneController,
+                ),
+                const SizedBox(height: 12),
+                CustomDropdownButton(
+                  onSelected: (service) {
+                    setState(() {
+                      _selectedService = service;
+                    });
+                  },
+                  selectedValue: _selectedService,
+                ),
+                const SizedBox(height: 40),
+                BlocBuilder<ClientBloc, ClientState>(
+                  builder: (context, state) {
+                    if (state is ClientRecordLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return ElevatedButton(
+                      onPressed: _onAddPressed,
+                      child: const Text("Добавить"),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -60,15 +132,21 @@ class _ServicePageState extends State<ServicePage> {
 }
 
 class CustomDropdownButton extends StatefulWidget {
-  const CustomDropdownButton({super.key});
+  final Function(String) onSelected;
+  final String? selectedValue;
+
+  const CustomDropdownButton({
+    super.key,
+    required this.onSelected,
+    this.selectedValue,
+  });
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
 }
 
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
-  String? _selectedValue;
-  final List<String> _options = ["Мастер", "Подмастерье", "Ученик"];
+  final List<String> _options = ["Тонировка", "Полировка", "Химчистка"];
 
   void _showCustomDropdownMenu(BuildContext context) {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -100,9 +178,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       ),
     ).then((String? newValue) {
       if (newValue != null) {
-        setState(() {
-          _selectedValue = newValue;
-        });
+        widget.onSelected(newValue);
       }
     });
   }
@@ -122,7 +198,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              _selectedValue ?? "Мастер",
+              widget.selectedValue ?? "Услуга",
               style: const TextStyle(
                   fontFamily: "sf-medium",
                   fontSize: 14,
