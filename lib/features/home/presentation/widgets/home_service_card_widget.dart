@@ -12,11 +12,12 @@ class HomeServiceCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(14),
         color: AppColors.mainGrey,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding:
+            const EdgeInsets.only(top: 14, bottom: 12, left: 10, right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,7 +29,7 @@ class HomeServiceCardWidget extends StatelessWidget {
                 color: AppColors.mainWhite,
               ),
             ),
-            const SizedBox(height: 22),
+            const Spacer(),
             Row(
               children: [
                 const Text(
