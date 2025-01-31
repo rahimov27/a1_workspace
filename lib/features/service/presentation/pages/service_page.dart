@@ -5,6 +5,7 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_state.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_event.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -118,35 +119,40 @@ class _ServicePageState extends State<ServicePage> {
                 const SizedBox(height: 12),
                 ServiceTextField(
                   text: "Цена",
-                  controller: _priceController, // Добавляем поле для цены
+                  controller: _priceController,
                 ),
                 const SizedBox(height: 12),
                 // Статус работы
-                DropdownButton<String>(
-                  value: _selectedStatus,
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedStatus = newValue;
-                    });
-                  },
-                  items: <String>["В ожидании", "В процессе", "Завершено"]
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  style: const TextStyle(
-                    color: AppColors.mainWhite,
-                    fontSize: 14,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.mainGrey,
                   ),
-                  dropdownColor: AppColors.mainGrey,
-                  hint: const Text(
-                    "Статус",
-                    style: TextStyle(
-                      fontFamily: "sf-medium",
-                      fontSize: 14,
-                      color: AppColors.mainWhite,
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      menuWidth: 200,
+                      value: _selectedStatus,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedStatus = newValue;
+                        });
+                      },
+                      items: <String>["В ожидании", "В процессе", "Завершено"]
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      style: const TextStyle(
+                        color: AppColors.mainWhite,
+                        fontSize: 14,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      dropdownColor: AppColors.mainGrey,
+                      icon: SvgPicture.asset("assets/svg/down-icon.svg"),
+                      isExpanded: true,
                     ),
                   ),
                 ),
