@@ -12,7 +12,7 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
   @override
   Future<List<HomeRecordsModel>> getRecords() async {
     try {
-      final response = await dio.get("http://127.0.0.1:8000/api/clients/");
+      final response = await dio.get("http://10.4.165.22:8000/api/clients/");
       if (response.statusCode == 200) {
         final List records = response.data;
         return records

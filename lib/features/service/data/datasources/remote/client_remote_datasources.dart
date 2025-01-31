@@ -17,7 +17,7 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
       String firstName, String lastName, String phone, String service) async {
     try {
       final response = await dio.post(
-        "http://127.0.0.1:8000/api/clients/",
+        "http://10.4.165.22:8000/api/clients/",
         data: {
           'first_name': firstName,
           'last_name': lastName,
