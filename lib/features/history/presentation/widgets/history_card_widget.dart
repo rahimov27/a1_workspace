@@ -17,15 +17,36 @@ class HistoryCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color _getStatusColor(String status) {
-      switch (status) {
-        case "В работе":
+      switch (status.toLowerCase()) {
+        case "в работе":
           return AppColors.green;
-        case "Ожидание":
+        case "ожидание":
           return AppColors.mainYellow;
-        case "Нет оплаты":
+        case "нет оплаты":
           return AppColors.mainRed;
+        case "завершено":
+          return Colors.blue; // Подбери цвет для завершённого статуса
+        case "отменено":
+          return AppColors.greyAuth;
         default:
           return AppColors.greyAuth;
+      }
+    }
+
+    String getTranslatedStatus(String status) {
+      switch (status.toLowerCase()) {
+        case "completed":
+          return "Завершено";
+        case "in_progress":
+          return "В работе";
+        case "pending":
+          return "Ожидание";
+        case "unpaid":
+          return "Нет оплаты";
+        case "cancelled":
+          return "Отменено";
+        default:
+          return "Неизвестно";
       }
     }
 
@@ -71,11 +92,12 @@ class HistoryCardWidget extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  status,
+                  getTranslatedStatus(status),
                   style: TextStyle(
                     fontSize: 12,
                     fontFamily: "sf-medium",
-                    color: _getStatusColor(status),
+                    color: _getStatusColor(getTranslatedStatus(
+                        status)), // Используем переведённый статус
                   ),
                 ),
               ],
