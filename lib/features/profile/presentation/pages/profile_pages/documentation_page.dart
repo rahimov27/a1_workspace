@@ -29,7 +29,7 @@ class DocumentationPage extends StatelessWidget {
       ),
       body: const SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: 14),
           child: DocumentationContent(),
         ),
       ),
@@ -43,22 +43,8 @@ class DocumentationContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Документация по приложению",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.mainWhite,
-          ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          "Нажмите на раздел, чтобы увидеть подробную информацию.",
-          style: TextStyle(fontSize: 16, color: AppColors.mainWhite),
-        ),
-        SizedBox(height: 20),
+        SizedBox(height: 24),
         DocumentationSection(
           title: "Правила и условия обслуживания",
           content: "Описание услуг, их стоимость, гарантии и условия оказания.",
@@ -69,8 +55,8 @@ class DocumentationContent extends StatelessWidget {
               "Ответы на часто задаваемые вопросы по использованию приложения и предоставляемым услугам.",
         ),
         DocumentationSection(
-          title: "Часто задаваемые вопросы",
-          content: "Ответы на часто задаваемые вопросы пользователей.",
+          title: "Политика конфиденциальности",
+          content: "Как мы храним и обрабатываем персональные данные.",
         ),
         DocumentationSection(
           title: "Техническая поддержка",
@@ -92,8 +78,39 @@ class DocumentationSection extends StatefulWidget {
   _DocumentationSectionState createState() => _DocumentationSectionState();
 }
 
-class _DocumentationSectionState extends State<DocumentationSection> {
+class _DocumentationSectionState extends State<DocumentationSection>
+    with SingleTickerProviderStateMixin {
   bool isExpanded = false;
+  late AnimationController _controller;
+  late Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _expandAnimation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleExpand() {
+    setState(() {
+      if (isExpanded) {
+        _controller.reverse();
+      } else {
+        _controller.forward();
+      }
+      isExpanded = !isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,17 +118,14 @@ class _DocumentationSectionState extends State<DocumentationSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () {
-            setState(() {
-              isExpanded = !isExpanded;
-            });
-          },
+          onTap: _toggleExpand,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: AppColors.mainGrey),
+                borderRadius: BorderRadius.circular(14),
+                color: AppColors.mainGrey,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -119,8 +133,8 @@ class _DocumentationSectionState extends State<DocumentationSection> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 14, vertical: 16),
                     child: Text(
-                      overflow: TextOverflow.ellipsis,
                       widget.title,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 16,
                         fontFamily: "sf-medium",
@@ -130,33 +144,42 @@ class _DocumentationSectionState extends State<DocumentationSection> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 14),
-                    child: isExpanded
-                        ? SvgPicture.asset("assets/svg/arrow-up.svg")
-                        : SvgPicture.asset("assets/svg/arrow-down.svg"),
+                    child: AnimatedRotation(
+                      turns: isExpanded ? 0.5 : 0.0,
+                      duration: const Duration(milliseconds: 300),
+                      child: SvgPicture.asset("assets/svg/arrow-down.svg"),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
-        if (isExpanded)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
-            child: Container(
-              decoration: BoxDecoration(
+        ClipRect(
+          child: SizeTransition(
+            sizeFactor: _expandAnimation,
+            axisAlignment: -1.0,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Container(
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
-                  color: AppColors.mainGrey),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
-                child: Text(
-                  widget.content,
-                  style:
-                      const TextStyle(fontSize: 16, color: AppColors.mainWhite),
+                  color: AppColors.mainGrey,
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+                  child: Text(
+                    widget.content,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(185, 255, 255, 255)),
+                  ),
                 ),
               ),
             ),
           ),
+        ),
       ],
     );
   }
