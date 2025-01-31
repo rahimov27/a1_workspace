@@ -162,9 +162,27 @@ class _ServicePageState extends State<ServicePage> {
                     if (state is ClientRecordLoading) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    return ElevatedButton(
-                      onPressed: _onAddPressed,
-                      child: const Text("Добавить"),
+                    return SizedBox(
+                      height: 45,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _onAddPressed,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.mainRed,
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(8), // Радиус углов
+                          ),
+                        ),
+                        child: const Text(
+                          "Добавить",
+                          style: TextStyle(
+                            fontFamily: "sf-medium",
+                            fontSize: 18,
+                            color: AppColors.mainWhite,
+                          ),
+                        ),
+                      ),
                     );
                   },
                 ),
