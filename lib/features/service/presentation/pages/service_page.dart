@@ -5,7 +5,6 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_state.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_event.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -21,7 +20,6 @@ class _ServicePageState extends State<ServicePage> {
   final TextEditingController _serviceController = TextEditingController();
   final TextEditingController _priceController =
       TextEditingController(); // Новый контроллер для цены
-  String? _selectedService;
   String? _selectedStatus = "В ожидании"; // Статус по умолчанию
 
   @override

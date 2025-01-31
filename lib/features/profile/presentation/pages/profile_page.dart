@@ -1,4 +1,6 @@
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/about_us_page.dart';
+import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/documentation_page.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_card_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_unit_card_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -22,39 +24,58 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
-                SizedBox(height: 24),
-                ProfileCardWidget(),
-                SizedBox(height: 20),
-                ProfileUnitCardWidget(
+                const SizedBox(height: 24),
+                const ProfileCardWidget(),
+                const SizedBox(height: 20),
+                const ProfileUnitCardWidget(
                   text: "Настройки",
                 ),
-                SizedBox(height: 5),
-                ProfileUnitCardWidget(
-                  text: "Документация",
+                const SizedBox(height: 5),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const DocumentationPage()));
+                  },
+                  child: const ProfileUnitCardWidget(
+                    text: "Документация",
+                  ),
                 ),
-                SizedBox(height: 5),
-                ProfileUnitCardWidget(
-                  text: "Новости",
+                const SizedBox(height: 5),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AboutUsPage()));
+                  },
+                  child: const ProfileUnitCardWidget(
+                    text: "Новости",
+                  ),
                 ),
-                SizedBox(height: 16),
-                ProfileUnitCardWidget(
+                const SizedBox(height: 16),
+                const ProfileUnitCardWidget(
                   text: "Тема",
                 ),
-                SizedBox(height: 5),
-                ProfileUnitCardWidget(
+                const SizedBox(height: 5),
+                const ProfileUnitCardWidget(
                   text: "О нас",
                 ),
-                SizedBox(height: 30),
-                AppButtonWidget(
+                const SizedBox(height: 30),
+                const AppButtonWidget(
                   text: "Выйти",
                   borderRadius: 8,
+                ),
+                const SizedBox(
+                  height: 40,
                 )
               ],
             ),
