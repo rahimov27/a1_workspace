@@ -29,7 +29,7 @@ class DocumentationPage extends StatelessWidget {
       ),
       body: const SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: 14),
           child: DocumentationContent(),
         ),
       ),
@@ -42,8 +42,8 @@ class DocumentationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         SizedBox(height: 24),
         DocumentationSection(
           title: "Правила и условия обслуживания",
@@ -158,7 +158,7 @@ class _DocumentationSectionState extends State<DocumentationSection>
         ClipRect(
           child: SizeTransition(
             sizeFactor: _expandAnimation,
-            axisAlignment: -1.0, // Контент появляется сверху вниз
+            axisAlignment: -1.0,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Container(
