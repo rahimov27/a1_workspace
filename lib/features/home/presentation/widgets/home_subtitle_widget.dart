@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/home/presentation/pages/see_all_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +23,18 @@ class HomeSubtitleWidget extends StatelessWidget {
         ),
         const Spacer(),
         hasButton
-            ? const Text(
-                "Смотреть все",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: "sf-medium",
-                  color: AppColors.textGreyColor,
+            ? GestureDetector(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SeeAllPage())),
+                child: const Text(
+                  "Смотреть все",
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontFamily: "sf-medium",
+                    color: AppColors.textGreyColor,
+                  ),
                 ),
               )
             : const SizedBox(),

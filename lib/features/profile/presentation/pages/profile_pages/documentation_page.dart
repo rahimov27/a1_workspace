@@ -42,10 +42,9 @@ class DocumentationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      // Использование SingleChildScrollView
+    return const SingleChildScrollView(
       child: Column(
-        children: const [
+        children: [
           SizedBox(height: 24),
           DocumentationSection(
             title: "Правила и условия обслуживания",
