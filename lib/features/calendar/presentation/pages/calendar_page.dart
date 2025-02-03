@@ -1,6 +1,9 @@
-import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
+import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({super.key});
@@ -20,71 +23,81 @@ class CalendarPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: SfCalendar(
-          minDate: DateTime(2024, 1, 1, 1),
-          showDatePickerButton: true,
-          headerDateFormat: "MMMM yyy",
-          todayTextStyle: const TextStyle(
-            fontFamily: "sf",
-            fontSize: 20,
-          ),
-          todayHighlightColor: Colors.transparent,
-          headerStyle: const CalendarHeaderStyle(
-            backgroundColor: Colors.transparent,
-            textStyle: TextStyle(
-                fontSize: 18, color: AppColors.mainWhite, fontFamily: "sf"),
-          ),
-          view: CalendarView.schedule,
-          backgroundColor: Colors.black,
-          scheduleViewSettings: const ScheduleViewSettings(
-            appointmentItemHeight: 70,
-            monthHeaderSettings: MonthHeaderSettings(
-              monthTextStyle: TextStyle(fontFamily: "sf", fontSize: 18),
-              textAlign: TextAlign.start,
-              height: 60,
-              backgroundColor: Colors.black,
-            ),
-            weekHeaderSettings: WeekHeaderSettings(
-              backgroundColor: Colors.black,
-            ),
-            appointmentTextStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-          dataSource: MeetingDataSource(_getDataSource()),
+        child: BlocBuilder<CalendarBloc, CalendarState>(
+          builder: (context, state) {
+            if (state is GetRecordsCalendarLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is GetRecordsCalendarSuccess) {
+              return SfCalendar(
+                minDate: DateTime(2024, 1, 1, 1),
+                showDatePickerButton: true,
+                headerDateFormat: "MMMM yyy",
+                todayTextStyle: const TextStyle(
+                  fontFamily: "sf",
+                  fontSize: 20,
+                ),
+                todayHighlightColor: Colors.transparent,
+                headerStyle: const CalendarHeaderStyle(
+                  backgroundColor: Colors.transparent,
+                  textStyle: TextStyle(
+                      fontSize: 18, color: Colors.white, fontFamily: "sf"),
+                ),
+                view: CalendarView.schedule,
+                backgroundColor: Colors.black,
+                scheduleViewSettings: const ScheduleViewSettings(
+                  appointmentItemHeight: 70,
+                  monthHeaderSettings: MonthHeaderSettings(
+                    monthTextStyle: TextStyle(fontFamily: "sf", fontSize: 18),
+                    textAlign: TextAlign.start,
+                    height: 60,
+                    backgroundColor: Colors.black,
+                  ),
+                  weekHeaderSettings: WeekHeaderSettings(
+                    backgroundColor: Colors.black,
+                  ),
+                  appointmentTextStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+                dataSource: MeetingDataSource(state.records),
+              );
+            } else if (state is GetRecordsCalendarError) {
+              return Center(
+                child: Text(
+                  state.error,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ),
     );
   }
-
-  List<Meeting> _getDataSource() {
-    final List<Meeting> meetings = <Meeting>[];
-    final DateTime today = DateTime.now();
-    final DateTime startTime = DateTime(today.year, today.month, today.day, 9);
-    final DateTime endTime = startTime.add(const Duration(hours: 1));
-    meetings.add(Meeting('Тонировка', startTime, endTime, Colors.blue, false));
-    meetings.add(Meeting('Химчистка', startTime.add(const Duration(hours: 4)),
-        endTime.add(const Duration(hours: 4)), Colors.green, false));
-    meetings.add(Meeting('Полировка', startTime.add(const Duration(hours: 7)),
-        endTime.add(const Duration(hours: 7)), Colors.purple, false));
-    return meetings;
-  }
-}
-
-class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
-
-  final String eventName;
-  final DateTime from;
-  final DateTime to;
-  final Color background;
-  final bool isAllDay;
 }
 
 class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Meeting> source) {
-    appointments = source;
+  MeetingDataSource(List<CalendarModel> source) {
+    appointments = source
+        .map((e) => Meeting(
+              e.service,
+              _parseDate(e.date), // Парсим дату
+              _parseDate(e.date).add(const Duration(hours: 1)),
+              Colors.blue,
+              false,
+            ))
+        .toList();
+  }
+
+  static DateTime _parseDate(String dateStr) {
+    try {
+      return DateTime.parse(dateStr).toLocal(); // Преобразуем время в локальное
+    } catch (e) {
+      print('Ошибка парсинга даты: $dateStr');
+      return DateTime.now(); // Используем текущее время по умолчанию
+    }
   }
 
   @override
@@ -111,4 +124,14 @@ class MeetingDataSource extends CalendarDataSource {
   bool isAllDay(int index) {
     return appointments![index].isAllDay;
   }
+}
+
+class Meeting {
+  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
+
+  final String eventName;
+  final DateTime from;
+  final DateTime to;
+  final Color background;
+  final bool isAllDay;
 }

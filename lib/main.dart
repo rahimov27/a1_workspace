@@ -1,3 +1,7 @@
+import 'package:a1_workspace/features/calendar/data/datasources/remote/calendar_remote_datasource.dart';
+import 'package:a1_workspace/features/calendar/data/repositories/calendar_repository_impl.dart';
+import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
+import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:a1_workspace/features/history/presentation/pages/history_page.dart';
 import 'package:a1_workspace/features/home/data/datasources/remote/home_remote_datasource.dart';
@@ -36,6 +40,13 @@ class App extends StatelessWidget {
                 remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()),
               ),
             )..add(GetRecordsEvent()),
+          ),
+          BlocProvider(
+            create: (context) => CalendarBloc(
+              repository: CalendarRepositoryImpl(
+                remoteDatasource: CalendarRemoteDatasourceImpl(dio: Dio()),
+              ),
+            )..add(GetRecordsCalendarEvent()),
           ),
           BlocProvider(
               create: (context) => ClientBloc(
