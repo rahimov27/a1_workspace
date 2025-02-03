@@ -35,8 +35,7 @@ class App extends StatelessWidget {
               repository: HomeRepositoryImpl(
                 remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()),
               ),
-            )..add(
-                GetRecordsEvent()), // Добавляем событие сразу при инициализации
+            )..add(GetRecordsEvent()),
           ),
           BlocProvider(
               create: (context) => ClientBloc(
