@@ -1,11 +1,13 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/widgets/service_text_field.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_state.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_event.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart'; // Для форматирования даты
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -19,9 +21,11 @@ class _ServicePageState extends State<ServicePage> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _serviceController = TextEditingController();
-  final TextEditingController _priceController =
-      TextEditingController(); // Новый контроллер для цены
-  String? _selectedStatus = "В ожидании"; // Статус по умолчанию
+  final TextEditingController _priceController = TextEditingController();
+  String? _selectedStatus = "В ожидании";
+
+  DateTime? _selectedDate;
+  final DateFormat _dateFormat = DateFormat('dd.MM.yyyy'); // Формат даты
 
   @override
   void dispose() {
@@ -29,7 +33,7 @@ class _ServicePageState extends State<ServicePage> {
     _lastNameController.dispose();
     _phoneController.dispose();
     _serviceController.dispose();
-    _priceController.dispose(); // Уничтожаем контроллер для цены
+    _priceController.dispose();
     super.dispose();
   }
 
@@ -45,7 +49,8 @@ class _ServicePageState extends State<ServicePage> {
         lastName.isEmpty ||
         phone.isEmpty ||
         service.isEmpty ||
-        price.isEmpty) {
+        price.isEmpty ||
+        _selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Пожалуйста, заполните все поля!')),
       );
@@ -58,9 +63,44 @@ class _ServicePageState extends State<ServicePage> {
               service: service,
               price: price,
               status: status!,
+              date: _selectedDate!, // Передаем дату
             ),
           );
     }
+  }
+
+  void _showDatePicker() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext builder) {
+        return Container(
+          height: 250,
+          color: Colors.white,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 200,
+                child: CupertinoDatePicker(
+                  mode:
+                      CupertinoDatePickerMode.dateAndTime, // Режим дата и время
+                  initialDateTime: _selectedDate ?? DateTime.now(),
+                  use24hFormat: true, // 24-часовой формат времени
+                  onDateTimeChanged: (DateTime newDate) {
+                    setState(() {
+                      _selectedDate = newDate;
+                    });
+                  },
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Готово"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -122,6 +162,35 @@ class _ServicePageState extends State<ServicePage> {
                   controller: _priceController,
                 ),
                 const SizedBox(height: 12),
+                // Выбор даты
+                GestureDetector(
+                  onTap: _showDatePicker,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.mainGrey,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _selectedDate == null
+                              ? "Выберите дату"
+                              : _dateFormat.format(_selectedDate!),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: AppColors.mainWhite,
+                          ),
+                        ),
+                        const Icon(Icons.calendar_today,
+                            color: AppColors.mainWhite),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
                 // Статус работы
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
@@ -170,8 +239,7 @@ class _ServicePageState extends State<ServicePage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.mainRed,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(8), // Радиус углов
+                            borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         child: const Text(

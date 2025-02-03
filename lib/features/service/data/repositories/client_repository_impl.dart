@@ -9,10 +9,22 @@ class ClientRepositoryImpl implements ClientRepository {
 
   @override
   Future<List<ClientRecordModel>> createClientRecord(
-      String firstName, String lastName, String phone, String service) async {
+      String firstName,
+      String lastName,
+      String phone,
+      String service,
+      String price,
+      String status,
+      DateTime date) async {
     try {
       final result = await remoteDatasource.createClientRecord(
-        firstName, lastName, phone, service,
+        firstName,
+        lastName,
+        phone,
+        service,
+        price,
+        status,
+        date,
       );
       return result;
     } catch (e) {
