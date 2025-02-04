@@ -23,7 +23,7 @@ class SeeAllPage extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
         title: const Text(
-          "Документация",
+          "Записи",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
@@ -74,4 +74,3 @@ class SeeAllPage extends StatelessWidget {
     );
   }
 }
-

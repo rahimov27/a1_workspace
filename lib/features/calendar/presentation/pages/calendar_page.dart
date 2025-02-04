@@ -1,5 +1,6 @@
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
+import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -14,13 +15,15 @@ class CalendarPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
+        centerTitle: false,
         title: const Text(
-          'История',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          "Календарь",
+          style: TextStyle(
+            fontSize: 24,
+            fontFamily: "sf",
+            color: AppColors.mainWhite,
+          ),
         ),
-        backgroundColor: Colors.black,
-        elevation: 0,
-        centerTitle: true,
       ),
       body: SafeArea(
         child: BlocBuilder<CalendarBloc, CalendarState>(
