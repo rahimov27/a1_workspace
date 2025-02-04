@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 
@@ -56,7 +59,22 @@ class CalendarPage extends StatelessWidget {
                     backgroundColor: Colors.black,
                   ),
                   weekHeaderSettings: WeekHeaderSettings(
-                    backgroundColor: Colors.black,
+                    startDateFormat: "",
+                    height: 0,
+                    endDateFormat: "",
+                    weekTextStyle: TextStyle(fontFamily: "sf-medium"),
+                    backgroundColor: Colors.transparent,
+                  ),
+                  dayHeaderSettings: DayHeaderSettings(
+                    dayFormat: "MMM",
+                    dateTextStyle: TextStyle(
+                        color: AppColors.mainWhite,
+                        fontSize: 20,
+                        fontFamily: "sf"),
+                    dayTextStyle: TextStyle(
+                        color: AppColors.dateGrey,
+                        fontFamily: "sf-medium",
+                        fontSize: 14),
                   ),
                   appointmentTextStyle: TextStyle(
                     color: Colors.white,
@@ -64,6 +82,55 @@ class CalendarPage extends StatelessWidget {
                   ),
                 ),
                 dataSource: MeetingDataSource(state.records),
+                appointmentBuilder:
+                    (BuildContext context, CalendarAppointmentDetails details) {
+                  final Meeting meeting = details.appointments.first;
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: meeting.background,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          meeting.eventName,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                        ),
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Text(
+                              "Запись в ${DateFormat.Hm().format(meeting.from)}",
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.start,
+                            ),
+                            const Text(
+                              "-",
+                              style: TextStyle(color: AppColors.mainWhite),
+                            ),
+                            Text(
+                              DateFormat.Hm().format(meeting.to),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
               );
             } else if (state is GetRecordsCalendarError) {
               return Center(
@@ -88,10 +155,20 @@ class MeetingDataSource extends CalendarDataSource {
               e.service,
               _parseDate(e.date), // Парсим дату
               _parseDate(e.date).add(const Duration(hours: 1)),
-              Colors.blue,
+              _getRandomColor(),
               false,
             ))
         .toList();
+  }
+
+  final Random random = Random();
+  Color _getRandomColor() {
+    return Color.fromRGBO(
+      random.nextInt(128),
+      random.nextInt(128),
+      random.nextInt(128),
+      1.44,
+    );
   }
 
   static DateTime _parseDate(String dateStr) {
