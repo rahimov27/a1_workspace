@@ -26,7 +26,8 @@ class CalendarModel {
       lastName: json['last_name'] ?? "Неизвестно",
       phone: json['phone'] ?? "Нет номера",
       service: json['service'] ?? "Не указан",
-      date: json['date'] ?? "Нет даты",
+      date:
+          (json['date'] != null && json['date'] is String) ? json['date']! : "",
       price: json['price']?.toString() ?? "0",
       status: json['status'] ?? "Неизвестно",
     );

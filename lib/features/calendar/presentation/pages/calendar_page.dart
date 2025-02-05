@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
+import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,19 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
+
+  @override
+  State<CalendarPage> createState() => _CalendarPageState();
+}
+
+class _CalendarPageState extends State<CalendarPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,12 +183,14 @@ class MeetingDataSource extends CalendarDataSource {
     );
   }
 
-  static DateTime _parseDate(String dateStr) {
+  static DateTime _parseDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty || dateStr == "Нет даты") {
+      return DateTime.now();
+    }
     try {
-      return DateTime.parse(dateStr).toLocal(); // Преобразуем время в локальное
+      return DateTime.parse(dateStr).toLocal();
     } catch (e) {
-      print('Ошибка парсинга даты: $dateStr');
-      return DateTime.now(); // Используем текущее время по умолчанию
+      return DateTime.now(); // Просто возвращаем текущую дату без вывода ошибок
     }
   }
 
