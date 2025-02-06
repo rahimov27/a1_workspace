@@ -114,9 +114,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 30),
-                const AppButtonWidget(
+                AppButtonWidget(
                   text: "Выйти",
                   borderRadius: 8,
+                  onPressed: () {},
                 ),
                 const SizedBox(
                   height: 40,

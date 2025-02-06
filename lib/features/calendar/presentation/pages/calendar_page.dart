@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -144,15 +145,35 @@ class _CalendarPageState extends State<CalendarPage> {
                   );
                 },
               );
-            } else if (state is GetRecordsCalendarError) {
-              return Center(
-                child: Text(
-                  state.error,
-                  style: const TextStyle(color: Colors.white),
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Spacer(),
+                    const Text(
+                      "No internet",
+                      style: TextStyle(
+                        fontFamily: "sf",
+                        color: AppColors.mainWhite,
+                        fontSize: 24,
+                      ),
+                    ),
+                    const Spacer(),
+                    AppButtonWidget(
+                      text: "Повторить",
+                      onPressed: () {
+                        context
+                            .read<CalendarBloc>()
+                            .add(GetRecordsCalendarEvent());
+                      },
+                    ),
+                    const Spacer(),
+                  ],
                 ),
               );
             }
-            return const SizedBox();
           },
         ),
       ),
