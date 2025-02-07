@@ -1,28 +1,26 @@
-import 'package:a1_workspace/features/calendar/data/datasources/remote/calendar_remote_datasource.dart';
-import 'package:a1_workspace/features/calendar/data/repositories/calendar_repository_impl.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:a1_workspace/features/history/presentation/pages/history_page.dart';
-import 'package:a1_workspace/features/home/data/datasources/remote/home_remote_datasource.dart';
-import 'package:a1_workspace/features/home/data/repositories/home_repository_impl.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
-import 'package:a1_workspace/features/service/data/datasources/remote/client_remote_datasources.dart';
-import 'package:a1_workspace/features/service/data/repositories/client_repository_impl.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
-import 'package:dio/dio.dart';
+import 'package:a1_workspace/shared/utils/dependency_injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
-void main() => runApp(const App());
+void main() {
+  setup();
+  runApp(const App());
+}
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -34,25 +32,16 @@ class App extends StatelessWidget {
       theme: theme,
       home: MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => HomeBloc(
-              repository: HomeRepositoryImpl(
-                remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()),
-              ),
-            )..add(GetRecordsEvent()),
+          BlocProvider<HomeBloc>(
+            create: (context) => GetIt.I<HomeBloc>()..add(GetRecordsEvent()),
           ),
-          BlocProvider(
-            create: (context) => CalendarBloc(
-              repository: CalendarRepositoryImpl(
-                remoteDatasource: CalendarRemoteDatasourceImpl(dio: Dio()),
-              ),
-            )..add(GetRecordsCalendarEvent()),
+          BlocProvider<CalendarBloc>(
+            create: (context) =>
+                GetIt.I<CalendarBloc>()..add(GetRecordsCalendarEvent()),
           ),
-          BlocProvider(
-              create: (context) => ClientBloc(
-                  repository: ClientRepositoryImpl(
-                      remoteDatasource:
-                          ClientRemoteDatasourceImpl(dio: Dio())))),
+          BlocProvider<ClientBloc>(
+            create: (context) => GetIt.I<ClientBloc>(),
+          ),
         ],
         child: const MainMenu(),
       ),
