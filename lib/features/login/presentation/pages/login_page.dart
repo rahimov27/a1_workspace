@@ -7,6 +7,7 @@ import 'package:a1_workspace/features/login/presentation/widgets/forgot_password
 import 'package:a1_workspace/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -18,16 +19,25 @@ class LoginPage extends StatelessWidget {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     Future<void> login() async {
-      try {
-        await _auth.signInWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const MainMenu()));
-      } catch (e) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Error $e")));
-      }
-    }
+  try {
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: emailController.text, 
+      password: passwordController.text,
+    );
+
+    // Сохранение `uid` в SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('uid', userCredential.user!.uid);
+
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(builder: (context) => const MainMenu()),
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Error $e")));
+  }
+}
 
     return Scaffold(
       body: Stack(
