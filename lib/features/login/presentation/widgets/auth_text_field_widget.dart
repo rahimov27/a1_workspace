@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 
 class AuthTextFieldWidget extends StatelessWidget {
   final String hintText;
-  const AuthTextFieldWidget({super.key, required this.hintText});
+  final TextEditingController controller;
+  const AuthTextFieldWidget({
+    super.key,
+    required this.hintText,
+    required this.controller
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       style: const TextStyle(color: AppColors.mainWhite),
       cursorColor: AppColors.mainRed.withOpacity(0.8),
       decoration: InputDecoration(

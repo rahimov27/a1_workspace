@@ -1,3 +1,4 @@
+import 'package:a1_workspace/app.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/pages/calendar_page.dart';
@@ -9,44 +10,35 @@ import 'package:a1_workspace/features/profile/presentation/pages/profile_page.da
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
-import 'package:a1_workspace/shared/theme/theme.dart';
 import 'package:a1_workspace/shared/utils/dependency_injection.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   setup();
-  runApp(const App());
-}
-
-class App extends StatelessWidget {
-  const App({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Persistent Bottom Navigation Bar Example",
-      theme: theme,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<HomeBloc>(
-            create: (context) => GetIt.I<HomeBloc>()..add(GetRecordsEvent()),
-          ),
-          BlocProvider<CalendarBloc>(
-            create: (context) =>
-                GetIt.I<CalendarBloc>()..add(GetRecordsCalendarEvent()),
-          ),
-          BlocProvider<ClientBloc>(
-            create: (context) => GetIt.I<ClientBloc>(),
-          ),
-        ],
-        child: const MainMenu(),
-      ),
-    );
-  }
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(
+          create: (context) => GetIt.I<HomeBloc>()..add(GetRecordsEvent()),
+        ),
+        BlocProvider<CalendarBloc>(
+          create: (context) =>
+              GetIt.I<CalendarBloc>()..add(GetRecordsCalendarEvent()),
+        ),
+        BlocProvider<ClientBloc>(
+          create: (context) => GetIt.I<ClientBloc>(),
+        ),
+      ],
+      child: const App(),
+    ),
+  );
 }
 
 class MainMenu extends StatefulWidget {
