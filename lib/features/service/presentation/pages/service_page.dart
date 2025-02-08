@@ -107,6 +107,15 @@ class _ServicePageState extends State<ServicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 44,
+        leading: Navigator.canPop(context)
+            ? GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: SvgPicture.asset("assets/svg/arrow-left.svg"),
+              )
+            : null,
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
         title: const Text(

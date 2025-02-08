@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/about_us_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/news_page.dart';
@@ -5,8 +6,10 @@ import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/d
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_card_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_unit_card_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -117,7 +120,34 @@ class _ProfilePageState extends State<ProfilePage> {
                 AppButtonWidget(
                   text: "Выйти",
                   borderRadius: 8,
-                  onPressed: () {},
+                  onPressed: () async {
+                    await FirebaseAuth.instance.signOut();
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.remove('uid');
+                    Navigator.of(context, rootNavigator: true)
+                        .pushAndRemoveUntil(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            const LoginPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          const begin =
+                              Offset(-1.0, 0.0); // Начальная позиция (слева)
+                          const end = Offset.zero; // Конечная позиция (обычная)
+                          const curve = Curves.easeInOut;
+
+                          var tween = Tween(begin: begin, end: end)
+                              .chain(CurveTween(curve: curve));
+                          var offsetAnimation = animation.drive(tween);
+
+                          return SlideTransition(
+                              position: offsetAnimation, child: child);
+                        },
+                      ),
+                      (route) => false,
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 40,
