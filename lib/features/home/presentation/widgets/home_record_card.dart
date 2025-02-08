@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:intl/intl.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,7 @@ class HomeRecordCard extends StatelessWidget {
   final String service;
   final String date;
 
-  const HomeRecordCard({
+  HomeRecordCard({
     super.key,
     required this.name,
     required this.number,
@@ -16,10 +17,28 @@ class HomeRecordCard extends StatelessWidget {
     required this.date,
   });
 
+  // Метод для форматирования даты
   String formatDate(String date) {
-    DateTime parsedDate = DateTime.parse(date);
-    return DateFormat('dd MMM yyyy, HH:mm')
-        .format(parsedDate); // Форматирование даты
+    try {
+      // Пробуем распарсить дату в формате ISO
+      DateTime parsedDate = DateTime.parse(date);
+      return DateFormat('dd MMM yyyy, HH:mm').format(parsedDate);
+    } catch (e) {
+      // Если не удалось распарсить, возвращаем дефолтную строку
+      return 'Нет даты';
+    }
+  }
+
+  final Random random = Random();
+
+  // Метод для получения случайного цвета
+  Color _getRandomColor() {
+    return Color.fromRGBO(
+      random.nextInt(128), // Максимум 127 для менее яркого цвета
+      random.nextInt(128), // Максимум 127 для менее яркого цвета
+      random.nextInt(128), // Максимум 127 для менее яркого цвета
+      1,
+    );
   }
 
   @override
@@ -32,10 +51,13 @@ class HomeRecordCard extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Row(
           children: [
-            const CircleAvatar(
-              backgroundImage: NetworkImage(
-                  "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg"),
+            CircleAvatar(
+              backgroundColor: _getRandomColor(),
               radius: 25,
+              child: Text(
+                name[0],
+                style: const TextStyle(color: AppColors.mainWhite),
+              ),
             ),
             const SizedBox(width: 8),
             Column(

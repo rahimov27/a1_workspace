@@ -1,53 +1,30 @@
+import 'package:a1_workspace/app.dart';
 import 'package:a1_workspace/features/calendar/presentation/pages/calendar_page.dart';
 import 'package:a1_workspace/features/history/presentation/pages/history_page.dart';
-import 'package:a1_workspace/features/home/data/datasources/remote/home_remote_datasource.dart';
-import 'package:a1_workspace/features/home/data/repositories/home_repository_impl.dart';
-import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
-import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
-import 'package:a1_workspace/features/service/data/datasources/remote/client_remote_datasources.dart';
-import 'package:a1_workspace/features/service/data/repositories/client_repository_impl.dart';
-import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
-import 'package:a1_workspace/shared/theme/theme.dart';
-import 'package:dio/dio.dart';
+import 'package:a1_workspace/shared/utils/dependency_injection.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(const App());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  setup();
 
-class App extends StatelessWidget {
-  const App({super.key});
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? uid = prefs.getString('uid');
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Persistent Bottom Navigation Bar Example",
-      theme: theme,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => HomeBloc(
-              repository: HomeRepositoryImpl(
-                remoteDatasource: HomeRemoteDatasourceImpl(dio: Dio()),
-              ),
-            )..add(
-                GetRecordsEvent()), // Добавляем событие сразу при инициализации
-          ),
-          BlocProvider(
-              create: (context) => ClientBloc(
-                  repository: ClientRepositoryImpl(
-                      remoteDatasource:
-                          ClientRemoteDatasourceImpl(dio: Dio())))),
-        ],
-        child: const MainMenu(),
-      ),
-    );
-  }
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(App(isLoggedIn: uid != null));
+  });
 }
 
 class MainMenu extends StatefulWidget {

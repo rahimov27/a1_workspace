@@ -6,15 +6,17 @@ class CreateClientRecordEvent extends ClientEvent {
   final String lastName;
   final String phone;
   final String service;
-  final String price; // Новое поле для цены
-  final String status; // Новое поле для статуса
+  final String price;
+  final String status;
+  final DateTime date;
 
   CreateClientRecordEvent({
     required this.firstName,
     required this.lastName,
     required this.phone,
     required this.service,
-    required this.price, // Добавлено в конструктор
-    required this.status, // Добавлено в конструктор
+    required this.price,
+    required this.status,
+    required this.date,
   });
 }

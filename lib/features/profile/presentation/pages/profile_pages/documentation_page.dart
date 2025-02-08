@@ -1,6 +1,6 @@
-import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 
 class DocumentationPage extends StatelessWidget {
   const DocumentationPage({super.key});
@@ -42,27 +42,30 @@ class DocumentationContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        SizedBox(height: 24),
-        DocumentationSection(
-          title: "Правила и условия обслуживания",
-          content: "Описание услуг, их стоимость, гарантии и условия оказания.",
-        ),
-        DocumentationSection(
-          title: "Часто задаваемые вопросы (FAQ)",
-          content:
-              "Ответы на часто задаваемые вопросы по использованию приложения и предоставляемым услугам.",
-        ),
-        DocumentationSection(
-          title: "Политика конфиденциальности",
-          content: "Как мы храним и обрабатываем персональные данные.",
-        ),
-        DocumentationSection(
-          title: "Техническая поддержка",
-          content: "Как связаться с техподдержкой в случае проблем.",
-        ),
-      ],
+    return const SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: 24),
+          DocumentationSection(
+            title: "Правила и условия обслуживания",
+            content:
+                "Описание услуг, их стоимость, гарантии и условия оказания.",
+          ),
+          DocumentationSection(
+            title: "Часто задаваемые вопросы (FAQ)",
+            content:
+                "Ответы на часто задаваемые вопросы по использованию приложения и предоставляемым услугам.",
+          ),
+          DocumentationSection(
+            title: "Политика конфиденциальности",
+            content: "Как мы храним и обрабатываем персональные данные.",
+          ),
+          DocumentationSection(
+            title: "Техническая поддержка",
+            content: "Как связаться с техподдержкой в случае проблем.",
+          ),
+        ],
+      ),
     );
   }
 }

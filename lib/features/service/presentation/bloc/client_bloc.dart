@@ -16,6 +16,9 @@ class ClientBloc extends Bloc<ClientEvent, ClientState> {
           event.lastName,
           event.phone,
           event.service,
+          event.price,
+          event.status,
+          event.date,
         );
         if (records.isNotEmpty) {
           emit(ClientRecordSuccess(records: records));

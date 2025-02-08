@@ -5,6 +5,9 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_record_card
 import 'package:a1_workspace/features/home/presentation/widgets/home_service_card_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
+import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -104,9 +107,17 @@ class _HomePageState extends State<HomePage> {
                         ),
                         itemCount: 6,
                         itemBuilder: (context, index) {
-                          return HomeServiceCardWidget(
-                            icon: icons[index],
-                            title: titles[index],
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ServicePage(),
+                              ),
+                            ),
+                            child: HomeServiceCardWidget(
+                              icon: icons[index],
+                              title: titles[index],
+                            ),
                           );
                         },
                       ),
@@ -115,7 +126,31 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             } else {
-              return const CircleAvatar();
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Spacer(),
+                    const Text(
+                      "No internet",
+                      style: TextStyle(
+                        fontFamily: "sf",
+                        color: AppColors.mainWhite,
+                        fontSize: 24,
+                      ),
+                    ),
+                    const Spacer(),
+                    AppButtonWidget(
+                      text: "Повторить",
+                      onPressed: () {
+                        context.read<HomeBloc>().add(GetRecordsEvent());
+                      },
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              );
             }
           },
         ),

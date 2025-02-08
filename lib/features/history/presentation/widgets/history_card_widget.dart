@@ -25,7 +25,7 @@ class HistoryCardWidget extends StatelessWidget {
         case "нет оплаты":
           return AppColors.mainRed;
         case "завершено":
-          return Colors.blue; // Подбери цвет для завершённого статуса
+          return Colors.red;
         case "отменено":
           return AppColors.greyAuth;
         default:
@@ -96,8 +96,7 @@ class HistoryCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontFamily: "sf-medium",
-                    color: _getStatusColor(getTranslatedStatus(
-                        status)), // Используем переведённый статус
+                    color: _getStatusColor(getTranslatedStatus(status)),
                   ),
                 ),
               ],

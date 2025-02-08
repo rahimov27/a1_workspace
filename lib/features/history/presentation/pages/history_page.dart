@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/history/presentation/widgets/history_card_
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,21 +55,41 @@ class _HistoryPageState extends State<HistoryPage> {
                       child: HistoryCardWidget(
                         service: record.service,
                         name: "${record.firstName} ${record.lastName}",
-                        price: record.price, 
-                        status: record.status, 
+                        price: record.price,
+                        status: record.status,
                       ),
                     );
                   },
                 ),
               ),
             );
-          } else if (state is GetRecordsError) {
-            return Center(
-              child:
-                  Text(state.error, style: const TextStyle(color: Colors.red)),
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Spacer(),
+                  const Text(
+                    "No internet",
+                    style: TextStyle(
+                      fontFamily: "sf",
+                      color: AppColors.mainWhite,
+                      fontSize: 24,
+                    ),
+                  ),
+                  const Spacer(),
+                  AppButtonWidget(
+                    text: "Повторить",
+                    onPressed: () {
+                      context.read<HomeBloc>().add(GetRecordsEvent());
+                    },
+                  ),
+                  const Spacer(),
+                ],
+              ),
             );
           }
-          return const SizedBox();
         },
       ),
     );
