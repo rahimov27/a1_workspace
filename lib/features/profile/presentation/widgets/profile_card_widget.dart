@@ -2,8 +2,10 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCardWidget extends StatelessWidget {
+  final String name;
   const ProfileCardWidget({
     super.key,
+    required this.name
   });
 
   @override
@@ -65,9 +67,9 @@ class ProfileCardWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  "Айбек Талгатов",
-                  style: TextStyle(
+                 Text(
+                  name,
+                  style: const TextStyle(
                       fontSize: 22,
                       fontFamily: "sf-medium",
                       color: AppColors.mainWhite),
