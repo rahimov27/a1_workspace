@@ -133,128 +133,130 @@ class _ServicePageState extends State<ServicePage> {
                 );
               }
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 24),
-                ServiceTextField(
-                  text: "Имя",
-                  controller: _firstNameController,
-                ),
-                const SizedBox(height: 12),
-                ServiceTextField(
-                  text: "Фамилия",
-                  controller: _lastNameController,
-                ),
-                const SizedBox(height: 12),
-                ServiceTextField(
-                  text: "Номер телефона",
-                  controller: _phoneController,
-                ),
-                const SizedBox(height: 12),
-                ServiceTextField(
-                  text: "Услуга",
-                  controller: _serviceController,
-                ),
-                const SizedBox(height: 12),
-                ServiceTextField(
-                  text: "Цена",
-                  controller: _priceController,
-                ),
-                const SizedBox(height: 12),
-                // Выбор даты
-                GestureDetector(
-                  onTap: _showDatePicker,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 14),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 24),
+                  ServiceTextField(
+                    text: "Имя",
+                    controller: _firstNameController,
+                  ),
+                  const SizedBox(height: 12),
+                  ServiceTextField(
+                    text: "Фамилия",
+                    controller: _lastNameController,
+                  ),
+                  const SizedBox(height: 12),
+                  ServiceTextField(
+                    text: "Номер телефона",
+                    controller: _phoneController,
+                  ),
+                  const SizedBox(height: 12),
+                  ServiceTextField(
+                    text: "Услуга",
+                    controller: _serviceController,
+                  ),
+                  const SizedBox(height: 12),
+                  ServiceTextField(
+                    text: "Цена",
+                    controller: _priceController,
+                  ),
+                  const SizedBox(height: 12),
+                  // Выбор даты
+                  GestureDetector(
+                    onTap: _showDatePicker,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 14),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.mainGrey,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            _selectedDate == null
+                                ? "Выберите дату"
+                                : _dateFormat.format(_selectedDate!),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: AppColors.mainWhite,
+                            ),
+                          ),
+                          const Icon(Icons.calendar_today,
+                              color: AppColors.mainWhite),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // Статус работы
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: AppColors.mainGrey,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          _selectedDate == null
-                              ? "Выберите дату"
-                              : _dateFormat.format(_selectedDate!),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: AppColors.mainWhite,
-                          ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        menuWidth: 200,
+                        value: _selectedStatus,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedStatus = newValue;
+                          });
+                        },
+                        items: <String>["В ожидании", "В процессе", "Завершено"]
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        style: const TextStyle(
+                          color: AppColors.mainWhite,
+                          fontSize: 14,
                         ),
-                        const Icon(Icons.calendar_today,
-                            color: AppColors.mainWhite),
-                      ],
+                        borderRadius: BorderRadius.circular(10),
+                        dropdownColor: AppColors.mainGrey,
+                        icon: SvgPicture.asset("assets/svg/down-icon.svg"),
+                        isExpanded: true,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                // Статус работы
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.mainGrey,
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      menuWidth: 200,
-                      value: _selectedStatus,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedStatus = newValue;
-                        });
-                      },
-                      items: <String>["В ожидании", "В процессе", "Завершено"]
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      style: const TextStyle(
-                        color: AppColors.mainWhite,
-                        fontSize: 14,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                      dropdownColor: AppColors.mainGrey,
-                      icon: SvgPicture.asset("assets/svg/down-icon.svg"),
-                      isExpanded: true,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 40),
-                BlocBuilder<ClientBloc, ClientState>(
-                  builder: (context, state) {
-                    if (state is ClientRecordLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return SizedBox(
-                      height: 45,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: _onAddPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.mainRed,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                  const SizedBox(height: 40),
+                  BlocBuilder<ClientBloc, ClientState>(
+                    builder: (context, state) {
+                      if (state is ClientRecordLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _onAddPressed,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.mainRed,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text(
+                            "Добавить",
+                            style: TextStyle(
+                              fontFamily: "sf-medium",
+                              fontSize: 18,
+                              color: AppColors.mainWhite,
+                            ),
                           ),
                         ),
-                        child: const Text(
-                          "Добавить",
-                          style: TextStyle(
-                            fontFamily: "sf-medium",
-                            fontSize: 18,
-                            color: AppColors.mainWhite,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

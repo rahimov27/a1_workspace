@@ -1,4 +1,5 @@
 // client_remote_datasources.dart
+import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:dio/dio.dart';
 import 'package:a1_workspace/features/service/data/models/client_record_model.dart';
 
@@ -39,7 +40,7 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
         'date': date.toIso8601String(),
       });
       final response = await dio.post(
-        "http://10.4.165.22:8000/api/clients/",
+        SwaggerAdress.adress,
         data: {
           'first_name': firstName,
           'last_name': lastName,

@@ -12,7 +12,7 @@ class CalendarRemoteDatasourceImpl extends CalendarRemoteDatasource {
   @override
   Future<List<CalendarModel>> getCalendarRecords() async {
     try {
-      final response = await dio.get("http://10.4.165.22:8000/api/clients/");
+      final response = await dio.get("http://172.20.10.10:8000/api/clients/");
       print(response.data);
       if (response.statusCode == 200) {
         final List records = response.data;
