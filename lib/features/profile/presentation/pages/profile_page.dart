@@ -20,6 +20,19 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool isSwitched = false;
+  String? userName;
+
+  @override
+  void initState() {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userName = user.email ?? "Пользователь";
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +56,9 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: [
                 const SizedBox(height: 24),
-                const ProfileCardWidget(),
+                ProfileCardWidget(
+                  name: userName ?? "Айбек Талгатов",
+                ),
                 const SizedBox(height: 20),
                 const ProfileUnitCardWidget(
                   text: "Настройки",
