@@ -1,4 +1,5 @@
 import 'package:a1_workspace/features/home/data/models/home_records_model.dart';
+import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:dio/dio.dart';
 
 abstract class HomeRemoteDatasource {
@@ -12,7 +13,7 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
   @override
   Future<List<HomeRecordsModel>> getRecords() async {
     try {
-      final response = await dio.get("http://10.4.165.22:8000/api/clients/");
+      final response = await dio.get(SwaggerAdress.adress);
       if (response.statusCode == 200) {
         final List records = response.data;
         return records
