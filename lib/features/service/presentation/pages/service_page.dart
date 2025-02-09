@@ -2,7 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
-import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

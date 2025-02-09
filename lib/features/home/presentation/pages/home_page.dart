@@ -7,10 +7,10 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_wi
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
+import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -154,20 +154,6 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
-    );
-  }
-}
-
-class AppLoaderWidget extends StatelessWidget {
-  const AppLoaderWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: LoadingAnimationWidget.inkDrop(
-          color: AppColors.mainRed, size: 40),
     );
   }
 }
