@@ -46,6 +46,8 @@ class _CalendarPageState extends State<CalendarPage> {
           builder: (context, state) {
             if (state is GetRecordsCalendarLoading) {
               return const Center(child: CircularProgressIndicator());
+            } else if (state is CalendarInitial) {
+              return const Center(child: CircularProgressIndicator());
             } else if (state is GetRecordsCalendarSuccess) {
               return SfCalendar(
                 minDate: DateTime(2024, 1, 1, 1),
