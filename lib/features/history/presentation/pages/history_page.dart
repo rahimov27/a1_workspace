@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/history/presentation/widgets/history_card_
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class _HistoryPageState extends State<HistoryPage> {
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is GetRecordsLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const AppLoaderWidget();
           } else if (state is GetRecordsSuccess) {
             return SafeArea(
               child: Padding(

@@ -1,5 +1,6 @@
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_record_card.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class SeeAllPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is GetRecordsLoading) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: AppLoaderWidget(),
                   );
                 } else if (state is GetRecordsSuccess) {
                   return Expanded(

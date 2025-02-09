@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +46,9 @@ class _CalendarPageState extends State<CalendarPage> {
         child: BlocBuilder<CalendarBloc, CalendarState>(
           builder: (context, state) {
             if (state is GetRecordsCalendarLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const AppLoaderWidget();
             } else if (state is CalendarInitial) {
-              return const Center(child: CircularProgressIndicator());
+              return const AppLoaderWidget();
             } else if (state is GetRecordsCalendarSuccess) {
               return SfCalendar(
                 minDate: DateTime(2024, 1, 1, 1),
