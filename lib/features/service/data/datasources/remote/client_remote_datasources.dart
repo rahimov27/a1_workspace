@@ -40,6 +40,7 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
         'date': date.toIso8601String(),
       });
       final response = await dio.post(
+        options: Options(headers: {"Authorization": SwaggerAdress.apiKey}),
         SwaggerAdress.adress,
         data: {
           'first_name': firstName,

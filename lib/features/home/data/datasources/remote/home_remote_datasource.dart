@@ -13,7 +13,8 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
   @override
   Future<List<HomeRecordsModel>> getRecords() async {
     try {
-      final response = await dio.get(SwaggerAdress.adress);
+      final response = await dio.get(SwaggerAdress.adress,
+          options: Options(headers: {"Authorization": SwaggerAdress.apiKey}));
       if (response.statusCode == 200) {
         final List records = response.data;
         return records

@@ -70,8 +70,6 @@ class _ServicePageState extends State<ServicePage> {
               date: _selectedDate!, // Передаем дату
             ),
           );
-      context.read<HomeBloc>().add(GetRecordsEvent());
-      context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
     }
   }
 
@@ -146,6 +144,8 @@ class _ServicePageState extends State<ServicePage> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Услуга добавлена успешно!')),
                 );
+                context.read<HomeBloc>().add(GetRecordsEvent());
+                context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
               }
             },
             child: SingleChildScrollView(
