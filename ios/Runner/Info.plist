@@ -49,5 +49,13 @@
 		<false/>
 		<key>FirebaseAppDelegateProxyEnabled</key>
 		<false/>
+		<key>NSCameraUsageDescription</key>
+		<string>App needs access to the camera to take photos.</string>
+
+		<key>NSMicrophoneUsageDescription</key>
+		<string>App needs access to the microphone for video recording.</string>
+
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>App needs access to save photos to the library.</string>
 	</dict>
 </plist>
