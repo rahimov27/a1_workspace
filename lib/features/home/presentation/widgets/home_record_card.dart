@@ -60,44 +60,54 @@ class HomeRecordCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                      fontSize: 16,
-                      color: AppColors.mainWhite,
-                      fontFamily: "sf-medium"),
-                ),
-                Text(
-                  number,
-                  style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.mainWhite,
-                      fontFamily: "sf-regular"),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: AppColors.mainWhite,
+                        fontFamily: "sf-medium"),
+                  ),
+                  Text(
+                    number,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.mainWhite,
+                        fontFamily: "sf-regular"),
+                  ),
+                ],
+              ),
             ),
             const Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  service,
-                  style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.mainWhite,
-                      fontFamily: "sf-medium"),
-                ),
-                Text(
-                  formatDate(date), // Форматированная дата
-                  style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.greyHomeCard,
-                      fontFamily: "sf-regular"),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    service,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.mainWhite,
+                        fontFamily: "sf-medium"),
+                  ),
+                  Text(
+                    formatDate(date), // Форматированная дата
+                    style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.greyHomeCard,
+                        fontFamily: "sf-regular"),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

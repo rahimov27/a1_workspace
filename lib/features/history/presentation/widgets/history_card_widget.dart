@@ -6,6 +6,7 @@ class HistoryCardWidget extends StatelessWidget {
   final String name;
   final String price;
   final String status;
+
   const HistoryCardWidget({
     super.key,
     required this.service,
@@ -52,25 +53,34 @@ class HistoryCardWidget extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14), color: AppColors.mainGrey),
+        borderRadius: BorderRadius.circular(14),
+        color: AppColors.mainGrey,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize:
+              MainAxisSize.min, // Убираем Expanded, чтобы избежать ошибок
           children: [
             Row(
               children: [
-                Text(
-                  service,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontFamily: "sf",
-                    color: AppColors.mainWhite,
+                Expanded(
+                  // Используем Expanded только для элементов, которые должны заполнять пространство
+                  child: Text(
+                    service,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontFamily: "sf",
+                      color: AppColors.mainWhite,
+                    ),
                   ),
                 ),
-                const Spacer(),
                 Text(
                   price,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 16,
                     fontFamily: "sf",
@@ -82,15 +92,18 @@ class HistoryCardWidget extends StatelessWidget {
             const SizedBox(height: 15),
             Row(
               children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontFamily: "sf-medium",
-                    color: Color(0xff919191),
+                Expanded(
+                  child: Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontFamily: "sf-medium",
+                      color: Color(0xff919191),
+                    ),
                   ),
                 ),
-                const Spacer(),
                 Text(
                   getTranslatedStatus(status),
                   style: TextStyle(

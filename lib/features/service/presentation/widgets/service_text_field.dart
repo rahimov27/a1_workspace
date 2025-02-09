@@ -1,16 +1,21 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ServiceTextField extends StatelessWidget {
   final String text;
   final TextEditingController controller;
-  const ServiceTextField({super.key, required this.text, required this.controller});
+  const ServiceTextField(
+      {super.key, required this.text, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
       child: TextField(
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(25),
+        ],
         controller: controller,
         style: const TextStyle(color: AppColors.mainWhite),
         cursorColor: AppColors.mainRed.withOpacity(0.8),
