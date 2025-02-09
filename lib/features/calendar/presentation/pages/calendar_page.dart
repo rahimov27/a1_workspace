@@ -51,8 +51,8 @@ class _CalendarPageState extends State<CalendarPage> {
             } else if (state is GetRecordsCalendarSuccess) {
               return SfCalendar(
                 minDate: DateTime(2024, 1, 1, 1),
-                showDatePickerButton: true,
-                headerDateFormat: "MMMM yyy",
+                showDatePickerButton: false,
+                headerDateFormat: "MMMM yyyy",
                 todayTextStyle: const TextStyle(
                   fontFamily: "sf",
                   fontSize: 20,
