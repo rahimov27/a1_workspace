@@ -196,9 +196,9 @@ class _ServicePageState extends State<ServicePage> {
                                 ? "Выберите дату"
                                 : _dateFormat.format(_selectedDate!),
                             style: const TextStyle(
-                              fontSize: 16,
-                              color: AppColors.mainWhite,
-                            ),
+                                fontFamily: "sf-regualr",
+                                fontSize: 14,
+                                color: AppColors.mainWhite),
                           ),
                           const Icon(Icons.calendar_today,
                               color: AppColors.mainWhite),
