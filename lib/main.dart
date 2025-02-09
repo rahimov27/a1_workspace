@@ -10,17 +10,24 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  // Для firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setup();
 
+  // Для руссификации даты
+  await initializeDateFormatting('ru_RU', null);
+
+  // Для сохранения данных в памяти телефона
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString('uid');
 
+  // Для того чтоб телефон не переворачивался
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(App(isLoggedIn: uid != null));

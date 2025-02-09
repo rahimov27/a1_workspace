@@ -22,7 +22,7 @@ class HomeRecordCard extends StatelessWidget {
     try {
       // Пробуем распарсить дату в формате ISO
       DateTime parsedDate = DateTime.parse(date);
-      return DateFormat('dd MMM yyyy, HH:mm').format(parsedDate);
+      return DateFormat('dd MMM, HH:mm', "ru_RU").format(parsedDate);
     } catch (e) {
       // Если не удалось распарсить, возвращаем дефолтную строку
       return 'Нет даты';

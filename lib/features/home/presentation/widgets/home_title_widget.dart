@@ -1,6 +1,7 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class HomeTitleWidget extends StatelessWidget {
   const HomeTitleWidget({
@@ -9,24 +10,25 @@ class HomeTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String todayDate = DateFormat('E, dd MMMM', 'ru_RU').format(DateTime.now());
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Привет, Амир!",
+            const Text(
+              "Привет, Админ!",
               style: TextStyle(
                 fontSize: 24,
                 fontFamily: "sf",
                 color: AppColors.mainWhite,
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text(
-              "Сб, 18 января",
-              style: TextStyle(
+              todayDate,
+              style: const TextStyle(
                 fontSize: 12,
                 fontFamily: "sf-medium",
                 color: AppColors.textGreyColor,
