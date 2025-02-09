@@ -10,6 +10,7 @@ import 'package:a1_workspace/features/service/presentation/pages/service_page.da
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,9 +56,7 @@ class _HomePageState extends State<HomePage> {
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state is GetRecordsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const AppLoaderWidget();
             } else if (state is GetRecordsSuccess) {
               return SingleChildScrollView(
                 child: Padding(
@@ -155,6 +154,20 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
+    );
+  }
+}
+
+class AppLoaderWidget extends StatelessWidget {
+  const AppLoaderWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: LoadingAnimationWidget.inkDrop(
+          color: AppColors.mainRed, size: 40),
     );
   }
 }
