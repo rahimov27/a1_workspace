@@ -51,10 +51,16 @@ class SeeAllPage extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: HomeRecordCard(
-                              name: state.records[index].firstName,
-                              number: state.records[index].phone,
-                              service: state.records[index].service,
-                              date: state.records[index].date),
+                              name: state.records.reversed
+                                  .toList()[index]
+                                  .firstName,
+                              number:
+                                  state.records.reversed.toList()[index].phone,
+                              service: state.records.reversed
+                                  .toList()[index]
+                                  .service,
+                              date:
+                                  state.records.reversed.toList()[index].date),
                         );
                       },
                     ),

@@ -74,17 +74,17 @@ class _HomePageState extends State<HomePage> {
                       Column(
                         children: [
                           HomeRecordCard(
-                            name: state.records[0].firstName,
-                            number: state.records[0].phone,
-                            service: state.records[0].service,
-                            date: state.records[0].date,
+                            name: state.records.reversed.toList()[0].firstName,
+                            number: state.records.reversed.toList()[0].phone,
+                            service: state.records.reversed.toList()[0].service,
+                            date: state.records.reversed.toList()[0].date,
                           ),
                           const SizedBox(height: 8),
                           HomeRecordCard(
-                            name: state.records[1].firstName,
-                            number: state.records[1].phone,
-                            service: state.records[1].service,
-                            date: state.records[1].date,
+                            name: state.records.reversed.toList()[1].firstName,
+                            number: state.records.reversed.toList()[1].phone,
+                            service: state.records.reversed.toList()[1].service,
+                            date: state.records.reversed.toList()[1].date,
                           ),
                         ],
                       ),

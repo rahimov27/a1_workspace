@@ -49,7 +49,8 @@ class _HistoryPageState extends State<HistoryPage> {
                 child: ListView.builder(
                   itemCount: state.records.length,
                   itemBuilder: (context, index) {
-                    final record = state.records[index];
+                    // Используем reversed для инвертирования порядка записей
+                    final record = state.records.reversed.toList()[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: HistoryCardWidget(
