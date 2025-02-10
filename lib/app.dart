@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/features/login/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/main.dart';
@@ -27,6 +28,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<ClientBloc>(
           create: (context) => GetIt.I<ClientBloc>(),
+        ),
+        BlocProvider<AuthBloc>(
+          create: (context) => GetIt.I<AuthBloc>(),
         ),
       ],
       child: MaterialApp(
