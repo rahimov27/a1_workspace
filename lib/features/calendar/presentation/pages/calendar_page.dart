@@ -29,7 +29,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.mainGrey,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
@@ -65,14 +65,14 @@ class _CalendarPageState extends State<CalendarPage> {
                       fontSize: 18, color: Colors.white, fontFamily: "sf"),
                 ),
                 view: CalendarView.schedule,
-                backgroundColor: Colors.black,
+                backgroundColor: AppColors.scaffoldColor,
                 scheduleViewSettings: const ScheduleViewSettings(
                   appointmentItemHeight: 70,
                   monthHeaderSettings: MonthHeaderSettings(
                     monthTextStyle: TextStyle(fontFamily: "sf", fontSize: 18),
                     textAlign: TextAlign.start,
                     height: 60,
-                    backgroundColor: Colors.black,
+                    backgroundColor: AppColors.scaffoldColor,
                   ),
                   weekHeaderSettings: WeekHeaderSettings(
                     startDateFormat: "",
