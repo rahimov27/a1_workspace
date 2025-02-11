@@ -1,6 +1,7 @@
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_record_card.dart';
 import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -87,12 +88,9 @@ class _SeeAllPageState extends State<SeeAllPage> {
                       ),
                     );
                   } else if (state is GetRecordsError) {
-                    return const Text(
-                      "Error",
-                      style: TextStyle(color: AppColors.mainWhite),
-                    );
+                    return const AppErrorWidget();
                   }
-                  return const SizedBox();
+                  return const AppErrorWidget();
                 },
               )
             ],

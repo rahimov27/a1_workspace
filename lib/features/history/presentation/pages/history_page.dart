@@ -2,7 +2,7 @@ import 'package:a1_workspace/features/history/presentation/widgets/history_card_
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
@@ -80,31 +80,7 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             );
           } else {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Spacer(),
-                  const Text(
-                    "No internet",
-                    style: TextStyle(
-                      fontFamily: "sf",
-                      color: AppColors.mainWhite,
-                      fontSize: 24,
-                    ),
-                  ),
-                  const Spacer(),
-                  AppButtonWidget(
-                    text: "Повторить",
-                    onPressed: () {
-                      context.read<HomeBloc>().add(GetRecordsEvent());
-                    },
-                  ),
-                  const Spacer(),
-                ],
-              ),
-            );
+            return const AppErrorWidget();
           }
         },
       ),

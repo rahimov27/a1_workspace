@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,6 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.mainGrey,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
@@ -149,33 +148,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
               );
             } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Spacer(),
-                    const Text(
-                      "No internet",
-                      style: TextStyle(
-                        fontFamily: "sf",
-                        color: AppColors.mainWhite,
-                        fontSize: 24,
-                      ),
-                    ),
-                    const Spacer(),
-                    AppButtonWidget(
-                      text: "Повторить",
-                      onPressed: () {
-                        context
-                            .read<CalendarBloc>()
-                            .add(GetRecordsCalendarEvent());
-                      },
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              );
+              return const AppErrorWidget();
             }
           },
         ),

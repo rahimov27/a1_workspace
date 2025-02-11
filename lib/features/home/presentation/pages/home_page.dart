@@ -142,77 +142,88 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        alignment: Alignment
-                            .center, // Центрирует все элементы относительно центра
-                        children: [
-                          CircleAvatar(
-                            radius: 70,
-                            backgroundColor:
-                                AppColors.mainRed.withOpacity(0.25),
-                          ),
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundColor:
-                                AppColors.mainRed.withOpacity(0.40),
-                          ),
-                          const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: AppColors.mainRed,
-                          ),
-                          Positioned(
-                            top: 58,
-                            left: 58,
-                            child: SvgPicture.asset("assets/svg/close.svg"),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 24),
-                      const Column(
-                        children: [
-                          Text(
-                            "Ошибка",
-                            style: TextStyle(
-                              fontFamily: "sf-medium",
-                              color: AppColors.mainWhite,
-                              fontSize: 18,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          SizedBox(
-                            width: 200,
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              "Проверьте соединение с интернетом!",
-                              style: TextStyle(
-                                height: 1,
-                                fontFamily: "sf-medium",
-                                color: Color(0xff919191),
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 50),
-                      AppButtonWidget(
-                        text: "Повторить",
-                        onPressed: () {
-                          context.read<HomeBloc>().add(GetRecordsEvent());
-                        },
-                      ),
-                    ],
-                  ),
-                );
+                return const AppErrorWidget();
               }
             },
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AppErrorWidget extends StatelessWidget {
+  const AppErrorWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: Alignment
+                .center, // Центрирует все элементы относительно центра
+            children: [
+              CircleAvatar(
+                radius: 70,
+                backgroundColor:
+                    AppColors.mainRed.withOpacity(0.25),
+              ),
+              CircleAvatar(
+                radius: 50,
+                backgroundColor:
+                    AppColors.mainRed.withOpacity(0.40),
+              ),
+              const CircleAvatar(
+                radius: 30,
+                backgroundColor: AppColors.mainRed,
+              ),
+              Positioned(
+                top: 58,
+                left: 58,
+                child: SvgPicture.asset("assets/svg/close.svg"),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          const Column(
+            children: [
+              Text(
+                "Ошибка",
+                style: TextStyle(
+                  fontFamily: "sf-medium",
+                  color: AppColors.mainWhite,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 4),
+              SizedBox(
+                width: 200,
+                child: Text(
+                  textAlign: TextAlign.center,
+                  "Проверьте соединение с интернетом!",
+                  style: TextStyle(
+                    height: 1,
+                    fontFamily: "sf-medium",
+                    color: Color(0xff919191),
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 50),
+          AppButtonWidget(
+            text: "Повторить",
+            onPressed: () {
+              context.read<HomeBloc>().add(GetRecordsEvent());
+            },
+          ),
+        ],
       ),
     );
   }
