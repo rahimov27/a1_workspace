@@ -88,9 +88,15 @@ class _SeeAllPageState extends State<SeeAllPage> {
                       ),
                     );
                   } else if (state is GetRecordsError) {
-                    return const AppErrorWidget();
+                    return AppErrorWidget(
+                      onPressed: () =>
+                          context.read<HomeBloc>().add(GetRecordsEvent()),
+                    );
                   }
-                  return const AppErrorWidget();
+                  return AppErrorWidget(
+                    onPressed: () =>
+                        context.read<HomeBloc>().add(GetRecordsEvent()),
+                  );
                 },
               )
             ],

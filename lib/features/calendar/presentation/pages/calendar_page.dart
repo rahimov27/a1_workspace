@@ -148,7 +148,10 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
               );
             } else {
-              return const AppErrorWidget();
+              return AppErrorWidget(
+                onPressed: () =>
+                    context.read<CalendarBloc>().add(GetRecordsCalendarEvent()),
+              );
             }
           },
         ),

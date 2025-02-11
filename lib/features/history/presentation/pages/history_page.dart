@@ -80,7 +80,9 @@ class _HistoryPageState extends State<HistoryPage> {
               ),
             );
           } else {
-            return const AppErrorWidget();
+            return AppErrorWidget(
+              onPressed: () => context.read<HomeBloc>().add(GetRecordsEvent()),
+            );
           }
         },
       ),

@@ -142,7 +142,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               } else {
-                return const AppErrorWidget();
+                return AppErrorWidget(
+                  onPressed: () =>
+                      context.read<HomeBloc>().add(GetRecordsEvent()),
+                );
               }
             },
           ),
@@ -153,9 +156,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class AppErrorWidget extends StatelessWidget {
-  const AppErrorWidget({
-    super.key,
-  });
+  final VoidCallback onPressed;
+  const AppErrorWidget({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -165,18 +167,16 @@ class AppErrorWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Stack(
-            alignment: Alignment
-                .center, // Центрирует все элементы относительно центра
+            alignment:
+                Alignment.center, // Центрирует все элементы относительно центра
             children: [
               CircleAvatar(
                 radius: 70,
-                backgroundColor:
-                    AppColors.mainRed.withOpacity(0.25),
+                backgroundColor: AppColors.mainRed.withOpacity(0.25),
               ),
               CircleAvatar(
                 radius: 50,
-                backgroundColor:
-                    AppColors.mainRed.withOpacity(0.40),
+                backgroundColor: AppColors.mainRed.withOpacity(0.40),
               ),
               const CircleAvatar(
                 radius: 30,
@@ -219,9 +219,7 @@ class AppErrorWidget extends StatelessWidget {
           const SizedBox(height: 50),
           AppButtonWidget(
             text: "Повторить",
-            onPressed: () {
-              context.read<HomeBloc>().add(GetRecordsEvent());
-            },
+            onPressed: onPressed,
           ),
         ],
       ),
