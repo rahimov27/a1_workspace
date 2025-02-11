@@ -8,6 +8,7 @@ import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
@@ -30,6 +31,21 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: GestureDetector(
+              onTap: () {
+                context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
+              },
+              child: SvgPicture.asset(
+                "assets/svg/refresh.svg",
+                width: 20,
+                height: 20,
+              ),
+            ),
+          ),
+        ],
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
         title: const Text(
