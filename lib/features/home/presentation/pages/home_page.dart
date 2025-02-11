@@ -12,6 +12,7 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -144,25 +145,67 @@ class _HomePageState extends State<HomePage> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Spacer(),
-                      const Text(
-                        "No internet",
-                        style: TextStyle(
-                          fontFamily: "sf",
-                          color: AppColors.mainWhite,
-                          fontSize: 24,
-                        ),
+                      Stack(
+                        alignment: Alignment
+                            .center, // Центрирует все элементы относительно центра
+                        children: [
+                          CircleAvatar(
+                            radius: 70,
+                            backgroundColor:
+                                AppColors.mainRed.withOpacity(0.25),
+                          ),
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor:
+                                AppColors.mainRed.withOpacity(0.40),
+                          ),
+                          const CircleAvatar(
+                            radius: 30,
+                            backgroundColor: AppColors.mainRed,
+                          ),
+                          Positioned(
+                            top: 58,
+                            left: 58,
+                            child: SvgPicture.asset("assets/svg/close.svg"),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
+                      const SizedBox(height: 24),
+                      const Column(
+                        children: [
+                          Text(
+                            "Ошибка",
+                            style: TextStyle(
+                              fontFamily: "sf-medium",
+                              color: AppColors.mainWhite,
+                              fontSize: 18,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          SizedBox(
+                            width: 200,
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              "Проверьте соединение с интернетом!",
+                              style: TextStyle(
+                                height: 1,
+                                fontFamily: "sf-medium",
+                                color: Color(0xff919191),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 50),
                       AppButtonWidget(
                         text: "Повторить",
                         onPressed: () {
                           context.read<HomeBloc>().add(GetRecordsEvent());
                         },
                       ),
-                      const Spacer(),
                     ],
                   ),
                 );
