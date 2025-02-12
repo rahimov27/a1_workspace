@@ -41,7 +41,7 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
       });
       final response = await dio.post(
         options: Options(headers: {"Authorization": SwaggerAdress.apiKey}),
-        SwaggerAdress.adress,
+        "${SwaggerAdress.adress}/",
         data: {
           'first_name': firstName,
           'last_name': lastName,
