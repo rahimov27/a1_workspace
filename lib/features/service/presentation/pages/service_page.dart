@@ -13,6 +13,7 @@ import 'package:a1_workspace/features/service/presentation/bloc/client_state.dar
 import 'package:a1_workspace/features/service/presentation/bloc/client_event.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart'; // Для форматирования даты
+import 'package:flutter/services.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -142,9 +143,7 @@ class _ServicePageState extends State<ServicePage> {
                   SnackBar(content: Text(state.error)),
                 );
               } else if (state is ClientRecordSuccess) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Услуга добавлена успешно!')),
-                );
+                showCustomOverlay(context);
                 context.read<HomeBloc>().add(GetRecordsEvent());
                 context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
               }
@@ -276,6 +275,122 @@ class _ServicePageState extends State<ServicePage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+void showCustomOverlay(BuildContext context) {
+  OverlayState overlayState = Overlay.of(context);
+  late OverlayEntry overlayEntry;
+
+  overlayEntry = OverlayEntry(
+    builder: (context) => _AnimatedOverlay(
+      onDismiss: () => overlayEntry.remove(),
+    ),
+  );
+
+  overlayState.insert(overlayEntry);
+}
+
+class _AnimatedOverlay extends StatefulWidget {
+  final VoidCallback onDismiss;
+
+  const _AnimatedOverlay({Key? key, required this.onDismiss}) : super(key: key);
+
+  @override
+  _AnimatedOverlayState createState() => _AnimatedOverlayState();
+}
+
+class _AnimatedOverlayState extends State<_AnimatedOverlay>
+    with SingleTickerProviderStateMixin {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Вибрация при появлении
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        HapticFeedback.mediumImpact(); // Вибрация
+        setState(() => _opacity = 1.0);
+      }
+    });
+
+    // Плавное исчезновение через 2 секунды
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _opacity = 0.0);
+    });
+
+    // Удаление через 2.5 секунды
+    Future.delayed(const Duration(milliseconds: 2500), widget.onDismiss);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldColor, // Затемнение фона
+      body: SafeArea(
+        child: Center(
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 300),
+            opacity: _opacity,
+            child: _buildContent(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            CircleAvatar(
+              radius: 70,
+              backgroundColor: const Color(0xff59E66F).withOpacity(0.25),
+            ),
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: const Color(0xff59E66F).withOpacity(0.40),
+            ),
+            const CircleAvatar(radius: 30, backgroundColor: Color(0xff59E66F)),
+            Positioned(
+              top: 58,
+              left: 58,
+              child: SvgPicture.asset("assets/svg/done.svg"),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        const Column(
+          children: [
+            Text(
+              "Успешно",
+              style: TextStyle(
+                fontFamily: "sf-medium",
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              textAlign: TextAlign.center,
+              "Данные успешно отправлены!",
+              style: TextStyle(
+                height: 1,
+                fontFamily: "sf-medium",
+                color: Color(0xff919191),
+                fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
