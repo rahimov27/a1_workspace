@@ -44,12 +44,12 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Профиль",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
-            color: AppColors.mainWhite,
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
         ),
       ),
@@ -97,18 +97,22 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: AppColors.mainGrey),
+                      color: isDarkMode
+                          ? AppColors.mainGrey
+                          : AppColors.mainWhite),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16),
                     child: Row(
                       children: [
-                        const Text(
+                        Text(
                           "Тема",
                           style: TextStyle(
                               fontSize: 16,
                               fontFamily: "sf-medium",
-                              color: AppColors.mainWhite),
+                              color: isDarkMode
+                                  ? AppColors.mainWhite
+                                  : AppColors.mainGrey),
                         ),
                         const Spacer(),
                         CupertinoSwitch(

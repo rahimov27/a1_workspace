@@ -21,4 +21,6 @@ class ThemeProvider with ChangeNotifier {
     prefs.setBool('isDarkMode', _isDarkMode);
     notifyListeners();
   }
+
+  static of(BuildContext context) {}
 }
