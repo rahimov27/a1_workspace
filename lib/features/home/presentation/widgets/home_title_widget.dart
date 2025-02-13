@@ -1,7 +1,9 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomeTitleWidget extends StatelessWidget {
   const HomeTitleWidget({
@@ -10,6 +12,7 @@ class HomeTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     String todayDate = DateFormat('E, dd MMMM', 'ru_RU').format(DateTime.now());
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,12 +20,12 @@ class HomeTitleWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Привет, Админ!",
               style: TextStyle(
                 fontSize: 24,
                 fontFamily: "sf",
-                color: AppColors.mainWhite,
+                color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
               ),
             ),
             const SizedBox(height: 5),

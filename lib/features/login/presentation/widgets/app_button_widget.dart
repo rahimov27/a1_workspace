@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 class AppButtonWidget extends StatelessWidget {
   final String text;
+  final Color? color;
   final double borderRadius;
   final VoidCallback? onPressed;
 
   const AppButtonWidget(
-      {super.key, required this.text, this.borderRadius = 12, this.onPressed});
+      {super.key,this.color, required this.text, this.borderRadius = 12, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class AppButtonWidget extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.mainRed,
+          backgroundColor: color ?? AppColors.mainRed,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius), // Радиус углов
           ),

@@ -1,7 +1,9 @@
 import 'dart:math';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeRecordCard extends StatelessWidget {
   final String name;
@@ -43,10 +45,12 @@ class HomeRecordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: AppColors.mainGrey),
+          borderRadius: BorderRadius.circular(12),
+          color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
@@ -68,18 +72,22 @@ class HomeRecordCard extends StatelessWidget {
                     name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.mainWhite,
+                        color: isDarkMode
+                            ? AppColors.mainWhite
+                            : AppColors.mainGrey,
                         fontFamily: "sf-medium"),
                   ),
                   Text(
                     number,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.mainWhite,
+                        color: isDarkMode
+                            ? AppColors.mainWhite
+                            : const Color(0xffA5A5A5),
                         fontFamily: "sf-regular"),
                   ),
                 ],
@@ -94,13 +102,15 @@ class HomeRecordCard extends StatelessWidget {
                     service,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.mainWhite,
+                        color: isDarkMode
+                            ? AppColors.mainWhite
+                            : AppColors.mainGrey,
                         fontFamily: "sf-medium"),
                   ),
                   Text(
-                    formatDate(date), // Форматированная дата
+                    formatDate(date), 
                     style: const TextStyle(
                         fontSize: 12,
                         color: AppColors.greyHomeCard,

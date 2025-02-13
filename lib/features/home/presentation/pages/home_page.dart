@@ -5,7 +5,7 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_record_card
 import 'package:a1_workspace/features/home/presentation/widgets/home_service_card_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -53,6 +53,8 @@ class _HomePageState extends State<HomePage> {
       await Future.delayed(const Duration(seconds: 1));
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
+
+    
 
     return Scaffold(
       appBar: AppBar(

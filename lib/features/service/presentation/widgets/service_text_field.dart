@@ -5,14 +5,16 @@ import 'package:flutter/services.dart';
 class ServiceTextField extends StatelessWidget {
   final String text;
   final TextEditingController controller;
+  final TextInputType? textInputType;
   const ServiceTextField(
-      {super.key, required this.text, required this.controller});
+      {super.key, required this.text, this.textInputType, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
       child: TextField(
+        keyboardType: textInputType,
         inputFormatters: [
           LengthLimitingTextInputFormatter(25),
         ],

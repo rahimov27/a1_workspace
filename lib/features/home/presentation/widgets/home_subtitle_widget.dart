@@ -1,6 +1,8 @@
 import 'package:a1_workspace/features/home/presentation/pages/see_all_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeSubtitleWidget extends StatelessWidget {
   final String title;
@@ -10,15 +12,16 @@ class HomeSubtitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 20,
             fontFamily: "sf",
-            color: AppColors.mainWhite,
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
         ),
         const Spacer(),

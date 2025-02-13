@@ -1,5 +1,7 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HistoryCardWidget extends StatelessWidget {
   final String service;
@@ -51,10 +53,12 @@ class HistoryCardWidget extends StatelessWidget {
       }
     }
 
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        color: AppColors.mainGrey,
+        color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
@@ -70,10 +74,11 @@ class HistoryCardWidget extends StatelessWidget {
                     service,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
                       fontFamily: "sf",
-                      color: AppColors.mainWhite,
+                      color:
+                          isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
                     ),
                   ),
                 ),
@@ -81,10 +86,11 @@ class HistoryCardWidget extends StatelessWidget {
                   price,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontFamily: "sf",
-                    color: AppColors.mainWhite,
+                    color:
+                        isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
                   ),
                 ),
               ],

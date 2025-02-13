@@ -1,5 +1,5 @@
 import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/about_us_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/news_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/documentation_page.dart';
@@ -10,6 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,7 +21,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool isSwitched = false;
   String? userName;
 
   @override
@@ -35,16 +36,20 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    // Получаем текущий режим (темный или светлый) из ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Профиль",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
-            color: AppColors.mainWhite,
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
         ),
       ),
@@ -92,28 +97,29 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: AppColors.mainGrey),
+                      color: isDarkMode
+                          ? AppColors.mainGrey
+                          : AppColors.mainWhite),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 16),
                     child: Row(
                       children: [
-                        const Text(
+                        Text(
                           "Тема",
                           style: TextStyle(
                               fontSize: 16,
                               fontFamily: "sf-medium",
-                              color: AppColors.mainWhite),
+                              color: isDarkMode
+                                  ? AppColors.mainWhite
+                                  : AppColors.mainGrey),
                         ),
                         const Spacer(),
                         CupertinoSwitch(
                             activeColor: AppColors.mainRed,
-                            value: isSwitched,
+                            value: isDarkMode,
                             onChanged: (bool value) {
-                              setState(() {
-                                isSwitched = value;
-                              });
-                              // print(value);
+                              themeProvider.toggleTheme(); // Переключаем тему
                             })
                       ],
                     ),

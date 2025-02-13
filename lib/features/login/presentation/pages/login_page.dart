@@ -1,5 +1,5 @@
 import 'package:a1_workspace/features/login/presentation/bloc/bloc/auth_bloc.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_design_circle.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_design_square.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_text_field_widget.dart';
