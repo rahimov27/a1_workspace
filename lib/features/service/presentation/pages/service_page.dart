@@ -164,6 +164,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                   const SizedBox(height: 12),
                   ServiceTextField(
+                    textInputType: const TextInputType.numberWithOptions(),
                     text: "Номер телефона",
                     controller: _phoneController,
                   ),
@@ -175,9 +176,11 @@ class _ServicePageState extends State<ServicePage> {
                   const SizedBox(height: 12),
                   ServiceTextField(
                     text: "Цена",
+                    textInputType: TextInputType.number,
                     controller: _priceController,
                   ),
                   const SizedBox(height: 12),
+
                   // Выбор даты
                   GestureDetector(
                     onTap: _showDatePicker,

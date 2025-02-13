@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage> {
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
 
+    
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,

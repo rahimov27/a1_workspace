@@ -7,9 +7,11 @@ import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/main.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   final bool isLoggedIn;
@@ -33,10 +35,19 @@ class App extends StatelessWidget {
           create: (context) => GetIt.I<AuthBloc>(),
         ),
       ],
-      child: MaterialApp(
-        theme: theme,
-        debugShowCheckedModeBanner: false,
-        home: isLoggedIn ? const MainMenu() : const LoginPage(),
+      child: ChangeNotifierProvider(
+        create: (context) => ThemeProvider(), // Используем ThemeProvider
+        child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, child) {
+            return MaterialApp(
+              theme: themeProvider.isDarkMode
+                  ? darkTheme
+                  : ligthTheme, // Переключаем темы
+              debugShowCheckedModeBanner: false,
+              home: isLoggedIn ? const MainMenu() : const LoginPage(),
+            );
+          },
+        ),
       ),
     );
   }

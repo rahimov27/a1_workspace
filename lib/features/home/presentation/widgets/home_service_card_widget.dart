@@ -1,6 +1,8 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class HomeServiceCardWidget extends StatelessWidget {
   final String icon;
@@ -10,10 +12,11 @@ class HomeServiceCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14),
-        color: AppColors.mainGrey,
+        color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
       ),
       child: Padding(
         padding:
@@ -23,21 +26,23 @@ class HomeServiceCardWidget extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontFamily: "sf-medium",
-                color: AppColors.mainWhite,
+                color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
               ),
             ),
             const Spacer(),
             Row(
               children: [
-                const Text(
+                Text(
                   "Добавление услуги",
                   style: TextStyle(
                     fontSize: 12,
                     fontFamily: "sf-regular",
-                    color: AppColors.mainWhite,
+                    color: isDarkMode
+                        ? AppColors.mainWhite
+                        : const Color(0xffA5A5A5),
                   ),
                 ),
                 const Spacer(),
