@@ -6,7 +6,7 @@ import 'package:a1_workspace/features/login/presentation/widgets/auth_text_field
 import 'package:a1_workspace/features/login/presentation/widgets/auth_welcome_text_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/forgot_password_text.dart';
 import 'package:a1_workspace/main.dart';
-import 'package:a1_workspace/shared/app_loader_widget.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';

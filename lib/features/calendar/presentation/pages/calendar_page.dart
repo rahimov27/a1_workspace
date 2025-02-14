@@ -4,7 +4,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
-import 'package:a1_workspace/shared/app_loader_widget.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';

@@ -1,12 +1,15 @@
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:provider/provider.dart';
 
 class DocumentationPage extends StatelessWidget {
   const DocumentationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 44,
@@ -14,16 +17,21 @@ class DocumentationPage extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: SvgPicture.asset("assets/svg/arrow-left.svg"),
+          child: isDarkMode
+              ? SvgPicture.asset("assets/svg/arrow-left.svg")
+              : SvgPicture.asset(
+                  "assets/svg/arrow-left.svg",
+                  color: AppColors.mainGrey,
+                ),
         ),
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Документация",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
-            color: AppColors.mainWhite,
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
         ),
       ),
@@ -117,6 +125,7 @@ class _DocumentationSectionState extends State<DocumentationSection>
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -127,7 +136,7 @@ class _DocumentationSectionState extends State<DocumentationSection>
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(14),
-                color: AppColors.mainGrey,
+                color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,10 +147,12 @@ class _DocumentationSectionState extends State<DocumentationSection>
                     child: Text(
                       widget.title,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontFamily: "sf-medium",
-                        color: AppColors.mainWhite,
+                        color: isDarkMode
+                            ? AppColors.mainWhite
+                            : AppColors.mainGrey,
                       ),
                     ),
                   ),
@@ -150,7 +161,12 @@ class _DocumentationSectionState extends State<DocumentationSection>
                     child: AnimatedRotation(
                       turns: isExpanded ? 0.5 : 0.0,
                       duration: const Duration(milliseconds: 300),
-                      child: SvgPicture.asset("assets/svg/arrow-down.svg"),
+                      child: isDarkMode
+                          ? SvgPicture.asset("assets/svg/arrow-down.svg")
+                          : SvgPicture.asset(
+                              "assets/svg/arrow-down.svg",
+                              color: AppColors.mainGrey,
+                            ),
                     ),
                   ),
                 ],
@@ -167,16 +183,18 @@ class _DocumentationSectionState extends State<DocumentationSection>
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
-                  color: AppColors.mainGrey,
+                  color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
                 ),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
                   child: Text(
                     widget.content,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        color: Color.fromARGB(185, 255, 255, 255)),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color:
+                          isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
+                    ),
                   ),
                 ),
               ),
