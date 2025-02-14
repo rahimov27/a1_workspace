@@ -1,3 +1,15 @@
+# 🚗 a1_workspace – Detailing Center Management App  
+
+**a1_workspace** is a mobile application developed with Flutter, designed to streamline the operations of a detailing center. It helps automate order management, customer interactions, and employee tasks, improving overall business efficiency.  
+
+## ✨ Key Features  
+
+- 📅 **Appointment Management** – Create, edit, and track orders.  
+- 👤 **Customer Database** – Store customer information and order history.  
+- 🔧 **Employee Task Management** – Assign tasks and monitor progress.  
+- 💰 **Financial Tracking** – Keep records of orders and revenue.  
+- 📊 **Analytics** – Generate reports on service popularity and employee performance.  
+
 # 🚗 a1_workspace – Приложение для детейлинг-центра
 
 **a1_workspace** – это мобильное приложение, разработанное на Flutter, предназначенное для управления процессами детейлинг-центра. Оно помогает автоматизировать работу с заказами, клиентами и сотрудниками, улучшая эффективность бизнеса.
