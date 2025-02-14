@@ -23,7 +23,7 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
       } else {
         throw Exception("Unexpected response: ${response.statusCode}");
       }
-    } on DioError catch (dioError) {
+    } on DioException catch (dioError) {
       if (dioError.response != null) {
         throw Exception("Dio error: ${dioError.response?.data}");
       } else {

@@ -3,7 +3,7 @@ import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
 import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
-import 'package:a1_workspace/shared/app_loader_widget.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
@@ -23,9 +23,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<HomeBloc>()
-        .add(GetRecordsEvent()); // Отправляем событие для загрузки записей
+    context.read<HomeBloc>().add(GetRecordsEvent());
   }
 
   Future<void> _onRefresh() async {

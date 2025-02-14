@@ -7,13 +7,15 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_wi
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
-import 'package:a1_workspace/shared/app_loader_widget.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -53,8 +55,6 @@ class _HomePageState extends State<HomePage> {
       await Future.delayed(const Duration(seconds: 1));
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
-
-    
 
     return Scaffold(
       appBar: AppBar(
@@ -163,6 +163,7 @@ class AppErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       child: Column(
@@ -192,13 +193,13 @@ class AppErrorWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          const Column(
+          Column(
             children: [
               Text(
                 "Ошибка",
                 style: TextStyle(
                   fontFamily: "sf-medium",
-                  color: AppColors.mainWhite,
+                  color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
                   fontSize: 18,
                 ),
               ),
