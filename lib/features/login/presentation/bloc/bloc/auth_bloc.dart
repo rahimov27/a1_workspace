@@ -14,13 +14,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onLogin(AuthLoginEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
-    print('Login attempt with ${event.login} and ${event.password}');
+    emit(AuthLoading()); // Emit loading state
     try {
       final user = await repo.login(email: event.login, password: event.password);
-      emit(AuthSuccess(user: user)); // Передаем успешного пользователя
+      emit(AuthSuccess(user: user)); // Emit success state with user data
     } catch (e) {
-      emit(AuthError(error: e.toString()));
+      emit(AuthError(error: e.toString())); // Emit error state
     }
   }
 }

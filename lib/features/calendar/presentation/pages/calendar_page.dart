@@ -3,11 +3,15 @@ import 'dart:math';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_w_idget.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 
@@ -27,17 +31,38 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: GestureDetector(
+              onTap: () {
+                context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
+              },
+              child: isDarkMode
+                  ? SvgPicture.asset(
+                      "assets/svg/refresh.svg",
+                      width: 20,
+                      height: 20,
+                    )
+                  : SvgPicture.asset(
+                      "assets/svg/refresh-dark.svg",
+                      width: 20,
+                      height: 20,
+                    ),
+            ),
+          ),
+        ],
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Календарь",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
-            color: AppColors.mainWhite,
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
         ),
       ),
@@ -45,33 +70,49 @@ class _CalendarPageState extends State<CalendarPage> {
         child: BlocBuilder<CalendarBloc, CalendarState>(
           builder: (context, state) {
             if (state is GetRecordsCalendarLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const AppLoaderWidget();
+            } else if (state is CalendarInitial) {
+              return const AppLoaderWidget();
             } else if (state is GetRecordsCalendarSuccess) {
               return SfCalendar(
                 minDate: DateTime(2024, 1, 1, 1),
-                showDatePickerButton: true,
-                headerDateFormat: "MMMM yyy",
-                todayTextStyle: const TextStyle(
-                  fontFamily: "sf",
-                  fontSize: 20,
-                ),
+                showDatePickerButton: false,
+                headerDateFormat: "MMMM yyyy",
+                todayTextStyle: TextStyle(
+                    fontFamily: "sf",
+                    fontSize: 20,
+                    color:
+                        isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
                 todayHighlightColor: Colors.transparent,
-                headerStyle: const CalendarHeaderStyle(
-                  backgroundColor: Colors.transparent,
+                headerStyle: CalendarHeaderStyle(
+                  backgroundColor:
+                      isDarkMode ? Colors.transparent : Colors.transparent,
                   textStyle: TextStyle(
-                      fontSize: 18, color: Colors.white, fontFamily: "sf"),
+                      fontSize: 18,
+                      color:
+                          isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
+                      fontFamily: "sf"),
                 ),
                 view: CalendarView.schedule,
-                backgroundColor: Colors.black,
-                scheduleViewSettings: const ScheduleViewSettings(
+                backgroundColor: isDarkMode
+                    ? AppColors.scaffoldColor
+                    : AppColors.scaffoldWhiteColor,
+                scheduleViewSettings: ScheduleViewSettings(
                   appointmentItemHeight: 70,
                   monthHeaderSettings: MonthHeaderSettings(
-                    monthTextStyle: TextStyle(fontFamily: "sf", fontSize: 18),
+                    monthTextStyle: TextStyle(
+                        fontFamily: "sf",
+                        fontSize: 18,
+                        color: isDarkMode
+                            ? AppColors.dateGrey
+                            : AppColors.mainGrey),
                     textAlign: TextAlign.start,
                     height: 60,
-                    backgroundColor: Colors.black,
+                    backgroundColor: isDarkMode
+                        ? AppColors.scaffoldColor
+                        : AppColors.scaffoldWhiteColor,
                   ),
-                  weekHeaderSettings: WeekHeaderSettings(
+                  weekHeaderSettings: const WeekHeaderSettings(
                     startDateFormat: "",
                     height: 0,
                     endDateFormat: "",
@@ -81,15 +122,17 @@ class _CalendarPageState extends State<CalendarPage> {
                   dayHeaderSettings: DayHeaderSettings(
                     dayFormat: "MMM",
                     dateTextStyle: TextStyle(
-                        color: AppColors.mainWhite,
+                        color: isDarkMode
+                            ? AppColors.mainWhite
+                            : AppColors.mainGrey,
                         fontSize: 20,
                         fontFamily: "sf"),
-                    dayTextStyle: TextStyle(
+                    dayTextStyle: const TextStyle(
                         color: AppColors.dateGrey,
                         fontFamily: "sf-medium",
                         fontSize: 14),
                   ),
-                  appointmentTextStyle: TextStyle(
+                  appointmentTextStyle: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
@@ -146,32 +189,9 @@ class _CalendarPageState extends State<CalendarPage> {
                 },
               );
             } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Spacer(),
-                    const Text(
-                      "No internet",
-                      style: TextStyle(
-                        fontFamily: "sf",
-                        color: AppColors.mainWhite,
-                        fontSize: 24,
-                      ),
-                    ),
-                    const Spacer(),
-                    AppButtonWidget(
-                      text: "Повторить",
-                      onPressed: () {
-                        context
-                            .read<CalendarBloc>()
-                            .add(GetRecordsCalendarEvent());
-                      },
-                    ),
-                    const Spacer(),
-                  ],
-                ),
+              return AppErrorWidget(
+                onPressed: () =>
+                    context.read<CalendarBloc>().add(GetRecordsCalendarEvent()),
               );
             }
           },

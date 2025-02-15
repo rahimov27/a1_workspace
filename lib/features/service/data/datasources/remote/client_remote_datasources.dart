@@ -35,12 +35,13 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
         'last_name': lastName,
         'phone': phone,
         'service': service,
-        'price': price, // Убедись, что это строка!
+        'price': price,
         'status': status,
         'date': date.toIso8601String(),
       });
       final response = await dio.post(
-        SwaggerAdress.adress,
+        options: Options(headers: {"Authorization": SwaggerAdress.apiKey}),
+        "${SwaggerAdress.adress}/",
         data: {
           'first_name': firstName,
           'last_name': lastName,

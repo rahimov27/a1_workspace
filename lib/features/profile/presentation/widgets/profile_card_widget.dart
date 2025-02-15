@@ -1,11 +1,42 @@
+import 'dart:typed_data';
+
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/utils/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfileCardWidget extends StatelessWidget {
-  const ProfileCardWidget({
-    super.key,
-  });
+class ProfileCardWidget extends StatefulWidget {
+  final String name;
+  const ProfileCardWidget({super.key, required this.name});
 
+  @override
+  State<ProfileCardWidget> createState() => _ProfileCardWidgetState();
+}
+
+class _ProfileCardWidgetState extends State<ProfileCardWidget> {
+  Uint8List? _image;
+
+   @override
+  void initState() {
+    super.initState();
+    loadImageFromPrefs().then((loadedImage) {
+      if (loadedImage != null) {
+        setState(() {
+          _image = loadedImage;
+        });
+      }
+    });
+  }
+
+  void selectImage() async {
+    Uint8List? img = await pickImage(ImageSource.gallery);
+    if (img != null) {
+      setState(() {
+        _image = img;
+      });
+      saveImageToPrefs(img); // Сохраняем изображение в SharedPreferences
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,17 +88,29 @@ class ProfileCardWidget extends StatelessWidget {
                         width: 4.0,
                       ),
                     ),
-                    child: const CircleAvatar(
-                      radius: 45,
-                      backgroundImage: NetworkImage(
-                          "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"),
+                    child: GestureDetector(
+                      onTap: () {
+                        selectImage();
+                      },
+                      child: _image != null
+                          ? CircleAvatar(
+                              backgroundColor: AppColors.greyAuth,
+                              radius: 45,
+                              backgroundImage: MemoryImage(_image!))
+                          : const CircleAvatar(
+                              backgroundColor: AppColors.greyAuth,
+                              radius: 45,
+                              backgroundImage: AssetImage(
+                                "assets/svg/profile-default.png",
+                              ),
+                            ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  "Айбек Талгатов",
-                  style: TextStyle(
+                Text(
+                  widget.name,
+                  style: const TextStyle(
                       fontSize: 22,
                       fontFamily: "sf-medium",
                       color: AppColors.mainWhite),

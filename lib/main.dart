@@ -5,22 +5,31 @@ import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/dependency_injection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  // Для firebase
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   setup();
 
+  // Для руссификации даты
+  await initializeDateFormatting('ru_RU', null);
+
+  // Для сохранения данных в памяти телефона
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? uid = prefs.getString('uid');
 
+  // Для того чтоб телефон не переворачивался
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(App(isLoggedIn: uid != null));
@@ -137,6 +146,7 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return PersistentTabView(
       context,
       bottomScreenMargin: 70,
@@ -144,7 +154,8 @@ class _MainMenuState extends State<MainMenu> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       confineToSafeArea: true,
-      backgroundColor: AppColors.navbarBackground,
+      backgroundColor:
+          isDarkMode ? AppColors.navbarBackground : AppColors.mainWhite,
       handleAndroidBackButtonPress: true,
       stateManagement: true,
       navBarHeight: 70,
