@@ -4,21 +4,26 @@ import 'package:a1_workspace/features/login/presentation/widgets/auth_design_cir
 import 'package:a1_workspace/features/login/presentation/widgets/auth_design_square.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_text_field_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_welcome_text_widget.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/forgot_password_text.dart';
 import 'package:a1_workspace/main.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  bool isShow = false;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     Future<void> _saveUidToPrefs(String uid) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('uid', uid);
@@ -34,8 +39,17 @@ class LoginPage extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const MainMenu()),
             );
           } else if (state is AuthError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text("Error: ${state.error}")));
+            if (emailController.text.isEmpty ||
+                passwordController.text.isEmpty) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("Введите данные!!!")));
+            } else if (state.error.toLowerCase().contains("login failed")) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Неверный логин или пароль")));
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Error: ${state.error}")));
+            }
           }
         },
         builder: (context, state) {
@@ -62,13 +76,19 @@ class LoginPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     AuthTextFieldWidget(
+                      isPasswordField: !isShow,
                       hintText: "Пароль",
+                      suffixIcon: GestureDetector(
+                        child: Icon(
+                            isShow ? Icons.visibility : Icons.visibility_off),
+                        onTap: () {
+                          setState(() {
+                            isShow = !isShow;
+                          });
+                        },
+                      ),
+                      isSufficIcon: true,
                       controller: passwordController,
-                    ),
-                    const SizedBox(height: 8),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: ForgotPasswordText(),
                     ),
                     const SizedBox(height: 40),
                     if (state is AuthLoading)

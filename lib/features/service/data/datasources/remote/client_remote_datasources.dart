@@ -35,7 +35,7 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
         'last_name': lastName,
         'phone': phone,
         'service': service,
-        'price': price, // Убедись, что это строка!
+        'price': price,
         'status': status,
         'date': date.toIso8601String(),
       });
