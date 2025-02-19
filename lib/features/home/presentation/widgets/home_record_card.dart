@@ -22,6 +22,9 @@ class HomeRecordCard extends StatelessWidget {
   // Метод для форматирования даты
   String formatDate(String date) {
     try {
+      if (date.isEmpty || date == "Нет даты") {
+        return 'Нет даты';
+      }
       // Пробуем распарсить дату в формате ISO
       DateTime parsedDate = DateTime.parse(date);
       return DateFormat('dd MMM, HH:mm', "ru_RU").format(parsedDate);
