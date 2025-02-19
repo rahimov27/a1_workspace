@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class ProfileCardWidget extends StatefulWidget {
   final String name;
@@ -16,7 +18,7 @@ class ProfileCardWidget extends StatefulWidget {
 class _ProfileCardWidgetState extends State<ProfileCardWidget> {
   Uint8List? _image;
 
-   @override
+  @override
   void initState() {
     super.initState();
     loadImageFromPrefs().then((loadedImage) {
@@ -37,39 +39,48 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
       saveImageToPrefs(img); // Сохраняем изображение в SharedPreferences
     }
   }
+
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: AppColors.mainGrey,
+        color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
       ),
       clipBehavior: Clip.hardEdge,
       child: Stack(
         children: [
-          const Positioned(
+          Positioned(
             left: 85,
             top: -282,
             child: CircleAvatar(
               radius: 282,
-              backgroundColor: Color(0xff2E2F34),
+              backgroundColor: isDarkMode
+                  ? Color(0xff2E2F34)
+                  // ignore: deprecated_member_use
+                  : AppColors.mainRed.withOpacity(0.50),
             ),
           ),
-          const Positioned(
+          Positioned(
             left: 134,
             top: -232,
             child: CircleAvatar(
               radius: 232,
-              backgroundColor: Color(0xff38393E),
+              backgroundColor: isDarkMode
+                  ? Color(0xff38393E)
+                  // ignore: deprecated_member_use
+                  : AppColors.mainRed.withOpacity(0.60),
             ),
           ),
-          const Positioned(
+          Positioned(
             left: 184,
             top: -182,
             child: CircleAvatar(
               radius: 183,
-              backgroundColor: Color(0xff424348),
+              backgroundColor:
+                  isDarkMode ? Color(0xff424348) : AppColors.mainRed,
             ),
           ),
           Padding(
@@ -110,18 +121,13 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                 const SizedBox(height: 16),
                 Text(
                   widget.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 22,
                       fontFamily: "sf-medium",
-                      color: AppColors.mainWhite),
+                      color: isDarkMode
+                          ? AppColors.mainWhite
+                          : AppColors.mainGrey),
                 ),
-                const Text(
-                  "+996-500-10-20-30",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: "sf-regular",
-                      color: AppColors.greyHomeCard),
-                )
               ],
             ),
           ),

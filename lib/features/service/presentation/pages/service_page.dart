@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'package:a1_workspace/features/service/presentation/bloc/client_event.dar
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart'; // Для форматирования даты
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -111,6 +113,7 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 44,
@@ -119,17 +122,23 @@ class _ServicePageState extends State<ServicePage> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: SvgPicture.asset("assets/svg/arrow-left.svg"),
+                child: isDarkMode
+                    ? SvgPicture.asset("assets/svg/arrow-left.svg")
+                    : SvgPicture.asset(
+                        "assets/svg/arrow-left.svg",
+                        // ignore: deprecated_member_use
+                        color: AppColors.mainGrey,
+                      ),
               )
             : null,
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: const Text(
+        title: Text(
           "Добавление услуги",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
-            color: AppColors.mainWhite,
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
         ),
       ),
@@ -185,11 +194,13 @@ class _ServicePageState extends State<ServicePage> {
                   GestureDetector(
                     onTap: _showDatePicker,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 14),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: AppColors.mainGrey,
+                        color: isDarkMode
+                            ? AppColors.mainGrey
+                            : AppColors.mainWhite,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,12 +209,20 @@ class _ServicePageState extends State<ServicePage> {
                             _selectedDate == null
                                 ? "Выберите дату"
                                 : _dateFormat.format(_selectedDate!),
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontFamily: "sf-regualr",
                                 fontSize: 14,
-                                color: AppColors.mainWhite),
+                                color: isDarkMode
+                                    ? AppColors.mainWhite
+                                    : AppColors.mainGrey),
                           ),
-                          SvgPicture.asset("assets/svg/calendar.svg"),
+                          isDarkMode
+                              ? SvgPicture.asset("assets/svg/calendar.svg")
+                              : SvgPicture.asset(
+                                  "assets/svg/calendar.svg",
+                                  // ignore: deprecated_member_use
+                                  color: AppColors.mainGrey,
+                                ),
                         ],
                       ),
                     ),
@@ -214,7 +233,8 @@ class _ServicePageState extends State<ServicePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColors.mainGrey,
+                      color:
+                          isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
@@ -232,13 +252,23 @@ class _ServicePageState extends State<ServicePage> {
                             child: Text(value),
                           );
                         }).toList(),
-                        style: const TextStyle(
-                          color: AppColors.mainWhite,
+                        style: TextStyle(
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey,
                           fontSize: 14,
                         ),
                         borderRadius: BorderRadius.circular(10),
-                        dropdownColor: AppColors.mainGrey,
-                        icon: SvgPicture.asset("assets/svg/down-icon.svg"),
+                        dropdownColor: isDarkMode
+                            ? AppColors.mainGrey
+                            : AppColors.mainWhite,
+                        icon: isDarkMode
+                            ? SvgPicture.asset("assets/svg/down-icon.svg")
+                            : SvgPicture.asset(
+                                "assets/svg/down-icon.svg",
+                                // ignore: deprecated_member_use
+                                color: AppColors.mainGrey,
+                              ),
                         isExpanded: true,
                       ),
                     ),
@@ -298,7 +328,7 @@ void showCustomOverlay(BuildContext context) {
 class _AnimatedOverlay extends StatefulWidget {
   final VoidCallback onDismiss;
 
-  const _AnimatedOverlay({Key? key, required this.onDismiss}) : super(key: key);
+  const _AnimatedOverlay({required this.onDismiss});
 
   @override
   _AnimatedOverlayState createState() => _AnimatedOverlayState();
@@ -331,8 +361,11 @@ class _AnimatedOverlayState extends State<_AnimatedOverlay>
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      backgroundColor: AppColors.scaffoldColor, // Затемнение фона
+      backgroundColor: isDarkMode
+          ? AppColors.scaffoldColor
+          : AppColors.mainWhite, // Затемнение фона
       body: SafeArea(
         child: Center(
           child: AnimatedOpacity(
@@ -346,6 +379,7 @@ class _AnimatedOverlayState extends State<_AnimatedOverlay>
   }
 
   Widget _buildContent() {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -355,10 +389,12 @@ class _AnimatedOverlayState extends State<_AnimatedOverlay>
           children: [
             CircleAvatar(
               radius: 70,
+              // ignore: deprecated_member_use
               backgroundColor: const Color(0xff59E66F).withOpacity(0.25),
             ),
             CircleAvatar(
               radius: 50,
+              // ignore: deprecated_member_use
               backgroundColor: const Color(0xff59E66F).withOpacity(0.40),
             ),
             const CircleAvatar(radius: 30, backgroundColor: Color(0xff59E66F)),
@@ -370,13 +406,13 @@ class _AnimatedOverlayState extends State<_AnimatedOverlay>
           ],
         ),
         const SizedBox(height: 24),
-        const Column(
+        Column(
           children: [
             Text(
               "Успешно",
               style: TextStyle(
                 fontFamily: "sf-medium",
-                color: Colors.white,
+                color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
                 fontSize: 18,
               ),
             ),

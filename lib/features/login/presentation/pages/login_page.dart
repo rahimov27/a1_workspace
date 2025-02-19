@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _saveUidToPrefs(String uid) async {
+    Future<void> saveUidToPrefs(String uid) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('uid', uid);
     }
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            _saveUidToPrefs(state.user.uid);
+            saveUidToPrefs(state.user.uid);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const MainMenu()),

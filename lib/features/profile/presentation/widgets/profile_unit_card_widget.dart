@@ -32,6 +32,7 @@ class ProfileUnitCardWidget extends StatelessWidget {
                 ? SvgPicture.asset("assets/svg/arrow-right.svg")
                 : SvgPicture.asset(
                     "assets/svg/arrow-right.svg",
+                    // ignore: deprecated_member_use
                     color: AppColors.mainGrey,
                   )
           ],

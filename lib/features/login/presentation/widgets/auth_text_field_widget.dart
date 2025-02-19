@@ -1,6 +1,5 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +31,7 @@ class AuthTextFieldWidget extends StatelessWidget {
       controller: controller,
       style: TextStyle(
           color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
+      // ignore: deprecated_member_use
       cursorColor: AppColors.mainRed.withOpacity(0.8),
       decoration: InputDecoration(
         suffixIcon: suffixIcon,

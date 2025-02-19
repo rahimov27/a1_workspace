@@ -5,17 +5,14 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_record_card
 import 'package:a1_workspace/features/home/presentation/widgets/home_service_card_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
-import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
-import 'package:a1_workspace/shared/theme/theme_provider.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -51,8 +48,9 @@ class _HomePageState extends State<HomePage> {
       "3-х Мойка"
     ];
 
-    Future<void> _onRefresh() async {
+    Future<void> onRefresh() async {
       await Future.delayed(const Duration(seconds: 1));
+      // ignore: use_build_context_synchronously
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
 
@@ -66,13 +64,25 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: AppColors.mainGrey,
         indicatorBuilder: (context, controller) =>
             LoadingAnimationWidget.inkDrop(color: AppColors.mainRed, size: 35),
-        onRefresh: _onRefresh,
+        onRefresh: onRefresh,
         child: SafeArea(
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
               if (state is GetRecordsLoading) {
                 return const AppLoaderWidget();
               } else if (state is GetRecordsSuccess) {
+                // Check if the records list is not empty
+                if (state.records.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "Нет доступных записей.",
+                      style: TextStyle(fontSize: 18, color: AppColors.mainGrey),
+                    ),
+                  );
+                }
+
+                var records =
+                    state.records.reversed.toList(); // Reversed once here.
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -86,27 +96,16 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const SizedBox(height: 14),
                         Column(
-                          children: [
-                            HomeRecordCard(
-                              name:
-                                  state.records.reversed.toList()[0].firstName,
-                              number: state.records.reversed.toList()[0].phone,
-                              service:
-                                  state.records.reversed.toList()[0].service,
-                              date: state.records.reversed.toList()[0].date,
+                          children: List.generate(
+                            records.length > 2 ? 2 : records.length,
+                            (index) => HomeRecordCard(
+                              name: records[index].firstName,
+                              number: records[index].phone,
+                              service: records[index].service,
+                              date: records[index].date,
                             ),
-                            const SizedBox(height: 8),
-                            HomeRecordCard(
-                              name:
-                                  state.records.reversed.toList()[1].firstName,
-                              number: state.records.reversed.toList()[1].phone,
-                              service:
-                                  state.records.reversed.toList()[1].service,
-                              date: state.records.reversed.toList()[1].date,
-                            ),
-                          ],
+                          ),
                         ),
-                        const SizedBox(height: 8),
                         const SizedBox(height: 30),
                         const HomeSubtitleWidget(
                           title: "Услуги",
@@ -152,79 +151,6 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AppErrorWidget extends StatelessWidget {
-  final VoidCallback onPressed;
-  const AppErrorWidget({super.key, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 14),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Stack(
-            alignment:
-                Alignment.center, // Центрирует все элементы относительно центра
-            children: [
-              CircleAvatar(
-                radius: 70,
-                backgroundColor: AppColors.mainRed.withOpacity(0.25),
-              ),
-              CircleAvatar(
-                radius: 50,
-                backgroundColor: AppColors.mainRed.withOpacity(0.40),
-              ),
-              const CircleAvatar(
-                radius: 30,
-                backgroundColor: AppColors.mainRed,
-              ),
-              Positioned(
-                top: 58,
-                left: 58,
-                child: SvgPicture.asset("assets/svg/close.svg"),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Column(
-            children: [
-              Text(
-                "Ошибка",
-                style: TextStyle(
-                  fontFamily: "sf-medium",
-                  color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: 4),
-              SizedBox(
-                width: 200,
-                child: Text(
-                  textAlign: TextAlign.center,
-                  "Проверьте соединение с интернетом!",
-                  style: TextStyle(
-                    height: 1,
-                    fontFamily: "sf-medium",
-                    color: Color(0xff919191),
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 50),
-          AppButtonWidget(
-            text: "Повторить",
-            onPressed: onPressed,
-          ),
-        ],
       ),
     );
   }

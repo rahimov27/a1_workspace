@@ -3,6 +3,7 @@ import 'package:a1_workspace/features/login/presentation/widgets/app_button_widg
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/about_us_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/news_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/documentation_page.dart';
+import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/pdf_page.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_card_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_unit_card_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -36,7 +37,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    // Получаем текущий режим (темный или светлый) из ThemeProvider
     final themeProvider = Provider.of<ThemeProvider>(context);
     bool isDarkMode = themeProvider.isDarkMode;
 
@@ -65,8 +65,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   name: userName ?? "Айбек Талгатов",
                 ),
                 const SizedBox(height: 20),
-                const ProfileUnitCardWidget(
-                  text: "Настройки",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PdfPage()));
+                  },
+                  child: const ProfileUnitCardWidget(
+                    text: "Настройки",
+                  ),
                 ),
                 const SizedBox(height: 5),
                 GestureDetector(
@@ -116,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const Spacer(),
                         CupertinoSwitch(
-                            activeColor: AppColors.mainRed,
+                            activeTrackColor: AppColors.mainRed,
                             value: isDarkMode,
                             onChanged: (bool value) {
                               themeProvider.toggleTheme(); // Переключаем тему
@@ -146,6 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.remove('uid');
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context, rootNavigator: true)
                         .pushAndRemoveUntil(
                       PageRouteBuilder(

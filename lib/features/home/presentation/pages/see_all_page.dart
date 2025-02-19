@@ -1,8 +1,8 @@
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
-import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_record_card.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
@@ -23,6 +23,7 @@ class SeeAllPage extends StatefulWidget {
 class _SeeAllPageState extends State<SeeAllPage> {
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
+    // ignore: use_build_context_synchronously
     context.read<HomeBloc>().add(GetRecordsEvent());
   }
 
@@ -36,7 +37,13 @@ class _SeeAllPageState extends State<SeeAllPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: SvgPicture.asset("assets/svg/arrow-left.svg"),
+          child: isDarkMode
+              ? SvgPicture.asset("assets/svg/arrow-left.svg")
+              : SvgPicture.asset(
+                  "assets/svg/arrow-left.svg",
+                  // ignore: deprecated_member_use
+                  color: AppColors.mainGrey,
+                ),
         ),
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
@@ -71,22 +78,17 @@ class _SeeAllPageState extends State<SeeAllPage> {
                       child: ListView.builder(
                         itemCount: state.records.length,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: HomeRecordCard(
-                                name: state.records.reversed
-                                    .toList()[index]
-                                    .firstName,
-                                number: state.records.reversed
-                                    .toList()[index]
-                                    .phone,
-                                service: state.records.reversed
-                                    .toList()[index]
-                                    .service,
-                                date: state.records.reversed
-                                    .toList()[index]
-                                    .date),
-                          );
+                          return HomeRecordCard(
+                              name: state.records.reversed
+                                  .toList()[index]
+                                  .firstName,
+                              number:
+                                  state.records.reversed.toList()[index].phone,
+                              service: state.records.reversed
+                                  .toList()[index]
+                                  .service,
+                              date:
+                                  state.records.reversed.toList()[index].date);
                         },
                       ),
                     );

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
-import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
@@ -169,18 +169,18 @@ class _CalendarPageState extends State<CalendarPage> {
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.start,
                             ),
-                            const Text(
-                              "-",
-                              style: TextStyle(color: AppColors.mainWhite),
-                            ),
-                            Text(
-                              DateFormat.Hm().format(meeting.to),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.start,
-                            ),
+                            // const Text(
+                            //   "-",
+                            //   style: TextStyle(color: AppColors.mainWhite),
+                            // ),
+                            // Text(
+                            //   DateFormat.Hm().format(meeting.to),
+                            //   style: const TextStyle(
+                            //       color: Colors.white,
+                            //       fontSize: 14,
+                            //       fontWeight: FontWeight.bold),
+                            //   textAlign: TextAlign.start,
+                            // ),
                           ],
                         ),
                       ],
