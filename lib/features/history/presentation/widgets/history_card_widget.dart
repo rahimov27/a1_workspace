@@ -24,7 +24,7 @@ class HistoryCardWidget extends StatelessWidget {
         case "в работе":
           return AppColors.green;
         case "ожидание":
-          return AppColors.mainYellow;
+          return const Color.fromARGB(255, 199, 230, 1);
         case "нет оплаты":
           return AppColors.mainRed;
         case "завершено":

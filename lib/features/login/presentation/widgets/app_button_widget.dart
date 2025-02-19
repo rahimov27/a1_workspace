@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 class AppButtonWidget extends StatelessWidget {
   final String text;
   final Color? color;
+  final double? fontsize;
   final double borderRadius;
   final VoidCallback? onPressed;
 
   const AppButtonWidget(
-      {super.key,this.color, required this.text, this.borderRadius = 12, this.onPressed});
+      {super.key,
+      this.color,
+      this.fontsize,
+      required this.text,
+      this.borderRadius = 12,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +31,9 @@ class AppButtonWidget extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: "sf-medium",
-            fontSize: 18,
+            fontSize: fontsize ?? 18,
             color: AppColors.mainWhite,
           ),
         ),

@@ -46,82 +46,89 @@ class HomeRecordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: _getRandomColor(),
-              radius: 25,
-              child: Text(
-                name[0],
-                style: const TextStyle(color: AppColors.mainWhite),
-              ),
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: _getRandomColor(),
+                  radius: 25,
+                  child: Text(
+                    name[0],
+                    style: const TextStyle(color: AppColors.mainWhite),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: isDarkMode
+                                ? AppColors.mainWhite
+                                : AppColors.mainGrey,
+                            fontFamily: "sf-medium"),
+                      ),
+                      Text(
+                        number,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: isDarkMode
+                                ? AppColors.mainWhite
+                                : const Color(0xffA5A5A5),
+                            fontFamily: "sf-regular"),
+                      ),
+                    ],
+                  ),
+                ),
+                const Spacer(),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        service,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: isDarkMode
+                                ? AppColors.mainWhite
+                                : AppColors.mainGrey,
+                            fontFamily: "sf-medium"),
+                      ),
+                      Text(
+                        formatDate(date),
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.greyHomeCard,
+                            fontFamily: "sf-regular"),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: isDarkMode
-                            ? AppColors.mainWhite
-                            : AppColors.mainGrey,
-                        fontFamily: "sf-medium"),
-                  ),
-                  Text(
-                    number,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: isDarkMode
-                            ? AppColors.mainWhite
-                            : const Color(0xffA5A5A5),
-                        fontFamily: "sf-regular"),
-                  ),
-                ],
-              ),
-            ),
-            const Spacer(),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    service,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: isDarkMode
-                            ? AppColors.mainWhite
-                            : AppColors.mainGrey,
-                        fontFamily: "sf-medium"),
-                  ),
-                  Text(
-                    formatDate(date), 
-                    style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.greyHomeCard,
-                        fontFamily: "sf-regular"),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        SizedBox(
+          height: 8,
+        )
+      ],
     );
   }
 }

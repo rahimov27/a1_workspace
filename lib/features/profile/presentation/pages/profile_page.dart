@@ -3,6 +3,7 @@ import 'package:a1_workspace/features/login/presentation/widgets/app_button_widg
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/about_us_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/news_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/documentation_page.dart';
+import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/pdf_page.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_card_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_unit_card_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -64,8 +65,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   name: userName ?? "Айбек Талгатов",
                 ),
                 const SizedBox(height: 20),
-                const ProfileUnitCardWidget(
-                  text: "Настройки",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PdfPage()));
+                  },
+                  child: const ProfileUnitCardWidget(
+                    text: "Настройки",
+                  ),
                 ),
                 const SizedBox(height: 5),
                 GestureDetector(
