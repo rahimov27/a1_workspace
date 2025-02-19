@@ -1,19 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<User> login({required String email, required String password}) async {
     try {
-      print('Logging in with email: $email');
+      if (kDebugMode) {
+        print('Logging in with email: $email');
+      }
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print('Login successful');
+      if (kDebugMode) {
+        print('Login successful');
+      }
       return userCredential.user!;
     } catch (e) {
-      print('Login failed: $e');
+      if (kDebugMode) {
+        print('Login failed: $e');
+      }
       throw Exception('Login failed');
     }
   }

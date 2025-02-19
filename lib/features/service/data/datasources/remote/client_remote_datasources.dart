@@ -2,6 +2,7 @@
 import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:dio/dio.dart';
 import 'package:a1_workspace/features/service/data/models/client_record_model.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class ClientRemoteDatasource {
   Future<List<ClientRecordModel>> createClientRecord(
@@ -30,7 +31,8 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
       String status,
       DateTime date) async {
     try {
-      print({
+      if (kDebugMode) {
+        print({
         'first_name': firstName,
         'last_name': lastName,
         'phone': phone,
@@ -39,6 +41,7 @@ class ClientRemoteDatasourceImpl extends ClientRemoteDatasource {
         'status': status,
         'date': date.toIso8601String(),
       });
+      }
       final response = await dio.post(
         options: Options(headers: {"Authorization": SwaggerAdress.apiKey}),
         "${SwaggerAdress.adress}/",

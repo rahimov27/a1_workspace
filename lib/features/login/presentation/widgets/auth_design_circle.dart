@@ -13,6 +13,7 @@ class AuthDesignCircle extends StatelessWidget {
       left: left,
       child: CircleAvatar(
         radius: 212.5,
+        // ignore: deprecated_member_use
         backgroundColor: AppColors.mainRed.withOpacity(0.05),
       ),
     );

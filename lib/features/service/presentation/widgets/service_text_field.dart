@@ -27,6 +27,7 @@ class ServiceTextField extends StatelessWidget {
         controller: controller,
         style: TextStyle(
             color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
+        // ignore: deprecated_member_use
         cursorColor: AppColors.mainRed.withOpacity(0.8),
         decoration: InputDecoration(
           filled: true,

@@ -1,6 +1,7 @@
 import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class CalendarRemoteDatasource {
   Future<List<CalendarModel>> getCalendarRecords();
@@ -15,7 +16,9 @@ class CalendarRemoteDatasourceImpl extends CalendarRemoteDatasource {
     try {
       final response = await dio.get(SwaggerAdress.adress,
           options: Options(headers: {"Authorization": SwaggerAdress.apiKey}));
-      print(response.data);
+      if (kDebugMode) {
+        print(response.data);
+      }
       if (response.statusCode == 200) {
         final List records = response.data;
         return records.map((record) => CalendarModel.fromJson(record)).toList();

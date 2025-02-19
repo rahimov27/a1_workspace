@@ -21,6 +21,7 @@ class DocumentationPage extends StatelessWidget {
               ? SvgPicture.asset("assets/svg/arrow-left.svg")
               : SvgPicture.asset(
                   "assets/svg/arrow-left.svg",
+                  // ignore: deprecated_member_use
                   color: AppColors.mainGrey,
                 ),
         ),
@@ -86,6 +87,7 @@ class DocumentationSection extends StatefulWidget {
       {super.key, required this.title, required this.content});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DocumentationSectionState createState() => _DocumentationSectionState();
 }
 
@@ -165,6 +167,7 @@ class _DocumentationSectionState extends State<DocumentationSection>
                           ? SvgPicture.asset("assets/svg/arrow-down.svg")
                           : SvgPicture.asset(
                               "assets/svg/arrow-down.svg",
+                              // ignore: deprecated_member_use
                               color: AppColors.mainGrey,
                             ),
                     ),

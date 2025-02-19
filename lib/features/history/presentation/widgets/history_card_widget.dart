@@ -19,7 +19,7 @@ class HistoryCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color _getStatusColor(String status) {
+    Color getStatusColor(String status) {
       switch (status.toLowerCase()) {
         case "в работе":
           return AppColors.green;
@@ -115,7 +115,7 @@ class HistoryCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontFamily: "sf-medium",
-                    color: _getStatusColor(getTranslatedStatus(status)),
+                    color: getStatusColor(getTranslatedStatus(status)),
                   ),
                 ),
               ],

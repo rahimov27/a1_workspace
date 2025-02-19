@@ -24,6 +24,7 @@ class AuthDesignSquare extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               width: 1.5,
+              // ignore: deprecated_member_use
               color: AppColors.mainRed.withOpacity(0.1),
             ),
           ),

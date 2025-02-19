@@ -5,6 +5,7 @@ import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +13,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class PdfPage extends StatefulWidget {
+  const PdfPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _PdfPageState createState() => _PdfPageState();
 }
 
@@ -49,10 +53,14 @@ class _PdfPageState extends State<PdfPage> {
 
         setState(() => _pdfPath = filePath);
       } else {
-        print('Ошибка загрузки: ${response.statusCode}');
+        if (kDebugMode) {
+          print('Ошибка загрузки: ${response.statusCode}');
+        }
       }
     } catch (e) {
-      print('Ошибка: $e');
+      if (kDebugMode) {
+        print('Ошибка: $e');
+      }
     } finally {
       setState(() => _isLoading = false);
     }
@@ -72,6 +80,7 @@ class _PdfPageState extends State<PdfPage> {
               ? SvgPicture.asset("assets/svg/arrow-left.svg")
               : SvgPicture.asset(
                   "assets/svg/arrow-left.svg",
+                  // ignore: deprecated_member_use
                   color: AppColors.mainGrey,
                 ),
         ),
@@ -124,6 +133,7 @@ class _PdfPageState extends State<PdfPage> {
                       ? SvgPicture.asset("assets/svg/calendar.svg")
                       : SvgPicture.asset(
                           "assets/svg/calendar.svg",
+                          // ignore: deprecated_member_use
                           color: AppColors.mainGrey,
                         ),
                   title: Text(
@@ -138,6 +148,7 @@ class _PdfPageState extends State<PdfPage> {
                       ? SvgPicture.asset("assets/svg/arrow-down.svg")
                       : SvgPicture.asset(
                           "assets/svg/arrow-down.svg",
+                          // ignore: deprecated_member_use
                           color: AppColors.mainGrey,
                         ),
                   onTap: () {

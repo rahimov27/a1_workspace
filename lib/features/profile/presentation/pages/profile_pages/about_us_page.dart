@@ -22,6 +22,7 @@ class AboutUsPage extends StatelessWidget {
                 ? SvgPicture.asset("assets/svg/arrow-left.svg")
                 : SvgPicture.asset(
                     "assets/svg/arrow-left.svg",
+                    // ignore: deprecated_member_use
                     color: AppColors.mainGrey,
                   )),
         surfaceTintColor: Colors.transparent,

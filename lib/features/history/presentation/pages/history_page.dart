@@ -2,7 +2,7 @@ import 'package:a1_workspace/features/history/presentation/widgets/history_card_
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
-import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
@@ -28,6 +28,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
+    // ignore: use_build_context_synchronously
     context.read<HomeBloc>().add(GetRecordsEvent());
   }
 

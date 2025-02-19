@@ -59,6 +59,7 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
               radius: 282,
               backgroundColor: isDarkMode
                   ? Color(0xff2E2F34)
+                  // ignore: deprecated_member_use
                   : AppColors.mainRed.withOpacity(0.50),
             ),
           ),
@@ -69,6 +70,7 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
               radius: 232,
               backgroundColor: isDarkMode
                   ? Color(0xff38393E)
+                  // ignore: deprecated_member_use
                   : AppColors.mainRed.withOpacity(0.60),
             ),
           ),

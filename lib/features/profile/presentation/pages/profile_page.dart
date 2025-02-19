@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         const Spacer(),
                         CupertinoSwitch(
-                            activeColor: AppColors.mainRed,
+                            activeTrackColor: AppColors.mainRed,
                             value: isDarkMode,
                             onChanged: (bool value) {
                               themeProvider.toggleTheme(); // Переключаем тему
@@ -152,6 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.remove('uid');
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context, rootNavigator: true)
                         .pushAndRemoveUntil(
                       PageRouteBuilder(

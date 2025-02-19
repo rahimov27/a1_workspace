@@ -126,6 +126,7 @@ class _ServicePageState extends State<ServicePage> {
                     ? SvgPicture.asset("assets/svg/arrow-left.svg")
                     : SvgPicture.asset(
                         "assets/svg/arrow-left.svg",
+                        // ignore: deprecated_member_use
                         color: AppColors.mainGrey,
                       ),
               )
@@ -219,6 +220,7 @@ class _ServicePageState extends State<ServicePage> {
                               ? SvgPicture.asset("assets/svg/calendar.svg")
                               : SvgPicture.asset(
                                   "assets/svg/calendar.svg",
+                                  // ignore: deprecated_member_use
                                   color: AppColors.mainGrey,
                                 ),
                         ],
@@ -264,6 +266,7 @@ class _ServicePageState extends State<ServicePage> {
                             ? SvgPicture.asset("assets/svg/down-icon.svg")
                             : SvgPicture.asset(
                                 "assets/svg/down-icon.svg",
+                                // ignore: deprecated_member_use
                                 color: AppColors.mainGrey,
                               ),
                         isExpanded: true,
@@ -325,7 +328,7 @@ void showCustomOverlay(BuildContext context) {
 class _AnimatedOverlay extends StatefulWidget {
   final VoidCallback onDismiss;
 
-  const _AnimatedOverlay({Key? key, required this.onDismiss}) : super(key: key);
+  const _AnimatedOverlay({required this.onDismiss});
 
   @override
   _AnimatedOverlayState createState() => _AnimatedOverlayState();
@@ -386,10 +389,12 @@ class _AnimatedOverlayState extends State<_AnimatedOverlay>
           children: [
             CircleAvatar(
               radius: 70,
+              // ignore: deprecated_member_use
               backgroundColor: const Color(0xff59E66F).withOpacity(0.25),
             ),
             CircleAvatar(
               radius: 50,
+              // ignore: deprecated_member_use
               backgroundColor: const Color(0xff59E66F).withOpacity(0.40),
             ),
             const CircleAvatar(radius: 30, backgroundColor: Color(0xff59E66F)),
