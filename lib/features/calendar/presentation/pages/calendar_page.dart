@@ -169,18 +169,18 @@ class _CalendarPageState extends State<CalendarPage> {
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.start,
                             ),
-                            const Text(
-                              "-",
-                              style: TextStyle(color: AppColors.mainWhite),
-                            ),
-                            Text(
-                              DateFormat.Hm().format(meeting.to),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.start,
-                            ),
+                            // const Text(
+                            //   "-",
+                            //   style: TextStyle(color: AppColors.mainWhite),
+                            // ),
+                            // Text(
+                            //   DateFormat.Hm().format(meeting.to),
+                            //   style: const TextStyle(
+                            //       color: Colors.white,
+                            //       fontSize: 14,
+                            //       fontWeight: FontWeight.bold),
+                            //   textAlign: TextAlign.start,
+                            // ),
                           ],
                         ),
                       ],

@@ -73,6 +73,18 @@ class _HomePageState extends State<HomePage> {
               if (state is GetRecordsLoading) {
                 return const AppLoaderWidget();
               } else if (state is GetRecordsSuccess) {
+                // Check if the records list is not empty
+                if (state.records.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "Нет доступных записей.",
+                      style: TextStyle(fontSize: 18, color: AppColors.mainGrey),
+                    ),
+                  );
+                }
+
+                var records =
+                    state.records.reversed.toList(); // Reversed once here.
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -85,28 +97,21 @@ class _HomePageState extends State<HomePage> {
                           hasButton: true,
                         ),
                         const SizedBox(height: 14),
+                        // Dynamically generate HomeRecordCards based on records.
                         Column(
-                          children: [
-                            HomeRecordCard(
-                              name:
-                                  state.records.reversed.toList()[0].firstName,
-                              number: state.records.reversed.toList()[0].phone,
-                              service:
-                                  state.records.reversed.toList()[0].service,
-                              date: state.records.reversed.toList()[0].date,
+                          children: List.generate(
+                            records.length > 2
+                                ? 2
+                                : records
+                                    .length, // Генерируем максимум 2 элемента
+                            (index) => HomeRecordCard(
+                              name: records[index].firstName,
+                              number: records[index].phone,
+                              service: records[index].service,
+                              date: records[index].date,
                             ),
-                            const SizedBox(height: 8),
-                            HomeRecordCard(
-                              name:
-                                  state.records.reversed.toList()[1].firstName,
-                              number: state.records.reversed.toList()[1].phone,
-                              service:
-                                  state.records.reversed.toList()[1].service,
-                              date: state.records.reversed.toList()[1].date,
-                            ),
-                          ],
+                          ),
                         ),
-                        const SizedBox(height: 8),
                         const SizedBox(height: 30),
                         const HomeSubtitleWidget(
                           title: "Услуги",

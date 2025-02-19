@@ -67,13 +67,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PdfPage(
-                                  month: 1,
-                                  year: 2025,
-                                )));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PdfPage()));
                   },
                   child: const ProfileUnitCardWidget(
                     text: "Настройки",

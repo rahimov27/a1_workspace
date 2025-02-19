@@ -36,7 +36,12 @@ class _SeeAllPageState extends State<SeeAllPage> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: SvgPicture.asset("assets/svg/arrow-left.svg"),
+          child: isDarkMode
+              ? SvgPicture.asset("assets/svg/arrow-left.svg")
+              : SvgPicture.asset(
+                  "assets/svg/arrow-left.svg",
+                  color: AppColors.mainGrey,
+                ),
         ),
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
@@ -71,22 +76,17 @@ class _SeeAllPageState extends State<SeeAllPage> {
                       child: ListView.builder(
                         itemCount: state.records.length,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: HomeRecordCard(
-                                name: state.records.reversed
-                                    .toList()[index]
-                                    .firstName,
-                                number: state.records.reversed
-                                    .toList()[index]
-                                    .phone,
-                                service: state.records.reversed
-                                    .toList()[index]
-                                    .service,
-                                date: state.records.reversed
-                                    .toList()[index]
-                                    .date),
-                          );
+                          return HomeRecordCard(
+                              name: state.records.reversed
+                                  .toList()[index]
+                                  .firstName,
+                              number:
+                                  state.records.reversed.toList()[index].phone,
+                              service: state.records.reversed
+                                  .toList()[index]
+                                  .service,
+                              date:
+                                  state.records.reversed.toList()[index].date);
                         },
                       ),
                     );
