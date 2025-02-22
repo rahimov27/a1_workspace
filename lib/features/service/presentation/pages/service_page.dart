@@ -77,33 +77,31 @@ class _ServicePageState extends State<ServicePage> {
     }
   }
 
-  void _showDatePicker() {
-    showModalBottomSheet(
+  void _showCupertinoDatePicker() {
+    showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext builder) {
-        return Container(
-          height: 250,
-          color: Colors.white,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 200,
-                child: CupertinoDatePicker(
-                  mode:
-                      CupertinoDatePickerMode.dateAndTime, // Режим дата и время
-                  initialDateTime: _selectedDate ?? DateTime.now(),
-                  use24hFormat: true, // 24-часовой формат времени
-                  onDateTimeChanged: (DateTime newDate) {
-                    setState(() {
-                      _selectedDate = newDate;
-                    });
-                  },
-                ),
+      builder: (_) => Container(
+        height: 250,
+        padding: const EdgeInsets.only(top: 6.0),
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.date,
+                initialDateTime: _selectedDate ?? DateTime.now(),
+                use24hFormat: true,
+                onDateTimeChanged: (DateTime newDate) {
+                  setState(() {
+                    _selectedDate = newDate;
+                  });
+                },
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -113,20 +111,6 @@ class _ServicePageState extends State<ServicePage> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 44,
-        leading: Navigator.canPop(context)
-            ? GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: isDarkMode
-                    ? SvgPicture.asset("assets/svg/arrow-left.svg")
-                    : SvgPicture.asset(
-                        "assets/svg/arrow-left.svg",
-                        // ignore: deprecated_member_use
-                        color: AppColors.mainGrey,
-                      ),
-              )
-            : null,
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
         title: Text(
@@ -151,6 +135,15 @@ class _ServicePageState extends State<ServicePage> {
                 showCustomOverlay(context);
                 context.read<HomeBloc>().add(GetRecordsEvent());
                 context.read<CalendarBloc>().add(GetRecordsCalendarEvent());
+                _firstNameController.clear();
+                _lastNameController.clear();
+                _phoneController.clear();
+                _serviceController.clear();
+                _priceController.clear();
+                setState(() {
+                  _selectedDate = null;
+                  _selectedStatus = "В ожидании";
+                });
               }
             },
             child: SingleChildScrollView(
@@ -188,7 +181,7 @@ class _ServicePageState extends State<ServicePage> {
 
                   // Выбор даты
                   GestureDetector(
-                    onTap: _showDatePicker,
+                    onTap: _showCupertinoDatePicker,
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(horizontal: 14, vertical: 14),

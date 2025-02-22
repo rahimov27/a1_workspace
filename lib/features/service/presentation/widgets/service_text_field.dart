@@ -22,7 +22,7 @@ class ServiceTextField extends StatelessWidget {
       child: TextField(
         keyboardType: textInputType,
         inputFormatters: [
-          LengthLimitingTextInputFormatter(25),
+          LengthLimitingTextInputFormatter(20),
         ],
         controller: controller,
         style: TextStyle(
