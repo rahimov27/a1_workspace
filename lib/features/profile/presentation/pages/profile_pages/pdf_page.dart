@@ -97,7 +97,7 @@ class _PdfPageState extends State<PdfPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -107,7 +107,15 @@ class _PdfPageState extends State<PdfPage> {
                 child: _isLoading
                     ? Center(child: AppLoaderWidget())
                     : _pdfPath != null
-                        ? PDFView(filePath: _pdfPath)
+                        ? PDFView(
+                            filePath: _pdfPath,
+                            enableSwipe: true,
+                            swipeHorizontal: false,
+                            autoSpacing: false,
+                            pageFling: false,
+                            pageSnap: false,
+                            fitPolicy: FitPolicy.BOTH,
+                          )
                         : Center(
                             child: Text(
                               "Выберите дату и нажмите 'Посмотреть отчет'",
