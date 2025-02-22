@@ -100,10 +100,6 @@ class _ServicePageState extends State<ServicePage> {
                   },
                 ),
               ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Готово"),
-              ),
             ],
           ),
         );

@@ -1,7 +1,6 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -40,12 +39,6 @@ class HomeTitleWidget extends StatelessWidget {
           ],
         ),
         const Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: SvgPicture.asset(
-            "assets/svg/Notification.svg",
-          ),
-        ),
       ],
     );
   }
