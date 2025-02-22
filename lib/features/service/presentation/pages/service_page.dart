@@ -110,6 +110,7 @@ class _ServicePageState extends State<ServicePage> {
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         leadingWidth: 44,
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
