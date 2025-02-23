@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         MaterialPageRoute(builder: (context) => PdfPage()));
                   },
                   child: const ProfileUnitCardWidget(
-                    text: "Настройки",
+                    text: "Отчет",
                   ),
                 ),
                 const SizedBox(height: 5),

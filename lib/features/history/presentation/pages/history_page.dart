@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -65,15 +66,101 @@ class _HistoryPageState extends State<HistoryPage> {
                   child: ListView.builder(
                     itemCount: state.records.length,
                     itemBuilder: (context, index) {
-                      // Используем reversed для инвертирования порядка записей
                       final record = state.records.reversed.toList()[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: HistoryCardWidget(
-                          service: record.service,
-                          name: "${record.firstName} ${record.lastName}",
-                          price: record.price,
-                          status: record.status,
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(22)),
+                                elevation: 2,
+                                contentPadding: const EdgeInsets.only(
+                                    top: 16, bottom: 16, left: 16, right: 16),
+                                backgroundColor: isDarkMode
+                                    ? AppColors.mainGrey
+                                    : AppColors.mainWhite,
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.95,
+                                      decoration: BoxDecoration(
+                                        color: isDarkMode
+                                            ? AppColors.mainGrey
+                                            : AppColors.mainWhite,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          AppRowModalWidget(
+                                            firstText: "ИМЯ",
+                                            secondText: record.firstName,
+                                            isDarkMode: isDarkMode,
+                                          ),
+                                          AppRowModalWidget(
+                                            firstText: "ФАМИЛИЯ",
+                                            secondText: record.lastName,
+                                            isDarkMode: isDarkMode,
+                                          ),
+                                          AppRowModalWidget(
+                                            firstText: "УСЛУГА",
+                                            secondText: record.service,
+                                            isDarkMode: isDarkMode,
+                                          ),
+                                          AppRowModalWidget(
+                                            firstText: "ЦЕНА",
+                                            secondText: record.price,
+                                            isDarkMode: isDarkMode,
+                                          ),
+                                          AppRowModalWidget(
+                                            firstText: "ДАТА",
+                                            secondText: _formatDate(record
+                                                .date), // Форматируем дату
+                                            isDarkMode: isDarkMode,
+                                          ),
+                                          AppRowModalWidget(
+                                            firstText: "СТАТУС",
+                                            secondText: {
+                                                  "in_progress": "В работе",
+                                                  "pending": "Ожидание",
+                                                  "completed": "Завершено",
+                                                  "cancelled": "Отменено",
+                                                  "unpaid": "Нет оплаты",
+                                                }[record.status] ??
+                                                record.status,
+                                            isDarkMode: isDarkMode,
+                                            statusColor: {
+                                                  "in_progress":
+                                                      AppColors.green,
+                                                  "pending": Color.fromARGB(
+                                                      255, 199, 230, 1),
+                                                  "completed":
+                                                      AppColors.mainRed,
+                                                  "cancelled":
+                                                      AppColors.greyAuth,
+                                                  "unpaid": Colors.grey,
+                                                }[record.status] ??
+                                                Colors
+                                                    .white, // По умолчанию белый
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          child: HistoryCardWidget(
+                            service: record.service,
+                            name: "${record.firstName} ${record.lastName}",
+                            price: record.price,
+                            status: record.status,
+                          ),
                         ),
                       );
                     },
@@ -87,6 +174,65 @@ class _HistoryPageState extends State<HistoryPage> {
             );
           }
         },
+      ),
+    );
+  }
+
+  /// Функция форматирования даты
+  String _formatDate(String dateString) {
+    try {
+      DateTime date = DateTime.parse(dateString);
+      return DateFormat('dd.MM.yyyy').format(date); // Например, 23.02.2025
+    } catch (e) {
+      return dateString; // Если ошибка, возвращаем оригинальный формат
+    }
+  }
+}
+
+class AppRowModalWidget extends StatelessWidget {
+  final String firstText;
+  final String secondText;
+  final bool isDarkMode;
+  final Color? statusColor;
+
+  const AppRowModalWidget({
+    super.key,
+    required this.firstText,
+    required this.secondText,
+    required this.isDarkMode,
+    this.statusColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Text(
+            firstText,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 12,
+              fontFamily: "sf-medium",
+              color: Color(0xff919191),
+            ),
+          ),
+          Spacer(),
+          Text(
+            secondText,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: 16,
+              fontFamily: "sf-medium",
+              color: statusColor ??
+                  (isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
+              fontWeight: FontWeight.bold, // Делаем статус жирным для выделения
+            ),
+          ),
+        ],
       ),
     );
   }
