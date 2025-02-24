@@ -9,6 +9,7 @@ import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -155,11 +156,42 @@ class _HistoryPageState extends State<HistoryPage> {
                               ),
                             );
                           },
-                          child: HistoryCardWidget(
-                            service: record.service,
-                            name: "${record.firstName} ${record.lastName}",
-                            price: record.price,
-                            status: record.status,
+                          child: Slidable(
+                            startActionPane: ActionPane(
+                              motion: StretchMotion(),
+                              children: [
+                                SlidableAction(
+                                  backgroundColor: AppColors.mainYellow,
+                                  foregroundColor: AppColors.mainGrey,
+                                  borderRadius: BorderRadius.circular(14),
+                                  icon: Icons.edit,
+                                  onPressed: (context) => {},
+                                )
+                              ],
+                            ),
+                            endActionPane:
+                                ActionPane(motion: BehindMotion(), children: [
+                              SlidableAction(
+                                backgroundColor: AppColors.mainRed,
+                                foregroundColor: AppColors.mainWhite,
+                                icon: Icons.delete,
+                                borderRadius: BorderRadius.circular(14),
+                                onPressed: (context) => {
+                                  context
+                                      .read<HomeBloc>()
+                                      .add(DeleteRecordEvent(id: record.id)),
+                                  context
+                                      .read<HomeBloc>()
+                                      .add(GetRecordsEvent())
+                                },
+                              )
+                            ]),
+                            child: HistoryCardWidget(
+                              service: record.service,
+                              name: "${record.firstName} ${record.lastName}",
+                              price: record.price,
+                              status: record.status,
+                            ),
                           ),
                         ),
                       );
