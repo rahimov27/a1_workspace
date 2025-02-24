@@ -16,4 +16,14 @@ class HomeRepositoryImpl implements HomeRepository {
       throw Exception("Error in repository impl getRecords: $e");
     }
   }
+
+  @override
+  Future<void> deleteRecord(String id) async {
+    try {
+      await remoteDatasource
+          .deleteRecord(id); // Just await without returning anything
+    } catch (e) {
+      throw Exception("Error in delete method in repo impl $e");
+    }
+  }
 }

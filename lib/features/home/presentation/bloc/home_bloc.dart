@@ -23,5 +23,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(GetRecordsError(error: e.toString()));
       }
     });
+
+    on<DeleteRecordEvent>((event, emit) async {
+  emit(DeleteRecordLoading());
+  try {
+    await repository.deleteRecord(event.id);
+    emit(DeleteRecordSuccess(message: "Запись удалена"));
+  } catch (e) {
+    emit(DeleteRecordError(error: e.toString())); // Log more error details here
+    if (kDebugMode) {
+      print("Error deleting record: $e");
+    }
+  }
+});
   }
 }
