@@ -220,16 +220,20 @@ class AppRowModalWidget extends StatelessWidget {
             ),
           ),
           Spacer(),
-          Text(
-            secondText,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: "sf-medium",
-              color: statusColor ??
-                  (isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
-              fontWeight: FontWeight.bold, // Делаем статус жирным для выделения
+          Expanded(
+            child: Text(
+              secondText,
+              maxLines: 1,
+              textAlign: TextAlign.end,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: "sf-medium",
+                color: statusColor ??
+                    (isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
+                fontWeight:
+                    FontWeight.bold, // Делаем статус жирным для выделения
+              ),
             ),
           ),
         ],

@@ -15,3 +15,21 @@ class GetRecordsError extends HomeState {
   final String error;
   GetRecordsError({required this.error});
 }
+
+class DeleteRecordLoading extends HomeState {}
+
+class DeleteRecordSuccess extends HomeState {
+  final String message;
+
+  DeleteRecordSuccess({required this.message});
+
+  List<Object?> get props => [message];
+}
+
+class DeleteRecordError extends HomeState {
+  final String error;
+
+  DeleteRecordError({required this.error});
+
+  List<Object?> get props => [error];
+}
