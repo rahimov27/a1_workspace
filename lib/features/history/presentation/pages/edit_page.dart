@@ -1,7 +1,13 @@
 import 'package:a1_workspace/features/history/presentation/widgets/edit_page_text_field.dart';
+import 'package:a1_workspace/features/home/data/models/home_records_model.dart';
+import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
+import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
+import 'package:a1_workspace/shared/utils/dio_settings.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,14 +15,18 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EditPage extends StatefulWidget {
+  final String id;
   final String firstName;
   final String lastName;
   final String service;
   final String price;
   final String status;
   final String date;
+  final String phone;
   const EditPage(
       {super.key,
+      required this.phone,
+      required this.id,
       required this.firstName,
       required this.lastName,
       required this.service,
@@ -36,6 +46,8 @@ class _EditPageState extends State<EditPage> {
   late TextEditingController priceController;
   late TextEditingController statusController;
   late TextEditingController dateController;
+  late TextEditingController phoneController;
+  late TextEditingController idController;
 
   @override
   void initState() {
@@ -46,11 +58,13 @@ class _EditPageState extends State<EditPage> {
     priceController = TextEditingController(text: widget.price);
     statusController = TextEditingController(text: widget.status);
     dateController = TextEditingController(text: widget.date);
+    phoneController = TextEditingController(text: widget.phone);
+    idController = TextEditingController(text: widget.id);
   }
 
   DateTime _selectedDate = DateTime.now();
   String formatedDate(DateTime date) {
-    return DateFormat("dd-MM-HH:mm").format(date);
+    return DateFormat("yyyy-MM-dd HH:mm:ss").format(date);
   }
 
   String _selectedStatus = "Завершено";
@@ -178,13 +192,48 @@ class _EditPageState extends State<EditPage> {
             SizedBox(height: 14),
             AppButtonWidget(
               text: "Изменить",
-              onPressed: () {},
+              onPressed: () {
+                editRecord(
+                    widget.id,
+                    firstNameController.text,
+                    lastNameController.text,
+                    serviceController.text,
+                    priceController.text);
+                context.read<HomeBloc>().add(GetRecordsEvent());
+                Navigator.pop(context);
+              },
             ),
             SizedBox(height: 20),
           ],
         ),
       )),
     );
+  }
+
+  Future<HomeRecordsModel> editRecord(String id, final String firstName,
+      final String lastName, String service, String price) async {
+    try {
+      final response = await dio.put(
+        "${SwaggerAdress.adress}/$id/",
+        options: Options(
+          headers: {"Authorization": SwaggerAdress.apiKey},
+        ),
+        data: {
+          "first_name": firstName,
+          "last_name": lastName,
+          "service": service,
+          "price": double.tryParse(price)
+        },
+      );
+      if (response.statusCode == 200) {
+        print("Record editted successfully");
+      } else {
+        print("Error editing record ${response.statusCode}");
+      }
+    } catch (e) {
+      print(e);
+    }
+    throw Exception("Error");
   }
 
   void _showCupertinoDatePicker() {
@@ -205,6 +254,7 @@ class _EditPageState extends State<EditPage> {
                 onDateTimeChanged: (DateTime newDate) {
                   setState(() {
                     _selectedDate = newDate;
+                    print(_selectedDate.toIso8601String());
                   });
                 },
               ),

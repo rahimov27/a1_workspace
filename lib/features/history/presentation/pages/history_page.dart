@@ -177,6 +177,8 @@ class _HistoryPageState extends State<HistoryPage> {
                                           price: record.price,
                                           status: record.status,
                                           date: record.date,
+                                          phone: record.phone,
+                                          id: record.id,
                                         ),
                                       ),
                                     )
