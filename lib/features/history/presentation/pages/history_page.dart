@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/history/presentation/pages/edit_page.dart';
 import 'package:a1_workspace/features/history/presentation/widgets/history_card_widget.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
@@ -165,7 +166,21 @@ class _HistoryPageState extends State<HistoryPage> {
                                   foregroundColor: AppColors.mainGrey,
                                   borderRadius: BorderRadius.circular(14),
                                   icon: Icons.edit,
-                                  onPressed: (context) => {},
+                                  onPressed: (context) => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => EditPage(
+                                          firstName: record.firstName,
+                                          lastName: record.lastName,
+                                          service: record.service,
+                                          price: record.price,
+                                          status: record.status,
+                                          date: record.date,
+                                        ),
+                                      ),
+                                    )
+                                  },
                                 )
                               ],
                             ),
