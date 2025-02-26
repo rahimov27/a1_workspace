@@ -89,7 +89,7 @@ class _ServicePageState extends State<ServicePage> {
             SizedBox(
               height: 200,
               child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.date,
+                mode: CupertinoDatePickerMode.dateAndTime,
                 initialDateTime: _selectedDate ?? DateTime.now(),
                 use24hFormat: true,
                 onDateTimeChanged: (DateTime newDate) {

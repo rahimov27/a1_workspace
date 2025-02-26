@@ -144,7 +144,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                                       AppColors.mainRed,
                                                   "cancelled":
                                                       AppColors.greyAuth,
-                                                  "unpaid": Colors.grey,
+                                                  "unpaid": AppColors.mainRed,
                                                 }[record.status] ??
                                                 Colors
                                                     .white, // По умолчанию белый
