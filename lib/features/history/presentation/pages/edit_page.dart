@@ -62,12 +62,23 @@ class _EditPageState extends State<EditPage> {
     idController = TextEditingController(text: widget.id);
   }
 
+  // _selectedDate
   DateTime _selectedDate = DateTime.now();
+
+  // formateDate
   String formatedDate(DateTime date) {
-    return DateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    return DateFormat("MM-dd-HH:mm").format(date);
   }
 
-  String _selectedStatus = "Завершено";
+  Map<String, String> statusTranslation = {
+    "Ожидание": "pending",
+    "В работе": "in_progress",
+    "Завершено": "completed",
+    "Отменено": "cancelled",
+    "Нет оплаты": "unpaid",
+  };
+
+  String _selectedStatus = "Ожидание"; // Это значение будет выбранным статусом
 
   @override
   Widget build(BuildContext context) {
@@ -111,8 +122,6 @@ class _EditPageState extends State<EditPage> {
                 controller: serviceController, isDarkMode: isDarkMode),
             EditPageTextField(
                 controller: priceController, isDarkMode: isDarkMode),
-            EditPageTextField(
-                controller: statusController, isDarkMode: isDarkMode),
             GestureDetector(
               onTap: _showCupertinoDatePicker,
               child: Container(
@@ -181,7 +190,7 @@ class _EditPageState extends State<EditPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
-                      _selectedStatus.toString(),
+                      _selectedStatus,
                       style: TextStyle(
                           fontFamily: "sf-medium", color: AppColors.mainWhite),
                     ),
@@ -213,6 +222,9 @@ class _EditPageState extends State<EditPage> {
   Future<HomeRecordsModel> editRecord(String id, final String firstName,
       final String lastName, String service, String price) async {
     try {
+      // Преобразуем статус в английский перед отправкой
+      String statusInEnglish = statusTranslation[_selectedStatus] ?? "pending";
+
       final response = await dio.put(
         "${SwaggerAdress.adress}/$id/",
         options: Options(
@@ -222,7 +234,9 @@ class _EditPageState extends State<EditPage> {
           "first_name": firstName,
           "last_name": lastName,
           "service": service,
-          "price": double.tryParse(price)
+          "price": double.tryParse(price),
+          "date": _selectedDate.toIso8601String(),
+          "status": statusInEnglish // Используем английский статус
         },
       );
       if (response.statusCode == 200) {
