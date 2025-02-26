@@ -231,7 +231,7 @@ class _HistoryPageState extends State<HistoryPage> {
   String _formatDate(String dateString) {
     try {
       DateTime date = DateTime.parse(dateString);
-      return DateFormat('dd.MM.yyyy').format(date); // Например, 23.02.2025
+      return DateFormat('dd.MM-HH:mm').format(date); // Например, 23.02.2025
     } catch (e) {
       return dateString; // Если ошибка, возвращаем оригинальный формат
     }
