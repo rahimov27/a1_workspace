@@ -15,15 +15,20 @@ class EditPageTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 12),
       child: SizedBox(
+        height: 50,
         child: TextField(
           controller: controller,
           inputFormatters: [
             LengthLimitingTextInputFormatter(20),
           ],
           style: TextStyle(
-              color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
+              fontFamily: "sf-regualr",
+              fontSize: 14,
+              color: isDarkMode
+                  ? AppColors.mainWhite
+                  : AppColors.bottomNavbarGrey),
           // ignore: deprecated_member_use
           cursorColor: AppColors.mainRed.withOpacity(0.8),
           decoration: InputDecoration(
