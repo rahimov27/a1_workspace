@@ -6,6 +6,7 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_service_car
 import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
 import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -13,6 +14,7 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -54,6 +56,8 @@ class _HomePageState extends State<HomePage> {
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
 
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
@@ -75,8 +79,13 @@ class _HomePageState extends State<HomePage> {
                 if (state.records.isEmpty) {
                   return Center(
                     child: Text(
-                      "Нет доступных записей.",
-                      style: TextStyle(fontSize: 18, color: AppColors.mainGrey),
+                      "Нет доступных записей",
+                      style: TextStyle(
+                          fontFamily: "sf-medium",
+                          fontSize: 18,
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey),
                     ),
                   );
                 }
