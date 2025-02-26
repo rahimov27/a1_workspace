@@ -1,5 +1,4 @@
 import 'package:a1_workspace/features/history/presentation/widgets/edit_page_text_field.dart';
-import 'package:a1_workspace/features/home/data/models/home_records_model.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
@@ -145,6 +144,7 @@ class _EditPageState extends State<EditPage> {
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 44,
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: isDarkMode
@@ -155,8 +155,9 @@ class _EditPageState extends State<EditPage> {
                 ),
         ),
         surfaceTintColor: Colors.transparent,
+        centerTitle: false,
         title: Text(
-          "Изменить запись",
+          "Изменить",
           style: TextStyle(
             fontSize: 24,
             fontFamily: "sf",
@@ -169,6 +170,7 @@ class _EditPageState extends State<EditPage> {
           padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Column(
             children: [
+              const SizedBox(height: 24),
               EditPageTextField(
                   controller: firstNameController, isDarkMode: isDarkMode),
               EditPageTextField(
@@ -181,7 +183,7 @@ class _EditPageState extends State<EditPage> {
                 onTap: _showCupertinoDatePicker,
                 child: Container(
                   width: double.infinity,
-                  height: 60,
+                  height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: AppColors.mainGrey,
@@ -191,8 +193,8 @@ class _EditPageState extends State<EditPage> {
                   child: Text(
                     formatedDate(_selectedDate),
                     style: const TextStyle(
-                        fontSize: 16,
-                        fontFamily: "sf-medium",
+                        fontSize: 14,
+                        fontFamily: "sf-regular",
                         color: AppColors.mainWhite),
                   ),
                 ),
@@ -223,7 +225,7 @@ class _EditPageState extends State<EditPage> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 60,
+                  height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: AppColors.mainGrey,
@@ -233,7 +235,7 @@ class _EditPageState extends State<EditPage> {
                   child: Text(
                     _selectedStatus,
                     style: const TextStyle(
-                        fontFamily: "sf-medium", color: AppColors.mainWhite),
+                        fontFamily: "sf-regular", color: AppColors.mainWhite),
                   ),
                 ),
               ),
