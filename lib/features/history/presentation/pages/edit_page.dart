@@ -23,31 +23,49 @@ class EditPage extends StatefulWidget {
   final String status;
   final String date;
   final String phone;
-  const EditPage(
-      {super.key,
-      required this.phone,
-      required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.service,
-      required this.price,
-      required this.status,
-      required this.date});
+  const EditPage({
+    super.key,
+    required this.phone,
+    required this.id,
+    required this.firstName,
+    required this.lastName,
+    required this.service,
+    required this.price,
+    required this.status,
+    required this.date,
+  });
 
   @override
   State<EditPage> createState() => _EditPageState();
 }
 
 class _EditPageState extends State<EditPage> {
-  // controllers
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController serviceController;
   late TextEditingController priceController;
-  late TextEditingController statusController;
   late TextEditingController dateController;
   late TextEditingController phoneController;
   late TextEditingController idController;
+
+  DateTime _selectedDate = DateTime.now();
+  late String _selectedStatus;
+
+  final List<String> statusList = [
+    "Ожидание",
+    "В работе",
+    "Завершено",
+    "Отменено",
+    "Нет оплаты"
+  ];
+
+  final Map<String, String> reverseStatusTranslation = {
+    "pending": "Ожидание",
+    "in_progress": "В работе",
+    "completed": "Завершено",
+    "cancelled": "Отменено",
+    "unpaid": "Нет оплаты",
+  };
 
   @override
   void initState() {
@@ -56,174 +74,43 @@ class _EditPageState extends State<EditPage> {
     lastNameController = TextEditingController(text: widget.lastName);
     serviceController = TextEditingController(text: widget.service);
     priceController = TextEditingController(text: widget.price);
-    statusController = TextEditingController(text: widget.status);
     dateController = TextEditingController(text: widget.date);
     phoneController = TextEditingController(text: widget.phone);
     idController = TextEditingController(text: widget.id);
+
+    _selectedStatus = reverseStatusTranslation[widget.status] ?? widget.status;
   }
 
-  // _selectedDate
-  DateTime _selectedDate = DateTime.now();
-
-  // formateDate
   String formatedDate(DateTime date) {
     return DateFormat("MM-dd-HH:mm").format(date);
   }
 
-  Map<String, String> statusTranslation = {
-    "Ожидание": "pending",
-    "В работе": "in_progress",
-    "Завершено": "completed",
-    "Отменено": "cancelled",
-    "Нет оплаты": "unpaid",
-  };
-
-  String _selectedStatus = "Ожидание"; // Это значение будет выбранным статусом
-
-  @override
-  Widget build(BuildContext context) {
-    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
-    return Scaffold(
-      appBar: AppBar(
-        leadingWidth: 44,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
+  void _showCupertinoDatePicker() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => Container(
+        height: 250,
+        padding: const EdgeInsets.only(top: 6.0),
+        color: Colors.white,
+        child: CupertinoDatePicker(
+          mode: CupertinoDatePickerMode.dateAndTime,
+          initialDateTime: _selectedDate,
+          use24hFormat: true,
+          onDateTimeChanged: (DateTime newDate) {
+            setState(() {
+              _selectedDate = newDate;
+            });
           },
-          child: isDarkMode
-              ? SvgPicture.asset("assets/svg/arrow-left.svg")
-              : SvgPicture.asset(
-                  "assets/svg/arrow-left.svg",
-                  // ignore: deprecated_member_use
-                  color: AppColors.mainGrey,
-                ),
-        ),
-        surfaceTintColor: Colors.transparent,
-        centerTitle: false,
-        title: Text(
-          "Изменить запись",
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: "sf",
-            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-          ),
         ),
       ),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: Column(
-          children: [
-            EditPageTextField(
-                controller: firstNameController, isDarkMode: isDarkMode),
-            EditPageTextField(
-                controller: lastNameController, isDarkMode: isDarkMode),
-            EditPageTextField(
-                controller: serviceController, isDarkMode: isDarkMode),
-            EditPageTextField(
-                controller: priceController, isDarkMode: isDarkMode),
-            GestureDetector(
-              onTap: _showCupertinoDatePicker,
-              child: Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.mainGrey),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      formatedDate(_selectedDate),
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: "sf-medium",
-                          color: AppColors.mainWhite),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {
-                showCupertinoModalPopup(
-                  context: context,
-                  builder: (_) => SizedBox(
-                    height: 250,
-                    child: CupertinoPicker(
-                      scrollController:
-                          FixedExtentScrollController(initialItem: 2),
-                      backgroundColor: AppColors.mainWhite,
-                      itemExtent: 30,
-                      onSelectedItemChanged: (value) {
-                        setState(() {
-                          _selectedStatus = [
-                            "Ожидание",
-                            "В работе",
-                            "Завершено",
-                            "Отменено",
-                            "Нет оплаты"
-                          ][value];
-                        });
-                      },
-                      children: [
-                        Text("Ожидание"),
-                        Text("В работе"),
-                        Text("Завершено"),
-                        Text("Отменено"),
-                        Text("Нет оплаты"),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.mainGrey),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      _selectedStatus,
-                      style: TextStyle(
-                          fontFamily: "sf-medium", color: AppColors.mainWhite),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 14),
-            AppButtonWidget(
-              text: "Изменить",
-              onPressed: () {
-                editRecord(
-                    widget.id,
-                    firstNameController.text,
-                    lastNameController.text,
-                    serviceController.text,
-                    priceController.text);
-                context.read<HomeBloc>().add(GetRecordsEvent());
-                Navigator.pop(context);
-              },
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      )),
     );
   }
 
-  Future<HomeRecordsModel> editRecord(String id, final String firstName,
-      final String lastName, String service, String price) async {
+  Future<void> editRecord(String id, String firstName, String lastName,
+      String service, String price) async {
     try {
-      // Преобразуем статус в английский перед отправкой
-      String statusInEnglish = statusTranslation[_selectedStatus] ?? "pending";
+      String statusInEnglish =
+          reverseStatusTranslation[_selectedStatus] ?? "pending";
 
       final response = await dio.put(
         "${SwaggerAdress.adress}/$id/",
@@ -236,44 +123,138 @@ class _EditPageState extends State<EditPage> {
           "service": service,
           "price": double.tryParse(price),
           "date": _selectedDate.toIso8601String(),
-          "status": statusInEnglish // Используем английский статус
+          "status": reverseStatusTranslation.entries
+              .firstWhere((entry) => entry.value == _selectedStatus,
+                  orElse: () => const MapEntry("pending", "Ожидание"))
+              .key,
         },
       );
+
       if (response.statusCode == 200) {
-        print("Record editted successfully");
+        print("Record edited successfully");
       } else {
-        print("Error editing record ${response.statusCode}");
+        print("Error editing record: ${response.statusCode}");
       }
     } catch (e) {
       print(e);
     }
-    throw Exception("Error");
   }
 
-  void _showCupertinoDatePicker() {
-    showCupertinoModalPopup(
-      context: context,
-      builder: (_) => Container(
-        height: 250,
-        padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 200,
-              child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.dateAndTime,
-                initialDateTime: _selectedDate,
-                use24hFormat: true,
-                onDateTimeChanged: (DateTime newDate) {
-                  setState(() {
-                    _selectedDate = newDate;
-                    print(_selectedDate.toIso8601String());
-                  });
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+    return Scaffold(
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: isDarkMode
+              ? SvgPicture.asset("assets/svg/arrow-left.svg")
+              : SvgPicture.asset(
+                  "assets/svg/arrow-left.svg",
+                  color: AppColors.mainGrey,
+                ),
+        ),
+        surfaceTintColor: Colors.transparent,
+        title: Text(
+          "Изменить запись",
+          style: TextStyle(
+            fontSize: 24,
+            fontFamily: "sf",
+            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Column(
+            children: [
+              EditPageTextField(
+                  controller: firstNameController, isDarkMode: isDarkMode),
+              EditPageTextField(
+                  controller: lastNameController, isDarkMode: isDarkMode),
+              EditPageTextField(
+                  controller: serviceController, isDarkMode: isDarkMode),
+              EditPageTextField(
+                  controller: priceController, isDarkMode: isDarkMode),
+              GestureDetector(
+                onTap: _showCupertinoDatePicker,
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.mainGrey,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    formatedDate(_selectedDate),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontFamily: "sf-medium",
+                        color: AppColors.mainWhite),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (_) => SizedBox(
+                      height: 250,
+                      child: CupertinoPicker(
+                        backgroundColor: AppColors.mainWhite,
+                        itemExtent: 30,
+                        scrollController: FixedExtentScrollController(
+                          initialItem: statusList.indexOf(_selectedStatus),
+                        ),
+                        onSelectedItemChanged: (index) {
+                          setState(() {
+                            _selectedStatus = statusList[index];
+                          });
+                        },
+                        children:
+                            statusList.map((status) => Text(status)).toList(),
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.mainGrey,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    _selectedStatus,
+                    style: const TextStyle(
+                        fontFamily: "sf-medium", color: AppColors.mainWhite),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
+              AppButtonWidget(
+                text: "Изменить",
+                onPressed: () {
+                  editRecord(
+                    widget.id,
+                    firstNameController.text,
+                    lastNameController.text,
+                    serviceController.text,
+                    priceController.text,
+                  );
+                  context.read<HomeBloc>().add(GetRecordsEvent());
+                  Navigator.pop(context);
                 },
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
