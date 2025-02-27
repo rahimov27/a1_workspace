@@ -1,5 +1,7 @@
 import 'package:a1_workspace/features/history/presentation/pages/edit_page.dart';
+import 'package:a1_workspace/features/history/presentation/widgets/app_row_modal_widget.dart';
 import 'package:a1_workspace/features/history/presentation/widgets/history_card_widget.dart';
+import 'package:a1_workspace/features/history/presentation/widgets/history_title_w_idget.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
@@ -42,14 +44,7 @@ class _HistoryPageState extends State<HistoryPage> {
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: Text(
-          "История",
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: "sf",
-            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-          ),
-        ),
+        title: HistoryTitleWIdget(isDarkMode: isDarkMode),
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -80,7 +75,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                     borderRadius: BorderRadius.circular(22)),
                                 elevation: 2,
                                 contentPadding: const EdgeInsets.only(
-                                    top: 16, bottom: 16, left: 16, right: 16),
+                                    top: 16, bottom: 16, left: 8, right: 8),
                                 backgroundColor: isDarkMode
                                     ? AppColors.mainGrey
                                     : AppColors.mainWhite,
@@ -235,58 +230,5 @@ class _HistoryPageState extends State<HistoryPage> {
     } catch (e) {
       return dateString; // Если ошибка, возвращаем оригинальный формат
     }
-  }
-}
-
-class AppRowModalWidget extends StatelessWidget {
-  final String firstText;
-  final String secondText;
-  final bool isDarkMode;
-  final Color? statusColor;
-
-  const AppRowModalWidget({
-    super.key,
-    required this.firstText,
-    required this.secondText,
-    required this.isDarkMode,
-    this.statusColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Text(
-            firstText,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 12,
-              fontFamily: "sf-medium",
-              color: Color(0xff919191),
-            ),
-          ),
-          Spacer(),
-          Expanded(
-            child: Text(
-              secondText,
-              maxLines: 1,
-              textAlign: TextAlign.end,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: "sf-medium",
-                color: statusColor ??
-                    (isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
-                fontWeight:
-                    FontWeight.bold, // Делаем статус жирным для выделения
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

@@ -1,8 +1,9 @@
-import 'dart:math';
-
+import 'package:a1_workspace/features/calendar/data/models/meeting.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_state.dart';
+import 'package:a1_workspace/features/calendar/presentation/widgets/calendar_title_widget.dart';
+import 'package:a1_workspace/features/calendar/presentation/widgets/meeting_data_source.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -57,14 +57,7 @@ class _CalendarPageState extends State<CalendarPage> {
         ],
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: Text(
-          "Календарь",
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: "sf",
-            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-          ),
-        ),
+        title: CalendarTitleWidget(isDarkMode: isDarkMode),
       ),
       body: SafeArea(
         child: BlocBuilder<CalendarBloc, CalendarState>(
@@ -154,7 +147,8 @@ class _CalendarPageState extends State<CalendarPage> {
                           meeting.eventName,
                           style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 16,
+                              fontFamily: "sf",
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.start,
                         ),
@@ -166,21 +160,10 @@ class _CalendarPageState extends State<CalendarPage> {
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
+                                  fontFamily: "sf-medium",
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.start,
                             ),
-                            // const Text(
-                            //   "-",
-                            //   style: TextStyle(color: AppColors.mainWhite),
-                            // ),
-                            // Text(
-                            //   DateFormat.Hm().format(meeting.to),
-                            //   style: const TextStyle(
-                            //       color: Colors.white,
-                            //       fontSize: 14,
-                            //       fontWeight: FontWeight.bold),
-                            //   textAlign: TextAlign.start,
-                            // ),
                           ],
                         ),
                       ],
@@ -199,74 +182,4 @@ class _CalendarPageState extends State<CalendarPage> {
       ),
     );
   }
-}
-
-class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<CalendarModel> source) {
-    appointments = source
-        .map((e) => Meeting(
-              e.service,
-              _parseDate(e.date), // Парсим дату
-              _parseDate(e.date).add(const Duration(hours: 1)),
-              _getRandomColor(),
-              false,
-            ))
-        .toList();
-  }
-
-  final Random random = Random();
-  Color _getRandomColor() {
-    return Color.fromRGBO(
-      random.nextInt(128),
-      random.nextInt(128),
-      random.nextInt(128),
-      1.44,
-    );
-  }
-
-  static DateTime _parseDate(String? dateStr) {
-    if (dateStr == null || dateStr.isEmpty || dateStr == "Нет даты") {
-      return DateTime.now();
-    }
-    try {
-      return DateTime.parse(dateStr).toLocal();
-    } catch (e) {
-      return DateTime.now(); // Просто возвращаем текущую дату без вывода ошибок
-    }
-  }
-
-  @override
-  DateTime getStartTime(int index) {
-    return appointments![index].from;
-  }
-
-  @override
-  DateTime getEndTime(int index) {
-    return appointments![index].to;
-  }
-
-  @override
-  String getSubject(int index) {
-    return appointments![index].eventName;
-  }
-
-  @override
-  Color getColor(int index) {
-    return appointments![index].background;
-  }
-
-  @override
-  bool isAllDay(int index) {
-    return appointments![index].isAllDay;
-  }
-}
-
-class Meeting {
-  Meeting(this.eventName, this.from, this.to, this.background, this.isAllDay);
-
-  final String eventName;
-  final DateTime from;
-  final DateTime to;
-  final Color background;
-  final bool isAllDay;
 }

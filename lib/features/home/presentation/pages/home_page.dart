@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // List of svg icons for the services cards
     final icons = [
       "assets/svg/toner.svg",
       "assets/svg/himchistka.svg",
@@ -41,6 +42,7 @@ class _HomePageState extends State<HomePage> {
       "assets/svg/himmoika.svg"
     ];
 
+    // List of services
     final titles = [
       "Тонировка",
       "Химчистка",
@@ -50,12 +52,14 @@ class _HomePageState extends State<HomePage> {
       "3-х Мойка"
     ];
 
+    // Refresh function for the update application when the user is scrolling
     Future<void> onRefresh() async {
       await Future.delayed(const Duration(seconds: 1));
       // ignore: use_build_context_synchronously
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
 
+    // Provider for change theme
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
 
     return Scaffold(
@@ -89,9 +93,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 }
-
-                var records =
-                    state.records.reversed.toList(); // Reversed once here.
+                var records = state.records.reversed.toList();
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

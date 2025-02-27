@@ -1,4 +1,5 @@
 import 'package:a1_workspace/features/history/presentation/widgets/edit_page_text_field.dart';
+import 'package:a1_workspace/features/history/presentation/widgets/edit_page_title_widget.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
@@ -108,9 +109,6 @@ class _EditPageState extends State<EditPage> {
   Future<void> editRecord(String id, String firstName, String lastName,
       String service, String price) async {
     try {
-      String statusInEnglish =
-          reverseStatusTranslation[_selectedStatus] ?? "pending";
-
       final response = await dio.put(
         "${SwaggerAdress.adress}/$id/",
         options: Options(
@@ -156,14 +154,7 @@ class _EditPageState extends State<EditPage> {
         ),
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: Text(
-          "Изменить",
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: "sf",
-            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-          ),
-        ),
+        title: EditPageTitleWidget(isDarkMode: isDarkMode),
       ),
       body: SafeArea(
         child: Padding(

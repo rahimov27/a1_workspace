@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_record_card.dart';
+import 'package:a1_workspace/features/home/presentation/widgets/see_all_page_title.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -21,6 +22,7 @@ class SeeAllPage extends StatefulWidget {
 }
 
 class _SeeAllPageState extends State<SeeAllPage> {
+  // Function for the refresh the screen
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
     context.read<HomeBloc>().add(GetRecordsEvent());
@@ -28,6 +30,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Theme provider for change the theme
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
@@ -45,14 +48,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
         ),
         surfaceTintColor: Colors.transparent,
         centerTitle: false,
-        title: Text(
-          "Записи",
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: "sf",
-            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-          ),
-        ),
+        title: SeeAllPageTitle(isDarkMode: isDarkMode),
       ),
       body: BlocListener<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -63,7 +59,8 @@ class _SeeAllPageState extends State<SeeAllPage> {
             context.read<HomeBloc>().add(GetRecordsEvent()); // Refresh records
           } else if (state is DeleteRecordError) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Error deleting record: ${state.error}")),
+              SnackBar(
+                  content: Text("Ошибка при удалении записи ${state.error}")),
             );
           }
         },
@@ -90,7 +87,6 @@ class _SeeAllPageState extends State<SeeAllPage> {
                           itemBuilder: (context, index) {
                             final record =
                                 state.records.reversed.toList()[index];
-
                             return GestureDetector(
                               onLongPress: () {
                                 context.read<HomeBloc>().add(
