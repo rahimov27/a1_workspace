@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/login/presentation/bloc/login_bloc.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_design_circle.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_design_square.dart';
@@ -6,8 +7,9 @@ import 'package:a1_workspace/features/login/presentation/widgets/auth_welcome_te
 import 'package:a1_workspace/features/login/presentation/widgets/register_button_widget.dart';
 import 'package:a1_workspace/features/register/presentation/register_page.dart';
 import 'package:a1_workspace/main.dart';
-import 'package:a1_workspace/shared/utils/dio_settings.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,7 +21,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool isShow = false;
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FlutterSecureStorage storage = const FlutterSecureStorage();
 
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 56),
                 AuthTextFieldWidget(
                   hintText: "Логин",
-                  controller: emailController,
+                  controller: userNameController,
                 ),
                 const SizedBox(height: 10),
                 AuthTextFieldWidget(
@@ -82,13 +84,34 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 40),
                 Column(
                   children: [
-                    AppButtonWidget(
-                      text: "Войти",
-                      onPressed: () async {
-                        await login();
+                    BlocConsumer<LoginBloc, LoginState>(
+                      listener: (context, state) {
+                        if (state is LoginUserSuccess) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MainMenu()));
+                        } else if (state is LoginUserError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.error)));
+                        }
+                      },
+                      builder: (context, state) {
+                        if (state is LoginUserLoading) {
+                          return const AppLoaderWidget();
+                        }
+
+                        return AppButtonWidget(
+                          text: "Войти",
+                          onPressed: () async {
+                            context.read<LoginBloc>().add(LoginUserEvent(
+                                userName: userNameController.text,
+                                password: passwordController.text));
+                          },
+                        );
                       },
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     RegisterButtonWidget(
                       text1: "Нету аккаунта ?",
                       text2: " Регистрация",
@@ -107,47 +130,5 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
-  }
-
-  Future<void> login() async {
-    String username = emailController.text.trim();
-    String password = passwordController.text.trim();
-
-    if (username.isEmpty || password.isEmpty) {
-      showError("Заполните все поля");
-      return;
-    }
-
-    try {
-      print("Отправка запроса на сервер...");
-      final response = await dio.post(
-        "http://0.0.0.0:8000/api/token/",
-        data: {'username': username, 'password': password},
-      );
-
-      print("Ответ от сервера: ${response.data}");
-
-      final accessToken = response.data['access'];
-      if (accessToken == null) {
-        showError("Ошибка: Токен не получен");
-        return;
-      }
-
-      await storage.write(key: 'access_token', value: accessToken);
-      print("Токен сохранен: $accessToken");
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainMenu()),
-      );
-    } catch (e) {
-      showError("Ошибка входа: $e");
-      print("Ошибка: $e");
-    }
-  }
-
-  void showError(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
   }
 }
