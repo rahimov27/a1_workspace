@@ -3,6 +3,7 @@ import 'package:a1_workspace/features/login/presentation/widgets/auth_design_cir
 import 'package:a1_workspace/features/login/presentation/widgets/auth_design_square.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_text_field_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_welcome_text_widget.dart';
+import 'package:a1_workspace/features/login/presentation/widgets/register_button_widget.dart';
 import 'package:a1_workspace/features/register/presentation/register_page.dart';
 import 'package:a1_workspace/main.dart';
 import 'package:a1_workspace/shared/utils/dio_settings.dart';
@@ -54,7 +55,9 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const AuthWelcomeTextWidget(),
+                const AuthWelcomeTextWidget(
+                  text: "Вход",
+                ),
                 const SizedBox(height: 56),
                 AuthTextFieldWidget(
                   hintText: "Логин",
@@ -85,15 +88,15 @@ class _LoginPageState extends State<LoginPage> {
                         await login();
                       },
                     ),
-                    SizedBox(height: 20),
-                    AppButtonWidget(
-                      text: "Регистрация",
-                      onPressed: () {
+                    SizedBox(height: 50),
+                    RegisterButtonWidget(
+                      text1: "Нету аккаунта ?",
+                      text2: " Регистрация",
+                      function: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()),
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage()));
                       },
                     ),
                   ],
