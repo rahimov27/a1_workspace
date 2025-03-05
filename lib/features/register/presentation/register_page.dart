@@ -4,8 +4,10 @@ import 'package:a1_workspace/features/login/presentation/widgets/auth_design_squ
 import 'package:a1_workspace/features/login/presentation/widgets/auth_text_field_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/auth_welcome_text_widget.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/register_button_widget.dart';
-import 'package:a1_workspace/shared/utils/dio_settings.dart';
+import 'package:a1_workspace/features/register/presentation/bloc/register_bloc.dart';
+import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,33 +16,30 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-final TextEditingController emailController = TextEditingController();
-final TextEditingController usernameController = TextEditingController();
-final TextEditingController passwordController = TextEditingController();
-bool isShow = false;
-
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool isShow = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Auth two red circles
+          // Декорации на фоне
           const AuthDesignCircle(top: -188, left: 228),
           const AuthDesignCircle(top: -158, left: 189),
-
           const AuthDesignSquare(bottom: -160, left: -150, rotate: 0.45),
           const AuthDesignSquare(bottom: -130, left: -150, rotate: 0.15),
 
-          // Auth welcome text
+          // Основное содержимое
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 34),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const AuthWelcomeTextWidget(
-                  text: "Регистрация",
-                ),
+                const AuthWelcomeTextWidget(text: "Регистрация"),
                 const SizedBox(height: 56),
                 AuthTextFieldWidget(
                   hintText: "Почта",
@@ -68,46 +67,56 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: passwordController,
                 ),
                 const SizedBox(height: 40),
-                Column(
-                  children: [
-                    AppButtonWidget(
-                      text: "Зарегистрироваться",
-                      onPressed: () async {
-                        await registerUser(usernameController.text,
-                            passwordController.text, emailController.text);
-                      },
-                    ),
-                    SizedBox(height: 40),
-                    RegisterButtonWidget(
-                      text1: "Есть аккаунт ?",
-                      text2: " Войти",
-                      function: () {
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                )
+                BlocListener<RegisterBloc, RegisterState>(
+                  listener: (context, state) {
+                    if (state is RegisterUserSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text("Регистрация прошла успешно")),
+                      );
+                      Navigator.pop(context);
+                    } else if (state is RegisterUserError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(state.error)),
+                      );
+                    }
+                  },
+                  child: BlocBuilder<RegisterBloc, RegisterState>(
+                    builder: (context, state) {
+                      if (state is RegisterUserLoading) {
+                        return const AppLoaderWidget(); // Показываем индикатор загрузки
+                      }
+                      return AppButtonWidget(
+                        text: "Зарегистрироваться",
+                        onPressed: () {
+                          context.read<RegisterBloc>().add(
+                                RegisterUserEvent(
+                                  email: emailController.text,
+                                  userName: usernameController.text,
+                                  password: passwordController.text,
+                                ),
+                              );
+                          print("Email: ${emailController.text}");
+                          print("Username: ${usernameController.text}");
+                          print("Password: ${passwordController.text}");
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 40),
+                RegisterButtonWidget(
+                  text1: "Есть аккаунт ?",
+                  text2: " Войти",
+                  function: () {
+                    Navigator.pop(context);
+                  },
+                ),
               ],
             ),
           ),
         ],
       ),
     );
-  }
-
-  Future<Map<String, dynamic>> registerUser(
-      String userName, String password, String email) async {
-    try {
-      final response =
-          await dio.post("http://0.0.0.0:8000/api/register/", data: {
-        'email': email,
-        'username': userName,
-        'password': password,
-      });
-
-      return response.data;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
   }
 }
