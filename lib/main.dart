@@ -10,11 +10,11 @@ import 'package:a1_workspace/shared/utils/dependency_injection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   // Для firebase
@@ -26,13 +26,16 @@ void main() async {
   await initializeDateFormatting('ru_RU', null);
 
   // Для сохранения данных в памяти телефона
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? uid = prefs.getString('uid');
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // String? uid = prefs.getString('uid');
+
+  final storage = FlutterSecureStorage();
+  String? token = await storage.read(key: "access_token");
 
   // Для того чтоб телефон не переворачивался
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(App(isLoggedIn: uid != null));
+    runApp(App(isLoggedIn: token != null));
   });
 }
 

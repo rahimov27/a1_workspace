@@ -10,7 +10,7 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +23,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String? userName;
+
+  final storage = FlutterSecureStorage();
 
   @override
   void initState() {
@@ -148,10 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   text: "Выйти",
                   borderRadius: 8,
                   onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.remove('uid');
+                    await storage.delete(key: "access_token");
                     // ignore: use_build_context_synchronously
                     Navigator.of(context, rootNavigator: true)
                         .pushAndRemoveUntil(
