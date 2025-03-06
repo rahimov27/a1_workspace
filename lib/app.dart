@@ -1,5 +1,6 @@
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
+import 'package:a1_workspace/features/history/presentation/bloc/edit_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/login/presentation/bloc/bloc/auth_bloc.dart';
@@ -41,6 +42,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(),
+        ),
+        BlocProvider<EditBloc>(
+          create: (context) => EditBloc(),
         ),
       ],
       child: ChangeNotifierProvider(
