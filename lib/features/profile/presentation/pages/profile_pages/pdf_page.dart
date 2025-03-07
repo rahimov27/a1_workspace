@@ -5,7 +5,6 @@ import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -88,6 +87,8 @@ class _PdfPageState extends State<PdfPage> {
         leading: IconButton(
           icon: SvgPicture.asset(
             "assets/svg/arrow-left.svg",
+            height: 44,
+            width: 44,
             color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
           onPressed: () => Navigator.pop(context),
@@ -104,96 +105,101 @@ class _PdfPageState extends State<PdfPage> {
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              // Даем возможность списку прокручиваться
-              child: _isLoading
-                  ? Center(child: AppLoaderWidget())
-                  : _pdfPath != null
-                      ? PDFView(
-                          filePath: _pdfPath,
-                          enableSwipe: true,
-                          swipeHorizontal: false,
-                          autoSpacing: false,
-                          pageFling: false,
-                          pageSnap: false,
-                          fitPolicy: FitPolicy.BOTH,
-                        )
-                      : Center(
-                          child: Text(
-                            "Выберите дату и нажмите 'Посмотреть отчет'",
-                            style: TextStyle(
-                                fontFamily: "sf-medium",
-                                fontSize: 16,
-                                color: isDarkMode
-                                    ? AppColors.mainWhite
-                                    : AppColors.bottomNavbarGrey,
-                                fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-            ),
-            SizedBox(height: 16),
-            Card(
-              color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: ListTile(
-                leading: isDarkMode
-                    ? SvgPicture.asset("assets/svg/calendar.svg")
-                    : SvgPicture.asset(
-                        "assets/svg/calendar.svg",
-                        color: AppColors.mainGrey,
-                      ),
-                title: Text(
-                  "${_selectedDate.month}/${_selectedDate.year}",
-                  style: TextStyle(
-                      fontFamily: "sf-medium",
-                      color: isDarkMode
-                          ? AppColors.mainWhite
-                          : AppColors.mainGrey),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.width * 1.50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  // Даем возможность списку прокручиваться
+                  child: _isLoading
+                      ? Center(child: AppLoaderWidget())
+                      : _pdfPath != null
+                          ? PDFView(
+                              filePath: _pdfPath,
+                              enableSwipe: true,
+                              swipeHorizontal: false,
+                              autoSpacing: false,
+                              pageFling: false,
+                              pageSnap: false,
+                              fitPolicy: FitPolicy.BOTH,
+                            )
+                          : Center(
+                              child: Text(
+                                "Выберите дату и нажмите 'Посмотреть отчет'",
+                                style: TextStyle(
+                                    fontFamily: "sf-medium",
+                                    fontSize: 16,
+                                    color: isDarkMode
+                                        ? AppColors.mainWhite
+                                        : AppColors.bottomNavbarGrey,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                 ),
-                trailing: isDarkMode
-                    ? SvgPicture.asset("assets/svg/arrow-down.svg")
-                    : SvgPicture.asset(
-                        "assets/svg/arrow-down.svg",
-                        color: AppColors.mainGrey,
-                      ),
-                onTap: () {
-                  showCupertinoModalPopup(
-                    context: context,
-                    builder: (context) {
-                      return Container(
-                        color: Colors.white,
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: CupertinoDatePicker(
-                          mode: CupertinoDatePickerMode.monthYear,
-                          onDateTimeChanged: (pickerDate) {
-                            setState(() => _selectedDate = pickerDate);
-                          },
-                          initialDateTime: _selectedDate,
-                          use24hFormat: true,
-                        ),
+                SizedBox(height: 16),
+                Card(
+                  color: isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  child: ListTile(
+                    leading: isDarkMode
+                        ? SvgPicture.asset("assets/svg/calendar.svg")
+                        : SvgPicture.asset(
+                            "assets/svg/calendar.svg",
+                            color: AppColors.mainGrey,
+                          ),
+                    title: Text(
+                      "${_selectedDate.month}/${_selectedDate.year}",
+                      style: TextStyle(
+                          fontFamily: "sf-medium",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey),
+                    ),
+                    trailing: isDarkMode
+                        ? SvgPicture.asset("assets/svg/arrow-down.svg")
+                        : SvgPicture.asset(
+                            "assets/svg/arrow-down.svg",
+                            color: AppColors.mainGrey,
+                          ),
+                    onTap: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            color: Colors.white,
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            child: CupertinoDatePicker(
+                              mode: CupertinoDatePickerMode.monthYear,
+                              onDateTimeChanged: (pickerDate) {
+                                setState(() => _selectedDate = pickerDate);
+                              },
+                              initialDateTime: _selectedDate,
+                              use24hFormat: true,
+                            ),
+                          );
+                        },
                       );
                     },
-                  );
-                },
-              ),
+                  ),
+                ),
+                SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: AppButtonWidget(
+                    fontsize: 16,
+                    text: "Посмотреть отчет",
+                    onPressed: _isLoading ? null : _downloadAndSavePdf,
+                  ),
+                ),
+                SizedBox(height: 16),
+              ],
             ),
-            SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: AppButtonWidget(
-                fontsize: 16,
-                text: "Посмотреть отчет",
-                onPressed: _isLoading ? null : _downloadAndSavePdf,
-              ),
-            ),
-            SizedBox(height: 16),
-          ],
+          ),
         ),
       ),
     );

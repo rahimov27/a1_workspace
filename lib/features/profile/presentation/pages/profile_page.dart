@@ -163,11 +163,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               Offset(-1.0, 0.0); // Начальная позиция (слева)
                           const end = Offset.zero; // Конечная позиция (обычная)
                           const curve = Curves.easeInOut;
-
                           var tween = Tween(begin: begin, end: end)
                               .chain(CurveTween(curve: curve));
                           var offsetAnimation = animation.drive(tween);
-
                           return SlideTransition(
                               position: offsetAnimation, child: child);
                         },
