@@ -1,9 +1,12 @@
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.dart';
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
+import 'package:a1_workspace/features/history/presentation/bloc/edit_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/login/presentation/bloc/bloc/auth_bloc.dart';
+import 'package:a1_workspace/features/login/presentation/bloc/login_bloc.dart';
 import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
+import 'package:a1_workspace/features/register/presentation/bloc/register_bloc.dart';
 import 'package:a1_workspace/features/service/presentation/bloc/client_bloc.dart';
 import 'package:a1_workspace/main.dart';
 import 'package:a1_workspace/shared/theme/theme.dart';
@@ -33,6 +36,15 @@ class App extends StatelessWidget {
         ),
         BlocProvider<AuthBloc>(
           create: (context) => GetIt.I<AuthBloc>(),
+        ),
+        BlocProvider<RegisterBloc>(
+          create: (context) => RegisterBloc(),
+        ),
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(),
+        ),
+        BlocProvider<EditBloc>(
+          create: (context) => EditBloc(),
         ),
       ],
       child: ChangeNotifierProvider(

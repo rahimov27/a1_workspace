@@ -39,6 +39,8 @@
 		<string>App needs access to the microphone for video recording.</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>App needs access to save photos to the library.</string>
+		<key>NSFaceIDUsageDescription</key>
+		<string>Для безопасного хранения данных</string>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
 		<key>UILaunchStoryboardName</key>
