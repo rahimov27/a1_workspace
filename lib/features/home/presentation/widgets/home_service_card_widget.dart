@@ -49,11 +49,17 @@ class HomeServiceCardWidget extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: AppColors.greyUslugaColor,
+                    color: isDarkMode
+                        ? AppColors.greyUslugaColor
+                        : AppColors.serviceCardWhite,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: SvgPicture.asset(icon),
+                    child: SvgPicture.asset(
+                      icon,
+                      color:
+                          isDarkMode ? AppColors.mainYellow : AppColors.mainRed,
+                    ),
                   ),
                 )
               ],

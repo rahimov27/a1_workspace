@@ -1,5 +1,7 @@
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterButtonWidget extends StatelessWidget {
   final String text1, text2;
@@ -12,6 +14,7 @@ class RegisterButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return GestureDetector(
       onTap: function,
       child: Row(
@@ -21,7 +24,7 @@ class RegisterButtonWidget extends StatelessWidget {
             text1,
             style: TextStyle(
                 fontFamily: "sf-regular",
-                color: AppColors.mainWhite,
+                color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
                 fontSize: 12),
           ),
           Text(

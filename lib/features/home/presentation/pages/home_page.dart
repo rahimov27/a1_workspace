@@ -225,7 +225,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => TonerPage()),
                                 ),
                                 child: SizedBox(
-                                  height: 120,
+                                  height: 100,
                                   child: HomeServiceCardWidget(
                                     icon: "assets/svg/toner.svg",
                                     title: "Тонировка",
@@ -242,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => HimchistkaPage()),
                                 ),
                                 child: SizedBox(
-                                  height: 120,
+                                  height: 100,
                                   child: HomeServiceCardWidget(
                                     icon: "assets/svg/himchistka.svg",
                                     title: "Химчистка",
@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => PolirovkaPage()),
                                 ),
                                 child: SizedBox(
-                                  height: 120,
+                                  height: 100,
                                   child: HomeServiceCardWidget(
                                     icon: "assets/svg/polirovka.svg",
                                     title: "Полировка",
@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => ThreeMoikaPage()),
                                 ),
                                 child: SizedBox(
-                                  height: 120,
+                                  height: 100,
                                   child: HomeServiceCardWidget(
                                     icon: "assets/svg/3-x-wash.svg",
                                     title: "3х фазная мойка",
@@ -303,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => AvtomoikaPage()),
                                 ),
                                 child: SizedBox(
-                                  height: 120,
+                                  height: 100,
                                   child: HomeServiceCardWidget(
                                     icon: "assets/svg/himmoika.svg",
                                     title: "Автомойка",
@@ -320,7 +320,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => CarePlenka()),
                                 ),
                                 child: SizedBox(
-                                  height: 120,
+                                  height: 100,
                                   child: HomeServiceCardWidget(
                                     icon: "assets/svg/plenka.svg",
                                     title: "Защитная пленка",
