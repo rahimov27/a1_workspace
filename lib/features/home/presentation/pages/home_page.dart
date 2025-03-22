@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/history/presentation/widgets/app_row_modal_widget.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
@@ -18,6 +19,7 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +44,15 @@ class _HomePageState extends State<HomePage> {
       await Future.delayed(const Duration(seconds: 1));
       // ignore: use_build_context_synchronously
       context.read<HomeBloc>().add(GetRecordsEvent());
+    }
+
+    String _formatDate(String dateString) {
+      try {
+        DateTime date = DateTime.parse(dateString);
+        return DateFormat('dd.MM-HH:mm').format(date); // Например, 23.02.2025
+      } catch (e) {
+        return dateString; // Если ошибка, возвращаем оригинальный формат
+      }
     }
 
     // Provider for change theme
@@ -94,11 +105,106 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: List.generate(
                             records.length > 2 ? 2 : records.length,
-                            (index) => HomeRecordCard(
-                              name: records[index].firstName,
-                              number: records[index].phone,
-                              service: records[index].service,
-                              date: records[index].date,
+                            (index) => GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(22)),
+                                    elevation: 2,
+                                    contentPadding: const EdgeInsets.only(
+                                        top: 16, bottom: 16, left: 8, right: 8),
+                                    backgroundColor: isDarkMode
+                                        ? AppColors.mainGrey
+                                        : AppColors.mainWhite,
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.95,
+                                          decoration: BoxDecoration(
+                                            color: isDarkMode
+                                                ? AppColors.mainGrey
+                                                : AppColors.mainWhite,
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              AppRowModalWidget(
+                                                firstText: "ИМЯ",
+                                                secondText:
+                                                    records[index].firstName,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "ФАМИЛИЯ",
+                                                secondText:
+                                                    records[index].lastName,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "УСЛУГА",
+                                                secondText:
+                                                    records[index].service,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "ЦЕНА",
+                                                secondText:
+                                                    records[index].price,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "ДАТА",
+                                                secondText: _formatDate(records[
+                                                        index]
+                                                    .date), // Форматируем дату
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "СТАТУС",
+                                                secondText: {
+                                                      "in_progress": "В работе",
+                                                      "pending": "Ожидание",
+                                                      "completed": "Завершено",
+                                                      "cancelled": "Отменено",
+                                                      "unpaid": "Нет оплаты",
+                                                    }[records[index].status] ??
+                                                    records[index].status,
+                                                isDarkMode: isDarkMode,
+                                                statusColor: {
+                                                      "in_progress":
+                                                          AppColors.green,
+                                                      "pending": Color.fromARGB(
+                                                          255, 199, 230, 1),
+                                                      "completed":
+                                                          AppColors.mainRed,
+                                                      "cancelled":
+                                                          AppColors.greyAuth,
+                                                      "unpaid": Colors.grey,
+                                                    }[records[index].status] ??
+                                                    Colors
+                                                        .white, // По умолчанию белый
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: HomeRecordCard(
+                                name: records[index].firstName,
+                                number: records[index].phone,
+                                service: records[index].service,
+                                date: records[index].date,
+                              ),
                             ),
                           ),
                         ),
