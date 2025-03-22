@@ -1,8 +1,6 @@
 import 'package:a1_workspace/shared/utils/dio_settings.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -29,7 +27,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(RegisterUserError(error: "Некорректный формат данных"));
         }
       } catch (e) {
-        print("Ошибка Dio: ${e.toString()}");
+        if (kDebugMode) {
+          print("Ошибка Dio: ${e.toString()}");
+        }
         emit(RegisterUserError(error: "Произошла ошибка при регистрации"));
       }
     });

@@ -17,15 +17,14 @@ import 'package:intl/intl.dart'; // Для форматирования даты
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class ServicePage extends StatefulWidget {
-  
-  const ServicePage({super.key});
+class TonerPage extends StatefulWidget {
+  const TonerPage({super.key});
 
   @override
-  State<ServicePage> createState() => _ServicePageState();
+  State<TonerPage> createState() => _TonerPageState();
 }
 
-class _ServicePageState extends State<ServicePage> {
+class _TonerPageState extends State<TonerPage> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -272,24 +271,24 @@ class _ServicePageState extends State<ServicePage> {
                               itemExtent: 32,
                               onSelectedItemChanged: (index) {
                                 if (index == 0) {
-                                  selectedService = 'Полировка фар';
+                                  selectedService = 'Передняя полусфера';
                                 } else if (index == 1) {
-                                  selectedService = 'Полировка в один этап';
+                                  selectedService = 'Задняя полусфера';
                                 } else if (index == 2) {
-                                  selectedService = 'Полировка в три этапа';
+                                  selectedService = 'Атермальная пленка';
                                 } else if (index == 3) {
                                   selectedService =
-                                      'Защита керамическим составом';
+                                      'Чистко стекл от клея тонировки';
                                 }
                                 setState(() {
                                   selectedService = services[index];
                                 });
                               },
                               children: [
-                                Text("Полировка фар"),
-                                Text("Полировка в один этап"),
-                                Text("Полировка в три этапа"),
-                                Text("Защита керамическим составом"),
+                                Text("Передняя полусфера"),
+                                Text("Задняя полусфера"),
+                                Text("Атермальная пленка"),
+                                Text("Чистко стекл от клея тонировки"),
                               ]),
                         ),
                       );
@@ -359,10 +358,10 @@ class _ServicePageState extends State<ServicePage> {
 // SelectedService tonirovka
 String selectedService = 'Услуги';
 List<String> services = [
-  "Полировка фар",
-  "Полировка в один этап",
-  "Полировка в три этапа",
-  "Защита керамическим составом"
+  "Передняя полусфера",
+  "Задняя полусфера",
+  "Атермальная пленка",
+  "Чистко стекл от клея тонировки"
 ];
 
 void showCustomOverlay(BuildContext context) {

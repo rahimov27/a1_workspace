@@ -1,6 +1,7 @@
 import 'package:a1_workspace/features/home/data/models/home_records_model.dart';
 import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class HomeRemoteDatasource {
@@ -68,7 +69,7 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
 
       // Пытаемся получить записи с текущим токеном
       return await _getRecordsWithToken(token);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       // Если токен устарел (ошибка 401), обновляем токен и повторяем запрос
       if (e.response?.statusCode == 401) {
         await refreshToken(); // Обновляем токен
@@ -106,11 +107,13 @@ class HomeRemoteDatasourceImpl extends HomeRemoteDatasource {
       );
 
       if (response.statusCode == 204) {
-        print("Record deleted successfully.");
+        if (kDebugMode) {
+          print("Record deleted successfully.");
+        }
       } else {
         throw Exception("Failed to delete record: ${response.statusCode}");
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         await refreshToken(); // Обновляем токен
         final newToken = await _storage.read(key: "access_token");

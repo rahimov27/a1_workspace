@@ -5,6 +5,7 @@ import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -16,6 +17,7 @@ class PdfPage extends StatefulWidget {
   const PdfPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PdfPageState createState() => _PdfPageState();
 }
 
@@ -33,6 +35,7 @@ class _PdfPageState extends State<PdfPage> {
 
       if (accessToken == null) {
         setState(() => _isLoading = false);
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Ошибка: Токен доступа отсутствует")),
         );
@@ -50,8 +53,12 @@ class _PdfPageState extends State<PdfPage> {
         ),
       );
 
-      print("Ошибка загрузки: ${response.statusCode}");
-      print("Ответ сервера: ${response.data}");
+      if (kDebugMode) {
+        print("Ошибка загрузки: ${response.statusCode}");
+      }
+      if (kDebugMode) {
+        print("Ответ сервера: ${response.data}");
+      }
 
       if (response.statusCode == 200 && response.data != null) {
         final tempDir = await getTemporaryDirectory();
@@ -66,11 +73,13 @@ class _PdfPageState extends State<PdfPage> {
 
         setState(() => _pdfPath = filePath);
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Ошибка загрузки: ${response.statusCode}")),
         );
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Ошибка загрузки: $e")),
       );
@@ -89,6 +98,7 @@ class _PdfPageState extends State<PdfPage> {
             "assets/svg/arrow-left.svg",
             height: 44,
             width: 44,
+            // ignore: deprecated_member_use
             color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
           ),
           onPressed: () => Navigator.pop(context),
@@ -150,6 +160,7 @@ class _PdfPageState extends State<PdfPage> {
                         ? SvgPicture.asset("assets/svg/calendar.svg")
                         : SvgPicture.asset(
                             "assets/svg/calendar.svg",
+                            // ignore: deprecated_member_use
                             color: AppColors.mainGrey,
                           ),
                     title: Text(
@@ -164,6 +175,7 @@ class _PdfPageState extends State<PdfPage> {
                         ? SvgPicture.asset("assets/svg/arrow-down.svg")
                         : SvgPicture.asset(
                             "assets/svg/arrow-down.svg",
+                            // ignore: deprecated_member_use
                             color: AppColors.mainGrey,
                           ),
                     onTap: () {

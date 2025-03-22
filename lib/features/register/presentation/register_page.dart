@@ -6,6 +6,7 @@ import 'package:a1_workspace/features/login/presentation/widgets/auth_welcome_te
 import 'package:a1_workspace/features/login/presentation/widgets/register_button_widget.dart';
 import 'package:a1_workspace/features/register/presentation/bloc/register_bloc.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -96,9 +97,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                   password: passwordController.text,
                                 ),
                               );
-                          print("Email: ${emailController.text}");
-                          print("Username: ${usernameController.text}");
-                          print("Password: ${passwordController.text}");
+                          if (kDebugMode) {
+                            print("Email: ${emailController.text}");
+                          }
+                          if (kDebugMode) {
+                            print("Username: ${usernameController.text}");
+                          }
+                          if (kDebugMode) {
+                            print("Password: ${passwordController.text}");
+                          }
                         },
                       );
                     },

@@ -5,7 +5,12 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_record_card
 import 'package:a1_workspace/features/home/presentation/widgets/home_service_card_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
-import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/avtomoika_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/care_plenka.dart';
+import 'package:a1_workspace/features/service/presentation/pages/himchistka_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/polirovka_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/three_moika_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/toner_page.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
@@ -32,26 +37,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // List of svg icons for the services cards
-    final icons = [
-      "assets/svg/toner.svg",
-      "assets/svg/himchistka.svg",
-      "assets/svg/3-x-wash.svg",
-      "assets/svg/polirovka.svg",
-      "assets/svg/plenka.svg",
-      "assets/svg/himmoika.svg"
-    ];
-
-    // List of services
-    final titles = [
-      "Тонировка",
-      "Химчистка",
-      "Автомойка",
-      "Полировка",
-      "Защитная пленка",
-      "3-х Мойка"
-    ];
-
     // Refresh function for the update application when the user is scrolling
     Future<void> onRefresh() async {
       await Future.delayed(const Duration(seconds: 1));
@@ -123,32 +108,122 @@ class _HomePageState extends State<HomePage> {
                           hasButton: false,
                         ),
                         const SizedBox(height: 14),
-                        GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 3.5 / 2,
-                          ),
-                          itemCount: 6,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ServicePage(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TonerPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 120,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/toner.svg",
+                                    title: "Тонировка",
+                                  ),
                                 ),
                               ),
-                              child: HomeServiceCardWidget(
-                                icon: icons[index],
-                                title: titles[index],
+                            ),
+                            SizedBox(width: 13),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HimchistkaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 120,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/himchistka.svg",
+                                    title: "Химчистка",
+                                  ),
+                                ),
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PolirovkaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 120,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/polirovka.svg",
+                                    title: "Полировка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 13),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ThreeMoikaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 120,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/3-x-wash.svg",
+                                    title: "3х фазная мойка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AvtomoikaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 120,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/himmoika.svg",
+                                    title: "Автомойка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 13),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CarePlenka()),
+                                ),
+                                child: SizedBox(
+                                  height: 120,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/plenka.svg",
+                                    title: "Защитная пленка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

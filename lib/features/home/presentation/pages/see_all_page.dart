@@ -25,6 +25,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
   // Function for the refresh the screen
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
+    // ignore: use_build_context_synchronously
     context.read<HomeBloc>().add(GetRecordsEvent());
   }
 
@@ -42,6 +43,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
               ? SvgPicture.asset("assets/svg/arrow-left.svg")
               : SvgPicture.asset(
                   "assets/svg/arrow-left.svg",
+                  // ignore: deprecated_member_use
                   color: AppColors.mainGrey,
                 ),
         ),

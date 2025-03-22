@@ -121,6 +121,7 @@ class _EditPageState extends State<EditPage> {
                 ? SvgPicture.asset("assets/svg/arrow-left.svg")
                 : SvgPicture.asset(
                     "assets/svg/arrow-left.svg",
+                    // ignore: deprecated_member_use
                     color: AppColors.mainGrey,
                   ),
           ),
