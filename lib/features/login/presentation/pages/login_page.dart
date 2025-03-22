@@ -35,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
     String? token = await storage.read(key: "access_token");
     if (token != null) {
       Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context, MaterialPageRoute(builder: (context) => MainMenu()));
     }
   }

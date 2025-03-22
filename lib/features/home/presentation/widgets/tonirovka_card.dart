@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-class HomeServiceCardWidget extends StatelessWidget {
+class TonirovkaCard extends StatelessWidget {
   final String icon;
   final String title;
-  const HomeServiceCardWidget(
-      {super.key, required this.icon, required this.title});
+  const TonirovkaCard({super.key, required this.icon, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +63,3 @@ class HomeServiceCardWidget extends StatelessWidget {
     );
   }
 }
-
-
-

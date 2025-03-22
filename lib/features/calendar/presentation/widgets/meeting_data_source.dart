@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:a1_workspace/features/calendar/data/models/calendar_model.dart';
 import 'package:a1_workspace/features/calendar/data/models/meeting.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -33,18 +34,26 @@ class MeetingDataSource extends CalendarDataSource {
     }
     try {
       DateTime parsedDate = DateTime.parse(dateStr);
-      print("Исходная дата с бэка: $dateStr");
-      print("После парсинга: $parsedDate (isUtc: ${parsedDate.isUtc})");
+      if (kDebugMode) {
+        print("Исходная дата с бэка: $dateStr");
+      }
+      if (kDebugMode) {
+        print("После парсинга: $parsedDate (isUtc: ${parsedDate.isUtc})");
+      }
 
       if (parsedDate.isUtc) {
         DateTime localDate = parsedDate;
-        print("После преобразования в локальное: $localDate");
+        if (kDebugMode) {
+          print("После преобразования в локальное: $localDate");
+        }
         return localDate;
       }
 
       return parsedDate;
     } catch (e) {
-      print("Ошибка парсинга даты: $e");
+      if (kDebugMode) {
+        print("Ошибка парсинга даты: $e");
+      }
       return DateTime.now();
     }
   }

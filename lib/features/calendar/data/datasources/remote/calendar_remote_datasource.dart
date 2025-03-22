@@ -64,7 +64,7 @@ class CalendarRemoteDatasourceImpl extends CalendarRemoteDatasource {
 
       // Пытаемся получить записи с текущим токеном
       return await _getCalendarWithToken(token);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       // Если токен устарел (ошибка 401), обновляем токен и повторяем запрос
       if (e.response?.statusCode == 401) {
         await refreshToken(); // Обновляем токен

@@ -28,7 +28,6 @@ class _ServicePageState extends State<ServicePage> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _serviceController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   String? _selectedStatus = "В ожидании";
 
@@ -40,7 +39,6 @@ class _ServicePageState extends State<ServicePage> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _phoneController.dispose();
-    _serviceController.dispose();
     _priceController.dispose();
     super.dispose();
   }
@@ -49,7 +47,7 @@ class _ServicePageState extends State<ServicePage> {
     final firstName = _firstNameController.text;
     final lastName = _lastNameController.text;
     final phone = _phoneController.text;
-    final service = _serviceController.text;
+    final service = selectedService;
     final price = _priceController.text;
     final status = _selectedStatus;
 
@@ -68,7 +66,7 @@ class _ServicePageState extends State<ServicePage> {
               firstName: firstName,
               lastName: lastName,
               phone: phone,
-              service: service,
+              service: selectedService,
               price: price,
               status: status!,
               date: _selectedDate!, // Передаем дату
@@ -139,7 +137,6 @@ class _ServicePageState extends State<ServicePage> {
                 _firstNameController.clear();
                 _lastNameController.clear();
                 _phoneController.clear();
-                _serviceController.clear();
                 _priceController.clear();
                 setState(() {
                   _selectedDate = null;
@@ -166,11 +163,6 @@ class _ServicePageState extends State<ServicePage> {
                     textInputType: const TextInputType.numberWithOptions(),
                     text: "Номер телефона",
                     controller: _phoneController,
-                  ),
-                  const SizedBox(height: 12),
-                  ServiceTextField(
-                    text: "Услуга",
-                    controller: _serviceController,
                   ),
                   const SizedBox(height: 12),
                   ServiceTextField(
@@ -219,6 +211,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                   const SizedBox(height: 12),
                   // Статус работы
+                  // tonirokva
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     decoration: BoxDecoration(
@@ -263,6 +256,66 @@ class _ServicePageState extends State<ServicePage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  GestureDetector(
+                    onTap: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) => Container(
+                          width: double.infinity,
+                          height: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.mainWhite),
+                          child: CupertinoPicker(
+                              itemExtent: 32,
+                              onSelectedItemChanged: (index) {
+                                if (index == 0) {
+                                  selectedService = 'Полировка фар';
+                                } else if (index == 1) {
+                                  selectedService = 'Полировка в один этап';
+                                } else if (index == 2) {
+                                  selectedService = 'Полировка в три этапа';
+                                } else if (index == 3) {
+                                  selectedService =
+                                      'Защита керамическим составом';
+                                }
+                                setState(() {
+                                  selectedService = services[index];
+                                });
+                              },
+                              children: [
+                                Text("Полировка фар"),
+                                Text("Полировка в один этап"),
+                                Text("Полировка в три этапа"),
+                                Text("Защита керамическим составом"),
+                              ]),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.mainGrey),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 14),
+                          child: Text(
+                            selectedService,
+                            style: TextStyle(
+                                fontFamily: "sf-regualr",
+                                fontSize: 14,
+                                color: isDarkMode
+                                    ? AppColors.mainWhite
+                                    : AppColors.bottomNavbarGrey),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 40),
                   BlocBuilder<ClientBloc, ClientState>(
                     builder: (context, state) {
@@ -301,6 +354,15 @@ class _ServicePageState extends State<ServicePage> {
     );
   }
 }
+
+// SelectedService tonirovka
+String selectedService = 'Услуги';
+List<String> services = [
+  "Полировка фар",
+  "Полировка в один этап",
+  "Полировка в три этапа",
+  "Защита керамическим составом"
+];
 
 void showCustomOverlay(BuildContext context) {
   OverlayState overlayState = Overlay.of(context);

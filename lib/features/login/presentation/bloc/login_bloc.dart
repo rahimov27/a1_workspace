@@ -1,7 +1,7 @@
 import 'package:a1_workspace/shared/utils/dio_settings.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:meta/meta.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -23,7 +23,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
           // Сохраняем токен в storage с фиксированным ключом
           await storage.write(key: "access_token", value: accessToken);
-          print("Токен сохранен $accessToken");
+          if (kDebugMode) {
+            print("Токен сохранен $accessToken");
+          }
 
           // Отправляем успешное состояние с токеном
           emit(LoginUserSuccess(message: accessToken));
@@ -31,7 +33,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginUserError(error: "Токен не получен"));
         }
       } catch (e) {
-        print("Ошибка: $e");
+        if (kDebugMode) {
+          print("Ошибка: $e");
+        }
         emit(LoginUserError(error: e.toString()));
       }
     });
