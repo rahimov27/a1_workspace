@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                                 child: SizedBox(
                                   height: 120,
                                   child: HomeServiceCardWidget(
-                                    icon: "assets/svg/polirovka.svg",
+                                    icon: "assets/svg/himmoika.svg",
                                     title: "Автомойка",
                                   ),
                                 ),
@@ -216,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                                 child: SizedBox(
                                   height: 120,
                                   child: HomeServiceCardWidget(
-                                    icon: "assets/svg/3-x-wash.svg",
+                                    icon: "assets/svg/plenka.svg",
                                     title: "Защитная пленка",
                                   ),
                                 ),
