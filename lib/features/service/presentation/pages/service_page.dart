@@ -18,7 +18,6 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ServicePage extends StatefulWidget {
-  
   const ServicePage({super.key});
 
   @override
@@ -290,6 +289,29 @@ class _ServicePageState extends State<ServicePage> {
                                 Text("Полировка в один этап"),
                                 Text("Полировка в три этапа"),
                                 Text("Защита керамическим составом"),
+                                SizedBox(height: 10),
+                                Text("Химчистка без разбора автомобиля"),
+                                Text("Химчистка с разбором автомобиля"),
+                                SizedBox(height: 10),
+                                Text("Комплексная мойка"),
+                                Text("Наружная мойка автомобиля"),
+                                Text("Мойка салона автомобиля"),
+                                Text("Мойка двигателя и подвески автомобиля"),
+                                SizedBox(height: 10),
+                                Text("Тщательная мойка интерьера"),
+                                Text("Мойка двигателя"),
+                                Text("Мойка двигателя и подвески"),
+                                Text("Генеральная уборка салона"),
+                                SizedBox(height: 10),
+                                Text("Передняя полусфера"),
+                                Text("Задняя полусфера"),
+                                Text("Атермальная пленка"),
+                                Text("Чистко стекл от клея тонировки"),
+                                SizedBox(height: 10),
+                                Text("Зоны риска 1"),
+                                Text("Зоны риска 2"),
+                                Text("Зоны риска 3"),
+                                Text("Зоны риска 4"),
                               ]),
                         ),
                       );
@@ -299,7 +321,9 @@ class _ServicePageState extends State<ServicePage> {
                       height: 50,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.mainGrey),
+                          color: isDarkMode
+                              ? AppColors.mainGrey
+                              : AppColors.mainWhite),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
