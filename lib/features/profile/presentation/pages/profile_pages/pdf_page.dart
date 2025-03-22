@@ -155,29 +155,9 @@ class _PdfPageState extends State<PdfPage> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
-                  child: ListTile(
-                    leading: isDarkMode
-                        ? SvgPicture.asset("assets/svg/calendar.svg")
-                        : SvgPicture.asset(
-                            "assets/svg/calendar.svg",
-                            // ignore: deprecated_member_use
-                            color: AppColors.mainGrey,
-                          ),
-                    title: Text(
-                      "${_selectedDate.month}/${_selectedDate.year}",
-                      style: TextStyle(
-                          fontFamily: "sf-medium",
-                          color: isDarkMode
-                              ? AppColors.mainWhite
-                              : AppColors.mainGrey),
-                    ),
-                    trailing: isDarkMode
-                        ? SvgPicture.asset("assets/svg/arrow-down.svg")
-                        : SvgPicture.asset(
-                            "assets/svg/arrow-down.svg",
-                            // ignore: deprecated_member_use
-                            color: AppColors.mainGrey,
-                          ),
+                  child: InkWell(
+                    splashColor: Colors.transparent, // Убираем всплеск
+                    highlightColor: Colors.transparent, // Убираем выделение
                     onTap: () {
                       showCupertinoModalPopup(
                         context: context,
@@ -197,6 +177,26 @@ class _PdfPageState extends State<PdfPage> {
                         },
                       );
                     },
+                    child: ListTile(
+                      leading: SvgPicture.asset(
+                        "assets/svg/calendar.svg",
+                        color: isDarkMode ? null : AppColors.mainGrey,
+                      ),
+                      title: Text(
+                        "${_selectedDate.month}/${_selectedDate.year}",
+                        style: TextStyle(
+                          fontFamily: "sf-medium",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey,
+                        ),
+                      ),
+                      trailing: SvgPicture.asset(
+                        "assets/svg/arrow-down.svg",
+                        // ignore: deprecated_member_use
+                        color: isDarkMode ? null : AppColors.mainGrey,
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 16),
