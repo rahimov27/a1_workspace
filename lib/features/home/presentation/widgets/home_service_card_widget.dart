@@ -64,6 +64,3 @@ class HomeServiceCardWidget extends StatelessWidget {
     );
   }
 }
-
-
-

@@ -17,15 +17,14 @@ import 'package:intl/intl.dart'; // Для форматирования даты
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class ServicePage extends StatefulWidget {
-  
-  const ServicePage({super.key});
+class PolirovkaPage extends StatefulWidget {
+  const PolirovkaPage({super.key});
 
   @override
-  State<ServicePage> createState() => _ServicePageState();
+  State<PolirovkaPage> createState() => _TState();
 }
 
-class _ServicePageState extends State<ServicePage> {
+class _TState extends State<PolirovkaPage> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
