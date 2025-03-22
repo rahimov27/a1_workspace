@@ -78,6 +78,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
                 todayHighlightColor: Colors.transparent,
                 headerStyle: CalendarHeaderStyle(
+                  
                   backgroundColor:
                       isDarkMode ? Colors.transparent : Colors.transparent,
                   textStyle: TextStyle(

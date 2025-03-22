@@ -13,6 +13,7 @@ import 'package:a1_workspace/shared/theme/theme.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -52,6 +53,13 @@ class App extends StatelessWidget {
         child: Consumer<ThemeProvider>(
           builder: (context, themeProvider, child) {
             return MaterialApp(
+              locale: Locale('ru'),
+              localizationsDelegates: [
+                GlobalCupertinoLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate
+              ],
+              supportedLocales: [Locale('ru')],
               theme: themeProvider.isDarkMode
                   ? darkTheme
                   : ligthTheme, // Переключаем темы
