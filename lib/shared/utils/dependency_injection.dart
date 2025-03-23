@@ -1,5 +1,3 @@
-import 'package:a1_workspace/features/login/presentation/bloc/bloc/auth_bloc.dart';
-import 'package:a1_workspace/features/login/services/firebase_auth_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:a1_workspace/features/home/data/datasources/remote/home_remote_datasource.dart';
@@ -18,7 +16,6 @@ void setup() {
   // Регистрация Dio
   getIt.registerLazySingleton<Dio>(() => Dio());
 
-  getIt.registerFactory<AuthBloc>(()=> AuthBloc(repo: FirebaseAuthService()));
 
   // Регистрация репозиториев
   getIt.registerLazySingleton<HomeRepositoryImpl>(

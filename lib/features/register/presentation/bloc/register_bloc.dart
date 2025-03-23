@@ -11,7 +11,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       emit(RegisterUserLoading());
       try {
         final response = await dio.post(
-          "http://0.0.0.0:8000/api/register/",
+          "https://a1-workspace-api.com/api/register/",
           data: {
             'email': event.email,
             'username': event.userName,

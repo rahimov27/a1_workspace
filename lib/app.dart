@@ -3,7 +3,6 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.
 import 'package:a1_workspace/features/history/presentation/bloc/edit_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
-import 'package:a1_workspace/features/login/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:a1_workspace/features/login/presentation/bloc/login_bloc.dart';
 import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
 import 'package:a1_workspace/features/profile/data/provider/name_provider.dart';
@@ -35,9 +34,6 @@ class App extends StatelessWidget {
         ),
         BlocProvider<ClientBloc>(
           create: (context) => GetIt.I<ClientBloc>(),
-        ),
-        BlocProvider<AuthBloc>(
-          create: (context) => GetIt.I<AuthBloc>(),
         ),
         BlocProvider<RegisterBloc>(
           create: (context) => RegisterBloc(),

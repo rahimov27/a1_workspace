@@ -7,7 +7,6 @@ import 'package:a1_workspace/features/service/presentation/pages/service_page.da
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/dependency_injection.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,15 +18,10 @@ import 'package:provider/provider.dart';
 void main() async {
   // Для firebase
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   setup();
 
   // Для руссификации даты
   await initializeDateFormatting('ru_RU', null);
-
-  // Для сохранения данных в памяти телефона
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String? uid = prefs.getString('uid');
 
   final storage = FlutterSecureStorage();
   String? token = await storage.read(key: "access_token");

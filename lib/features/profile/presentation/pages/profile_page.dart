@@ -7,7 +7,6 @@ import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/p
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_card_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_unit_card_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -25,17 +24,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String? userName;
 
   final storage = FlutterSecureStorage();
-
-  @override
-  void initState() {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      setState(() {
-        userName = user.email ?? "Пользователь";
-      });
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
