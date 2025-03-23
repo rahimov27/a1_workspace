@@ -93,15 +93,19 @@ class _PdfPageState extends State<PdfPage> {
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            "assets/svg/arrow-left.svg",
-            height: 44,
-            width: 44,
-            // ignore: deprecated_member_use
-            color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
-          ),
-          onPressed: () => Navigator.pop(context),
+        leadingWidth: 44,
+        centerTitle: false,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: isDarkMode
+              ? SvgPicture.asset("assets/svg/arrow-left.svg")
+              : SvgPicture.asset(
+                  "assets/svg/arrow-left.svg",
+                  // ignore: deprecated_member_use
+                  color: AppColors.mainGrey,
+                ),
         ),
         surfaceTintColor: Colors.transparent,
         title: Text(
