@@ -119,7 +119,7 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () {
                     showDialog(

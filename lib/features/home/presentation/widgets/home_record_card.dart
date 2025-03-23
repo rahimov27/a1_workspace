@@ -69,36 +69,33 @@ class HomeRecordCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: isDarkMode
-                                ? AppColors.mainWhite
-                                : AppColors.mainGrey,
-                            fontFamily: "sf-medium"),
-                      ),
-                      Text(
-                        number,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: isDarkMode
-                                ? AppColors.mainWhite
-                                : const Color(0xffA5A5A5),
-                            fontFamily: "sf-regular"),
-                      ),
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey,
+                          fontFamily: "sf-medium"),
+                    ),
+                    Text(
+                      number,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : const Color(0xffA5A5A5),
+                          fontFamily: "sf-regular"),
+                    ),
+                  ],
                 ),
-                const Spacer(),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
