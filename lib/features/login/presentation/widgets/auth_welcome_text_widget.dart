@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthWelcomeTextWidget extends StatelessWidget {
-  const AuthWelcomeTextWidget({
-    super.key,
-  });
+  final String text;
+  const AuthWelcomeTextWidget({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class AuthWelcomeTextWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Вход",
+          text,
           style: TextStyle(
             color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey,
             fontSize: 30,

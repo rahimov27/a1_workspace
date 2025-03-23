@@ -1,3 +1,4 @@
+import 'package:a1_workspace/features/history/presentation/widgets/app_row_modal_widget.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
@@ -5,7 +6,12 @@ import 'package:a1_workspace/features/home/presentation/widgets/home_record_card
 import 'package:a1_workspace/features/home/presentation/widgets/home_service_card_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_subtitle_widget.dart';
 import 'package:a1_workspace/features/home/presentation/widgets/home_title_widget.dart';
-import 'package:a1_workspace/features/service/presentation/pages/service_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/avtomoika_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/care_plenka.dart';
+import 'package:a1_workspace/features/service/presentation/pages/himchistka_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/polirovka_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/three_moika_page.dart';
+import 'package:a1_workspace/features/service/presentation/pages/toner_page.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
@@ -13,6 +19,7 @@ import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -32,31 +39,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // List of svg icons for the services cards
-    final icons = [
-      "assets/svg/toner.svg",
-      "assets/svg/himchistka.svg",
-      "assets/svg/3-x-wash.svg",
-      "assets/svg/polirovka.svg",
-      "assets/svg/plenka.svg",
-      "assets/svg/himmoika.svg"
-    ];
-
-    // List of services
-    final titles = [
-      "Тонировка",
-      "Химчистка",
-      "Автомойка",
-      "Полировка",
-      "Защитная пленка",
-      "3-х Мойка"
-    ];
-
     // Refresh function for the update application when the user is scrolling
     Future<void> onRefresh() async {
       await Future.delayed(const Duration(seconds: 1));
       // ignore: use_build_context_synchronously
       context.read<HomeBloc>().add(GetRecordsEvent());
+    }
+
+    String _formatDate(String dateString) {
+      try {
+        DateTime date = DateTime.parse(dateString);
+        return DateFormat('dd.MM-HH:mm').format(date); // Например, 23.02.2025
+      } catch (e) {
+        return dateString; // Если ошибка, возвращаем оригинальный формат
+      }
     }
 
     // Provider for change theme
@@ -109,11 +105,106 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: List.generate(
                             records.length > 2 ? 2 : records.length,
-                            (index) => HomeRecordCard(
-                              name: records[index].firstName,
-                              number: records[index].phone,
-                              service: records[index].service,
-                              date: records[index].date,
+                            (index) => GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(22)),
+                                    elevation: 2,
+                                    contentPadding: const EdgeInsets.only(
+                                        top: 16, bottom: 16, left: 8, right: 8),
+                                    backgroundColor: isDarkMode
+                                        ? AppColors.mainGrey
+                                        : AppColors.mainWhite,
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.95,
+                                          decoration: BoxDecoration(
+                                            color: isDarkMode
+                                                ? AppColors.mainGrey
+                                                : AppColors.mainWhite,
+                                          ),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              AppRowModalWidget(
+                                                firstText: "ИМЯ",
+                                                secondText:
+                                                    records[index].firstName,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "ФАМИЛИЯ",
+                                                secondText:
+                                                    records[index].lastName,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "УСЛУГА",
+                                                secondText:
+                                                    records[index].service,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "ЦЕНА",
+                                                secondText:
+                                                    records[index].price,
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "ДАТА",
+                                                secondText: _formatDate(records[
+                                                        index]
+                                                    .date), // Форматируем дату
+                                                isDarkMode: isDarkMode,
+                                              ),
+                                              AppRowModalWidget(
+                                                firstText: "СТАТУС",
+                                                secondText: {
+                                                      "in_progress": "В работе",
+                                                      "pending": "Ожидание",
+                                                      "completed": "Завершено",
+                                                      "cancelled": "Отменено",
+                                                      "unpaid": "Нет оплаты",
+                                                    }[records[index].status] ??
+                                                    records[index].status,
+                                                isDarkMode: isDarkMode,
+                                                statusColor: {
+                                                      "in_progress":
+                                                          AppColors.green,
+                                                      "pending": Color.fromARGB(
+                                                          255, 199, 230, 1),
+                                                      "completed":
+                                                          AppColors.mainRed,
+                                                      "cancelled":
+                                                          AppColors.greyAuth,
+                                                      "unpaid": Colors.grey,
+                                                    }[records[index].status] ??
+                                                    Colors
+                                                        .white, // По умолчанию белый
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: HomeRecordCard(
+                                name: records[index].firstName,
+                                number: records[index].phone,
+                                service: records[index].service,
+                                date: records[index].date,
+                              ),
                             ),
                           ),
                         ),
@@ -123,32 +214,122 @@ class _HomePageState extends State<HomePage> {
                           hasButton: false,
                         ),
                         const SizedBox(height: 14),
-                        GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 3.5 / 2,
-                          ),
-                          itemCount: 6,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ServicePage(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TonerPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/toner.svg",
+                                    title: "Тонировка",
+                                  ),
                                 ),
                               ),
-                              child: HomeServiceCardWidget(
-                                icon: icons[index],
-                                title: titles[index],
+                            ),
+                            SizedBox(width: 13),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HimchistkaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/himchistka.svg",
+                                    title: "Химчистка",
+                                  ),
+                                ),
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PolirovkaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/polirovka.svg",
+                                    title: "Полировка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 13),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ThreeMoikaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/3-x-wash.svg",
+                                    title: "3х фазная мойка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AvtomoikaPage()),
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/himmoika.svg",
+                                    title: "Автомойка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 13),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CarePlenka()),
+                                ),
+                                child: SizedBox(
+                                  height: 100,
+                                  child: HomeServiceCardWidget(
+                                    icon: "assets/svg/plenka.svg",
+                                    title: "Защитная пленка",
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

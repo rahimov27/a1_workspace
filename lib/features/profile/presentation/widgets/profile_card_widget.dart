@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'package:a1_workspace/features/profile/data/provider/name_provider.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/image_picker.dart';
@@ -8,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ProfileCardWidget extends StatefulWidget {
-  final String name;
-  const ProfileCardWidget({super.key, required this.name});
+  final String? name;
+  const ProfileCardWidget({super.key, this.name});
 
   @override
   State<ProfileCardWidget> createState() => _ProfileCardWidgetState();
@@ -43,6 +43,7 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+    final nameProvider = Provider.of<NameProvider>(context);
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -118,15 +119,79 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  widget.name,
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontFamily: "sf-medium",
-                      color: isDarkMode
-                          ? AppColors.mainWhite
-                          : AppColors.mainGrey),
+                const SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                              insetPadding: EdgeInsets.all(0),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.20,
+                                width: MediaQuery.of(context).size.width * 0.50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: AppColors.mainGrey),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 20),
+                                  child: SizedBox(
+                                    height: 60,
+                                    child: TextField(
+                                      style: TextStyle(
+                                          color: AppColors.mainWhite,
+                                          fontFamily: "sf-medium",
+                                          fontSize: 14),
+                                      controller: nameProvider.nameController,
+                                      onSubmitted: (value) {
+                                        if (value.isNotEmpty) {
+                                          nameProvider.changeName(
+                                              nameProvider.nameController.text);
+                                          nameProvider.saveName(
+                                              nameProvider.nameController.text);
+                                          nameProvider.nameController.clear();
+                                          Navigator.pop(context);
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.all(10),
+                                          focusColor: AppColors.mainRed,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColors.greyAuth),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          hintText: "Введите имя",
+                                          hintStyle: TextStyle(
+                                              color: AppColors.greyAuth,
+                                              fontFamily: "sf-medium",
+                                              fontSize: 14),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                    ),
+                                  ),
+                                ),
+                              ));
+                        });
+                  },
+                  child: SizedBox(
+                    width: 200,
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      nameProvider.name,
+                      style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 22,
+                          fontFamily: "sf-medium",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey),
+                    ),
+                  ),
                 ),
               ],
             ),

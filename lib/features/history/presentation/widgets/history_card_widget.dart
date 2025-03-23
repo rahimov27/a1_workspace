@@ -69,7 +69,6 @@ class HistoryCardWidget extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  // Используем Expanded только для элементов, которые должны заполнять пространство
                   child: Text(
                     service,
                     maxLines: 1,

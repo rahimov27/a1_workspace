@@ -146,6 +146,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         Text(
                           meeting.eventName,
                           style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
                               color: Colors.white,
                               fontSize: 16,
                               fontFamily: "sf",

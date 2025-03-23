@@ -14,7 +14,9 @@ abstract class AppColors {
   static const Color greyUslugaColor = Color(0xff38393E);
   static const Color navbarBackground = Color(0xff1D1F24);
   static const Color dateGrey = Color(0xff9B9B9B);
+ 
 
   // white theme colors
   static const scaffoldWhiteColor = Color(0xffF7F7F7);
+   static const Color serviceCardWhite = Color(0xffF0F0F0);
 }

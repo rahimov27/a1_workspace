@@ -25,12 +25,12 @@ class _SeeAllPageState extends State<SeeAllPage> {
   // Function for the refresh the screen
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
+    // ignore: use_build_context_synchronously
     context.read<HomeBloc>().add(GetRecordsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    // Theme provider for change the theme
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBar(
@@ -43,6 +43,7 @@ class _SeeAllPageState extends State<SeeAllPage> {
               ? SvgPicture.asset("assets/svg/arrow-left.svg")
               : SvgPicture.asset(
                   "assets/svg/arrow-left.svg",
+                  // ignore: deprecated_member_use
                   color: AppColors.mainGrey,
                 ),
         ),
@@ -50,72 +51,48 @@ class _SeeAllPageState extends State<SeeAllPage> {
         centerTitle: false,
         title: SeeAllPageTitle(isDarkMode: isDarkMode),
       ),
-      body: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state is DeleteRecordSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
-            context.read<HomeBloc>().add(GetRecordsEvent()); // Refresh records
-          } else if (state is DeleteRecordError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                  content: Text("Ошибка при удалении записи ${state.error}")),
-            );
-          }
-        },
-        child: CustomMaterialIndicator(
-          backgroundColor: AppColors.mainGrey,
-          indicatorBuilder: (context, controller) =>
-              LoadingAnimationWidget.inkDrop(
-                  color: AppColors.mainRed, size: 35),
-          onRefresh: _onRefresh,
-          child: SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Column(
-              children: [
-                const SizedBox(height: 24),
-                BlocBuilder<HomeBloc, HomeState>(
-                  builder: (context, state) {
-                    if (state is GetRecordsLoading) {
-                      return const Center(child: AppLoaderWidget());
-                    } else if (state is GetRecordsSuccess) {
-                      return Expanded(
-                        child: ListView.builder(
-                          itemCount: state.records.length,
-                          itemBuilder: (context, index) {
-                            final record =
-                                state.records.reversed.toList()[index];
-                            return GestureDetector(
-                              onLongPress: () {
-                                context.read<HomeBloc>().add(
-                                      DeleteRecordEvent(id: record.id),
-                                    );
-                              },
-                              child: HomeRecordCard(
-                                name: record.firstName,
-                                number: record.phone,
-                                service: record.service,
-                                date: record.date,
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (state is GetRecordsError) {
-                      return AppErrorWidget(
-                        onPressed: () =>
-                            context.read<HomeBloc>().add(GetRecordsEvent()),
-                      );
-                    }
+      body: CustomMaterialIndicator(
+        backgroundColor: AppColors.mainGrey,
+        indicatorBuilder: (context, controller) =>
+            LoadingAnimationWidget.inkDrop(color: AppColors.mainRed, size: 35),
+        onRefresh: _onRefresh,
+        child: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Column(
+            children: [
+              const SizedBox(height: 24),
+              BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is GetRecordsLoading) {
                     return const Center(child: AppLoaderWidget());
-                  },
-                )
-              ],
-            ),
-          )),
-        ),
+                  } else if (state is GetRecordsSuccess) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: state.records.length,
+                        itemBuilder: (context, index) {
+                          final record = state.records.reversed.toList()[index];
+                          return HomeRecordCard(
+                            name: record.firstName,
+                            number: record.phone,
+                            service: record.service,
+                            date: record.date,
+                          );
+                        },
+                      ),
+                    );
+                  } else if (state is GetRecordsError) {
+                    return AppErrorWidget(
+                      onPressed: () =>
+                          context.read<HomeBloc>().add(GetRecordsEvent()),
+                    );
+                  }
+                  return const Center(child: AppLoaderWidget());
+                },
+              )
+            ],
+          ),
+        )),
       ),
     );
   }
