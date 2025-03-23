@@ -143,7 +143,7 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                                     height: 60,
                                     child: TextField(
                                       style: TextStyle(
-                                          color: AppColors.greyAuth,
+                                          color: AppColors.mainWhite,
                                           fontFamily: "sf-medium",
                                           fontSize: 14),
                                       controller: nameProvider.nameController,
@@ -178,14 +178,19 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                               ));
                         });
                   },
-                  child: Text(
-                    nameProvider.name,
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontFamily: "sf-medium",
-                        color: isDarkMode
-                            ? AppColors.mainWhite
-                            : AppColors.mainGrey),
+                  child: SizedBox(
+                    width: 200,
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      nameProvider.name,
+                      style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 22,
+                          fontFamily: "sf-medium",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey),
+                    ),
                   ),
                 ),
               ],
