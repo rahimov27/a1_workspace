@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:a1_workspace/features/profile/data/provider/name_provider.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
@@ -128,18 +129,23 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                         builder: (BuildContext context) {
                           return Dialog(
                               insetPadding: EdgeInsets.all(0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 200,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: AppColors.mainGrey),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 20),
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.20,
+                                width: MediaQuery.of(context).size.width * 0.50,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: AppColors.mainGrey),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 20),
+                                  child: SizedBox(
+                                    height: 60,
                                     child: TextField(
+                                      style: TextStyle(
+                                          color: AppColors.greyAuth,
+                                          fontFamily: "sf-medium",
+                                          fontSize: 14),
                                       controller: nameProvider.nameController,
                                       onSubmitted: (value) {
                                         nameProvider.changeName(
@@ -150,7 +156,22 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                                         Navigator.pop(context);
                                       },
                                       decoration: InputDecoration(
-                                          border: OutlineInputBorder()),
+                                          contentPadding: EdgeInsets.all(10),
+                                          focusColor: AppColors.mainRed,
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: AppColors.greyAuth),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          hintText: "Введите имя",
+                                          hintStyle: TextStyle(
+                                              color: AppColors.greyAuth,
+                                              fontFamily: "sf-medium",
+                                              fontSize: 14),
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
                                     ),
                                   ),
                                 ),
