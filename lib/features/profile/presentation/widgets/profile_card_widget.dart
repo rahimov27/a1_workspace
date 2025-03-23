@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:a1_workspace/features/profile/data/provider/name_provider.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
@@ -148,12 +146,14 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                                           fontSize: 14),
                                       controller: nameProvider.nameController,
                                       onSubmitted: (value) {
-                                        nameProvider.changeName(
-                                            nameProvider.nameController.text);
-                                        nameProvider.saveName(
-                                            nameProvider.nameController.text);
-                                        nameProvider.nameController.clear();
-                                        Navigator.pop(context);
+                                        if (value.isNotEmpty) {
+                                          nameProvider.changeName(
+                                              nameProvider.nameController.text);
+                                          nameProvider.saveName(
+                                              nameProvider.nameController.text);
+                                          nameProvider.nameController.clear();
+                                          Navigator.pop(context);
+                                        }
                                       },
                                       decoration: InputDecoration(
                                           contentPadding: EdgeInsets.all(10),
