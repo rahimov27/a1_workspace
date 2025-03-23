@@ -1,3 +1,4 @@
+import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:a1_workspace/shared/utils/dio_settings.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +14,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         emit(LoginUserLoading());
         final response = await dio.post(
-          "http://0.0.0.0:8000/api/token/",
+          "${SwaggerAdress.adress}/token/",
           data: {'username': event.userName, 'password': event.password},
         );
 

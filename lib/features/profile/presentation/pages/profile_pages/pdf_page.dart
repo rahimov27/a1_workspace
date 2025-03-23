@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
+import 'package:a1_workspace/shared/core/utils/swagger_adress.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:dio/dio.dart';
@@ -43,7 +44,7 @@ class _PdfPageState extends State<PdfPage> {
       }
 
       final url =
-          "http://127.0.0.1:8000/api/report/?month=${_selectedDate.month}&year=${_selectedDate.year}";
+          "https://a1-workspace-api.com/api/report/?month=${_selectedDate.month}&year=${_selectedDate.year}";
 
       Response<ResponseBody> response = await dio.get(
         url,
