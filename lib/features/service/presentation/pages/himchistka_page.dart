@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,12 +82,13 @@ class _TState extends State<HimchistkaPage> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
+        color: AppColors.mainGrey,
         child: Column(
           children: [
             SizedBox(
               height: 200,
               child: CupertinoDatePicker(
+                backgroundColor: AppColors.mainGrey,
                 mode: CupertinoDatePickerMode.date,
                 initialDateTime: _selectedDate ?? DateTime.now(),
                 use24hFormat: true,
@@ -268,23 +270,27 @@ class _TState extends State<HimchistkaPage> {
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.mainWhite),
                           child: CupertinoPicker(
-                              itemExtent: 32,
-                              onSelectedItemChanged: (index) {
-                                if (index == 0) {
-                                  selectedService =
-                                      'Химчистка без разбора автомобиля';
-                                } else if (index == 1) {
-                                  selectedService =
-                                      'Химчистка с разбором автомобиля';
-                                }
-                                setState(() {
-                                  selectedService = services[index];
-                                });
-                              },
-                              children: [
-                                Text("Химчистка без разбора автомобиля"),
-                                Text("Химчистка с разбором автомобиля"),
-                              ]),
+                            backgroundColor: AppColors.mainGrey,
+                            itemExtent: 32,
+                            onSelectedItemChanged: (index) {
+                              if (index == 0) {
+                                selectedService =
+                                    'Химчистка без разбора автомобиля';
+                              } else if (index == 1) {
+                                selectedService =
+                                    'Химчистка с разбором автомобиля';
+                              }
+                              setState(() {
+                                selectedService = services[index];
+                              });
+                            },
+                            children: [
+                              ServiceAdaptiveTextWidget(
+                                  text: "Химчистка без разбора автомобиля"),
+                              ServiceAdaptiveTextWidget(
+                                  text: "Химчистка с разбором автомобиля"),
+                            ],
+                          ),
                         ),
                       );
                     },

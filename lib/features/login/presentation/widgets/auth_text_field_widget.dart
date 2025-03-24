@@ -26,7 +26,7 @@ class AuthTextFieldWidget extends StatelessWidget {
     // F6F6F6
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
     return TextField(
-      inputFormatters: [LengthLimitingTextInputFormatter(20)],
+      inputFormatters: [LengthLimitingTextInputFormatter(60)],
       obscureText: isPasswordField,
       controller: controller,
       style: TextStyle(

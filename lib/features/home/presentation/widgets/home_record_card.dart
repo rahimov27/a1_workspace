@@ -100,16 +100,20 @@ class HomeRecordCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        service,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: isDarkMode
-                                ? AppColors.mainWhite
-                                : AppColors.mainGrey,
-                            fontFamily: "sf-medium"),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.40,
+                        child: Text(
+                          textAlign: TextAlign.end,
+                          service,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: isDarkMode
+                                  ? AppColors.mainWhite
+                                  : AppColors.mainGrey,
+                              fontFamily: "sf-medium"),
+                        ),
                       ),
                       Text(
                         formatDate(date),

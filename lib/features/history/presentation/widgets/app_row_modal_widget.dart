@@ -34,10 +34,10 @@ class AppRowModalWidget extends StatelessWidget {
           Spacer(),
           Expanded(
             child: Text(
-              secondText,
-              maxLines: 1,
-              textAlign: TextAlign.end,
               overflow: TextOverflow.ellipsis,
+              secondText,
+              maxLines: 5,
+              textAlign: TextAlign.end,
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: "sf-medium",
