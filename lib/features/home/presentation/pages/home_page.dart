@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       context.read<HomeBloc>().add(GetRecordsEvent());
     }
 
-    String _formatDate(String dateString) {
+    String formatDate(String dateString) {
       try {
         DateTime date = DateTime.parse(dateString);
         return DateFormat('dd.MM-HH:mm').format(date); // Например, 23.02.2025
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               AppRowModalWidget(
                                                 firstText: "ДАТА",
-                                                secondText: _formatDate(records[
+                                                secondText: formatDate(records[
                                                         index]
                                                     .date), // Форматируем дату
                                                 isDarkMode: isDarkMode,
