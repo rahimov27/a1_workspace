@@ -1,4 +1,6 @@
+import 'package:a1_workspace/features/history/presentation/bloc/edit_bloc.dart';
 import 'package:a1_workspace/features/history/presentation/widgets/app_row_modal_widget.dart';
+import 'package:a1_workspace/features/home/data/models/home_records_model.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
@@ -12,11 +14,13 @@ import 'package:a1_workspace/features/service/presentation/pages/himchistka_page
 import 'package:a1_workspace/features/service/presentation/pages/polirovka_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/three_moika_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/toner_page.dart';
+import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -57,6 +61,8 @@ class _HomePageState extends State<HomePage> {
 
     // Provider for change theme
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+
+    String mainStatus = 'Ожидание';
 
     return Scaffold(
       appBar: AppBar(
@@ -177,6 +183,55 @@ class _HomePageState extends State<HomePage> {
                                                     }[records[index].status] ??
                                                     records[index].status,
                                                 isDarkMode: isDarkMode,
+                                                onTap: () =>
+                                                    showCupertinoModalPopup(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      CupertinoActionSheet(
+                                                    actions: [
+                                                      PendingSheetActionWidget(
+                                                        text: "Ожидание",
+                                                        color: AppColors
+                                                            .mainYellow,
+                                                        index: index,
+                                                        status: "Ожидание",
+                                                        record: records[index],
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "В работе",
+                                                        color: AppColors.green,
+                                                        index: index,
+                                                        status: "В работе",
+                                                        record: records[index],
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "Завершено",
+                                                        color:
+                                                            AppColors.mainRed,
+                                                        index: index,
+                                                        status: "Завершено",
+                                                        record: records[index],
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "Отменено",
+                                                        color:
+                                                            AppColors.greyAuth,
+                                                        index: index,
+                                                        status: "Отменено",
+                                                        record: records[index],
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "Нет оплаты",
+                                                        color:
+                                                            AppColors.greyAuth,
+                                                        index: index,
+                                                        status: "Нет оплаты",
+                                                        record: records[index],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+
                                                 statusColor: {
                                                       "in_progress":
                                                           AppColors.green,
@@ -342,6 +397,54 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class PendingSheetActionWidget extends StatelessWidget {
+  final Color color;
+  final String text;
+  final String status;
+  final int
+      index; // Просто передаем индекс напрямую, а не пытаемся парсить модель
+  final HomeRecordsModel record; // Добавляем параметр для записи
+
+  const PendingSheetActionWidget({
+    super.key,
+    required this.text,
+    required this.color,
+    required this.index,
+    required this.status,
+    required this.record, // Получаем запись напрямую
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoActionSheetAction(
+      onPressed: () {
+        context.read<EditBloc>().add(
+              EditUserEvent(
+                id: record.id,
+                firstName: record.firstName,
+                lastName: record.lastName,
+                service: record.service,
+                price: record.price,
+                status: status,
+                date: DateTime.parse(record.date),
+              ),
+            );
+        context.read<HomeBloc>().add(GetRecordsEvent());
+        Navigator.pop(context);
+        Navigator.pop(context);
+      },
+      child: Text(
+        text,
+        style: TextStyle(
+          fontFamily: "sf-medium",
+          fontSize: 18,
+          color: color,
         ),
       ),
     );

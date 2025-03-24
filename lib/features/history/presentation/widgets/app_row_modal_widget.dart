@@ -6,6 +6,7 @@ class AppRowModalWidget extends StatelessWidget {
   final String secondText;
   final bool isDarkMode;
   final Color? statusColor;
+  final VoidCallback? onTap;
 
   const AppRowModalWidget({
     super.key,
@@ -13,6 +14,7 @@ class AppRowModalWidget extends StatelessWidget {
     required this.secondText,
     required this.isDarkMode,
     this.statusColor,
+    this.onTap,
   });
 
   @override
@@ -33,18 +35,21 @@ class AppRowModalWidget extends StatelessWidget {
           ),
           Spacer(),
           Expanded(
-            child: Text(
-              overflow: TextOverflow.ellipsis,
-              secondText,
-              maxLines: 5,
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontSize: 16,
-                fontFamily: "sf-medium",
-                color: statusColor ??
-                    (isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
-                fontWeight:
-                    FontWeight.bold, // Делаем статус жирным для выделения
+            child: GestureDetector(
+              onTap: onTap,
+              child: Text(
+                overflow: TextOverflow.ellipsis,
+                secondText,
+                maxLines: 5,
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: "sf-medium",
+                  color: statusColor ??
+                      (isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
+                  fontWeight:
+                      FontWeight.bold, // Делаем статус жирным для выделения
+                ),
               ),
             ),
           ),
