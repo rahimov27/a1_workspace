@@ -91,7 +91,7 @@ class _EditPageState extends State<EditPage> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
+        color: AppColors.mainGrey,
         child: CupertinoDatePicker(
           mode: CupertinoDatePickerMode.dateAndTime,
           initialDateTime: _selectedDate,

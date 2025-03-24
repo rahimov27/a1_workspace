@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,7 +82,7 @@ class _CarePlenkaState extends State<CarePlenka> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
+        color: AppColors.mainGrey,
         child: Column(
           children: [
             SizedBox(
@@ -268,27 +269,29 @@ class _CarePlenkaState extends State<CarePlenka> {
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.mainWhite),
                           child: CupertinoPicker(
-                              itemExtent: 32,
-                              onSelectedItemChanged: (index) {
-                                if (index == 0) {
-                                  selectedService = 'Зоны риска 1';
-                                } else if (index == 1) {
-                                  selectedService = 'Зоны риска 2';
-                                } else if (index == 2) {
-                                  selectedService = 'Зоны риска 3';
-                                } else if (index == 3) {
-                                  selectedService = 'Зоны риска 4';
-                                }
-                                setState(() {
-                                  selectedService = services[index];
-                                });
-                              },
-                              children: [
-                                Text("Зоны риска 1"),
-                                Text("Зоны риска 2"),
-                                Text("Зоны риска 3"),
-                                Text("Зоны риска 4"),
-                              ]),
+                            backgroundColor: AppColors.mainGrey,
+                            itemExtent: 32,
+                            onSelectedItemChanged: (index) {
+                              if (index == 0) {
+                                selectedService = 'Зоны риска 1';
+                              } else if (index == 1) {
+                                selectedService = 'Зоны риска 2';
+                              } else if (index == 2) {
+                                selectedService = 'Зоны риска 3';
+                              } else if (index == 3) {
+                                selectedService = 'Зоны риска 4';
+                              }
+                              setState(() {
+                                selectedService = services[index];
+                              });
+                            },
+                            children: [
+                              ServiceAdaptiveTextWidget(text: "Зоны риска 1"),
+                              ServiceAdaptiveTextWidget(text: "Зоны риска 2"),
+                              ServiceAdaptiveTextWidget(text: "Зоны риска 3"),
+                              ServiceAdaptiveTextWidget(text: "Зоны риска 4"),
+                            ],
+                          ),
                         ),
                       );
                     },

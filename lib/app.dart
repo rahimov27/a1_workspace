@@ -52,6 +52,7 @@ class App extends StatelessWidget {
             return ChangeNotifierProvider(
               create: (context) => NameProvider(),
               child: MaterialApp(
+                debugShowMaterialGrid: false,
                 locale: Locale('ru'),
                 localizationsDelegates: [
                   GlobalCupertinoLocalizations.delegate,

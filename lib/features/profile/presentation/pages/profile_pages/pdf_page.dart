@@ -184,6 +184,7 @@ class _PdfPageState extends State<PdfPage> {
                     child: ListTile(
                       leading: SvgPicture.asset(
                         "assets/svg/calendar.svg",
+                        // ignore: deprecated_member_use
                         color: isDarkMode ? null : AppColors.mainGrey,
                       ),
                       title: Text(

@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,7 +82,7 @@ class _TonerPageState extends State<TonerPage> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
+        color: AppColors.mainGrey,
         child: Column(
           children: [
             SizedBox(
@@ -268,28 +269,37 @@ class _TonerPageState extends State<TonerPage> {
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.mainWhite),
                           child: CupertinoPicker(
-                              itemExtent: 32,
-                              onSelectedItemChanged: (index) {
-                                if (index == 0) {
-                                  selectedService = 'Передняя полусфера';
-                                } else if (index == 1) {
-                                  selectedService = 'Задняя полусфера';
-                                } else if (index == 2) {
-                                  selectedService = 'Атермальная пленка';
-                                } else if (index == 3) {
-                                  selectedService =
-                                      'Чистко стекл от клея тонировки';
-                                }
-                                setState(() {
-                                  selectedService = services[index];
-                                });
-                              },
-                              children: [
-                                Text("Передняя полусфера"),
-                                Text("Задняя полусфера"),
-                                Text("Атермальная пленка"),
-                                Text("Чистко стекл от клея тонировки"),
-                              ]),
+                            itemExtent: 32,
+                            onSelectedItemChanged: (index) {
+                              if (index == 0) {
+                                selectedService = 'Передняя полусфера';
+                              } else if (index == 1) {
+                                selectedService = 'Задняя полусфера';
+                              } else if (index == 2) {
+                                selectedService = 'Атермальная пленка';
+                              } else if (index == 3) {
+                                selectedService =
+                                    'Чистко стекл от клея тонировки';
+                              }
+                              setState(() {
+                                selectedService = services[index];
+                              });
+                            },
+                            children: [
+                              ServiceAdaptiveTextWidget(
+                                text: "Передняя полусфера",
+                              ),
+                              ServiceAdaptiveTextWidget(
+                                text: "Задняя полусфера",
+                              ),
+                              ServiceAdaptiveTextWidget(
+                                text: "Атермальная пленка",
+                              ),
+                              ServiceAdaptiveTextWidget(
+                                text: "Чистко стекл от клея тонировки",
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

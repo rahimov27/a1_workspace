@@ -14,6 +14,8 @@ abstract class AppColors {
   static const Color greyUslugaColor = Color(0xff38393E);
   static const Color navbarBackground = Color(0xff1D1F24);
   static const Color dateGrey = Color(0xff9B9B9B);
+  static const Color cursorColor = Color.fromARGB(179, 173, 33, 37);
+
  
 
   // white theme colors

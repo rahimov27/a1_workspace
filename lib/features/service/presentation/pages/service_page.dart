@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,7 +82,7 @@ class _ServicePageState extends State<ServicePage> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
+        color: AppColors.mainGrey,
         child: Column(
           children: [
             SizedBox(
@@ -266,8 +267,9 @@ class _ServicePageState extends State<ServicePage> {
                           height: 200,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: AppColors.mainWhite),
+                              color: AppColors.mainGrey),
                           child: CupertinoPicker(
+                              backgroundColor: AppColors.mainGrey,
                               itemExtent: 32,
                               onSelectedItemChanged: (index) {
                                 if (index == 0) {
@@ -279,40 +281,57 @@ class _ServicePageState extends State<ServicePage> {
                                 } else if (index == 3) {
                                   selectedService =
                                       'Защита керамическим составом';
+                                } else if (index == 4) {
+                                  selectedService =
+                                      'Химчистка без разбора автомобиля';
+                                } else if (index == 5) {
+                                  selectedService =
+                                      'Химчистка с разбором автомобиля';
+                                } else if (index == 6) {
+                                  selectedService = 'Комплексная мойка';
+                                } else if (index == 7) {
+                                  selectedService = 'Наружная мойка автомобиля';
+                                } else if (index == 8) {
+                                  selectedService = 'Мойка салона автомобиля';
+                                } else if (index == 9) {
+                                  selectedService =
+                                      'Мойка двигателя и подвески автомобиля';
+                                } else if (index == 10) {
+                                  selectedService =
+                                      'Тщательная мойка интерьера';
+                                } else if (index == 11) {
+                                  selectedService = 'Мойка двигателя';
+                                } else if (index == 12) {
+                                  selectedService =
+                                      'Мойка двигателя и подвески';
+                                } else if (index == 13) {
+                                  selectedService = 'Генеральная уборка салона';
+                                } else if (index == 14) {
+                                  selectedService = 'Передняя полусфера';
+                                } else if (index == 15) {
+                                  selectedService = 'Задняя полусфера';
+                                } else if (index == 16) {
+                                  selectedService = 'Атермальная пленка';
+                                } else if (index == 17) {
+                                  selectedService =
+                                      'Чистка стекол от клея тонировки';
+                                } else if (index == 18) {
+                                  selectedService = 'Зоны риска 1';
+                                } else if (index == 19) {
+                                  selectedService = 'Зоны риска 2';
+                                } else if (index == 20) {
+                                  selectedService = 'Зоны риска 3';
+                                } else if (index == 21) {
+                                  selectedService = 'Зоны риска 4';
                                 }
                                 setState(() {
                                   selectedService = services[index];
                                 });
                               },
-                              children: [
-                                Text("Полировка фар"),
-                                Text("Полировка в один этап"),
-                                Text("Полировка в три этапа"),
-                                Text("Защита керамическим составом"),
-                                SizedBox(height: 10),
-                                Text("Химчистка без разбора автомобиля"),
-                                Text("Химчистка с разбором автомобиля"),
-                                SizedBox(height: 10),
-                                Text("Комплексная мойка"),
-                                Text("Наружная мойка автомобиля"),
-                                Text("Мойка салона автомобиля"),
-                                Text("Мойка двигателя и подвески автомобиля"),
-                                SizedBox(height: 10),
-                                Text("Тщательная мойка интерьера"),
-                                Text("Мойка двигателя"),
-                                Text("Мойка двигателя и подвески"),
-                                Text("Генеральная уборка салона"),
-                                SizedBox(height: 10),
-                                Text("Передняя полусфера"),
-                                Text("Задняя полусфера"),
-                                Text("Атермальная пленка"),
-                                Text("Чистко стекл от клея тонировки"),
-                                SizedBox(height: 10),
-                                Text("Зоны риска 1"),
-                                Text("Зоны риска 2"),
-                                Text("Зоны риска 3"),
-                                Text("Зоны риска 4"),
-                              ]),
+                              children: services
+                                  .map((service) =>
+                                      ServiceAdaptiveTextWidget(text: service))
+                                  .toList()),
                         ),
                       );
                     },
@@ -386,7 +405,25 @@ List<String> services = [
   "Полировка фар",
   "Полировка в один этап",
   "Полировка в три этапа",
-  "Защита керамическим составом"
+  "Защита керамическим составом",
+  "Химчистка без разбора автомобиля",
+  "Химчистка с разбором автомобиля",
+  "Комплексная мойка",
+  "Наружная мойка автомобиля",
+  "Мойка салона автомобиля",
+  "Мойка двигателя и подвески автомобиля",
+  "Тщательная мойка интерьера",
+  "Мойка двигателя",
+  "Мойка двигателя и подвески",
+  "Генеральная уборка салона",
+  "Передняя полусфера",
+  "Задняя полусфера",
+  "Атермальная пленка",
+  "Чистка стекол от клея тонировки",
+  "Зоны риска 1",
+  "Зоны риска 2",
+  "Зоны риска 3",
+  "Зоны риска 4",
 ];
 
 void showCustomOverlay(BuildContext context) {

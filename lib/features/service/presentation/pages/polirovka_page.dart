@@ -2,6 +2,7 @@ import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_bloc.d
 import 'package:a1_workspace/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
+import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -81,7 +82,7 @@ class _TState extends State<PolirovkaPage> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color: Colors.white,
+        color:AppColors.mainGrey,
         child: Column(
           children: [
             SizedBox(
@@ -268,28 +269,33 @@ class _TState extends State<PolirovkaPage> {
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.mainWhite),
                           child: CupertinoPicker(
-                              itemExtent: 32,
-                              onSelectedItemChanged: (index) {
-                                if (index == 0) {
-                                  selectedService = 'Полировка фар';
-                                } else if (index == 1) {
-                                  selectedService = 'Полировка в один этап';
-                                } else if (index == 2) {
-                                  selectedService = 'Полировка в три этапа';
-                                } else if (index == 3) {
-                                  selectedService =
-                                      'Защита керамическим составом';
-                                }
-                                setState(() {
-                                  selectedService = services[index];
-                                });
-                              },
-                              children: [
-                                Text("Полировка фар"),
-                                Text("Полировка в один этап"),
-                                Text("Полировка в три этапа"),
-                                Text("Защита керамическим составом"),
-                              ]),
+                            backgroundColor: AppColors.mainGrey,
+                            itemExtent: 32,
+                            onSelectedItemChanged: (index) {
+                              if (index == 0) {
+                                selectedService = 'Полировка фар';
+                              } else if (index == 1) {
+                                selectedService = 'Полировка в один этап';
+                              } else if (index == 2) {
+                                selectedService = 'Полировка в три этапа';
+                              } else if (index == 3) {
+                                selectedService =
+                                    'Защита керамическим составом';
+                              }
+                              setState(() {
+                                selectedService = services[index];
+                              });
+                            },
+                            children: [
+                              ServiceAdaptiveTextWidget(text: "Полировка фар"),
+                              ServiceAdaptiveTextWidget(
+                                  text: "Полировка в один этап"),
+                              ServiceAdaptiveTextWidget(
+                                  text: "Полировка в три этапа"),
+                              ServiceAdaptiveTextWidget(
+                                  text: "Защита керамическим составом"),
+                            ],
+                          ),
                         ),
                       );
                     },

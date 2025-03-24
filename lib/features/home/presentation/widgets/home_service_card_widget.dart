@@ -57,6 +57,7 @@ class HomeServiceCardWidget extends StatelessWidget {
                     padding: const EdgeInsets.all(6.0),
                     child: SvgPicture.asset(
                       icon,
+                      // ignore: deprecated_member_use
                       color:
                           isDarkMode ? AppColors.mainYellow : AppColors.mainRed,
                     ),
