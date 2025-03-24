@@ -5,11 +5,13 @@ import 'package:a1_workspace/features/history/presentation/widgets/history_title
 import 'package:a1_workspace/features/home/presentation/bloc/home_bloc.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_event.dart';
 import 'package:a1_workspace/features/home/presentation/bloc/home_state.dart';
+import 'package:a1_workspace/features/home/presentation/pages/home_page.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
 import 'package:a1_workspace/shared/core/styles/app_colors.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -120,6 +122,53 @@ class _HistoryPageState extends State<HistoryPage> {
                                             isDarkMode: isDarkMode,
                                           ),
                                           AppRowModalWidget(
+                                            onTap: () => showCupertinoModalPopup(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      CupertinoActionSheet(
+                                                    actions: [
+                                                      PendingSheetActionWidget(
+                                                        text: "Ожидание",
+                                                        color: AppColors
+                                                            .mainYellow,
+                                                        index: index,
+                                                        status: "Ожидание",
+                                                        record: record,
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "В работе",
+                                                        color: AppColors.green,
+                                                        index: index,
+                                                        status: "В работе",
+                                                        record: record,
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "Завершено",
+                                                        color:
+                                                            AppColors.mainRed,
+                                                        index: index,
+                                                        status: "Завершено",
+                                                        record: record,
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "Отменено",
+                                                        color:
+                                                            AppColors.greyAuth,
+                                                        index: index,
+                                                        status: "Отменено",
+                                                        record: record,
+                                                      ),
+                                                      PendingSheetActionWidget(
+                                                        text: "Нет оплаты",
+                                                        color:
+                                                            AppColors.greyAuth,
+                                                        index: index,
+                                                        status: "Нет оплаты",
+                                                        record: record,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                             firstText: "СТАТУС",
                                             secondText: {
                                                   "in_progress": "В работе",
