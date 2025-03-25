@@ -200,11 +200,18 @@ class _TonerPageState extends State<TonerPage> {
                                     : AppColors.mainGrey),
                           ),
                           isDarkMode
-                              ? SvgPicture.asset("assets/svg/calendar.svg")
+                              ? SvgPicture.asset(
+                                  "assets/svg/calendar.svg",
+                                  color: isDarkMode
+                                      ? AppColors.mainGrey
+                                      : AppColors.bottomNavbarGrey,
+                                )
                               : SvgPicture.asset(
                                   "assets/svg/calendar.svg",
                                   // ignore: deprecated_member_use
-                                  color: AppColors.mainGrey,
+                                  color: isDarkMode
+                                      ? AppColors.mainGrey
+                                      : AppColors.mainGrey,
                                 ),
                         ],
                       ),
@@ -233,7 +240,13 @@ class _TonerPageState extends State<TonerPage> {
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? AppColors.mainWhite
+                                      : AppColors.mainGrey),
+                            ),
                           );
                         }).toList(),
                         style: TextStyle(
@@ -251,7 +264,9 @@ class _TonerPageState extends State<TonerPage> {
                             : SvgPicture.asset(
                                 "assets/svg/down-icon.svg",
                                 // ignore: deprecated_member_use
-                                color: AppColors.mainGrey,
+                                color: isDarkMode
+                                    ? AppColors.mainGrey
+                                    : AppColors.mainGrey,
                               ),
                         isExpanded: true,
                       ),
@@ -308,7 +323,9 @@ class _TonerPageState extends State<TonerPage> {
                       height: 50,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.mainGrey),
+                          color: isDarkMode
+                              ? AppColors.mainGrey
+                              : AppColors.mainWhite),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(

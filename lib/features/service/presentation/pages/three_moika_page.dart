@@ -304,7 +304,9 @@ class _ThreeMoikaPageState extends State<ThreeMoikaPage> {
                       height: 50,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.mainGrey),
+                          color: isDarkMode
+                              ? AppColors.mainGrey
+                              : AppColors.mainWhite),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(

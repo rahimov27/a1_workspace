@@ -167,7 +167,7 @@ class _PdfPageState extends State<PdfPage> {
                         context: context,
                         builder: (context) {
                           return Container(
-                            color: Colors.white,
+                            color: AppColors.mainGrey,
                             height: MediaQuery.of(context).size.height * 0.3,
                             child: CupertinoDatePicker(
                               mode: CupertinoDatePickerMode.monthYear,

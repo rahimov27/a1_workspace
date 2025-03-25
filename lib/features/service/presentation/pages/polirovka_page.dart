@@ -82,7 +82,7 @@ class _TState extends State<PolirovkaPage> {
       builder: (_) => Container(
         height: 250,
         padding: const EdgeInsets.only(top: 6.0),
-        color:AppColors.mainGrey,
+        color: AppColors.mainGrey,
         child: Column(
           children: [
             SizedBox(
@@ -304,7 +304,9 @@ class _TState extends State<PolirovkaPage> {
                       height: 50,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.mainGrey),
+                          color: isDarkMode
+                              ? AppColors.mainGrey
+                              : AppColors.mainWhite),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(

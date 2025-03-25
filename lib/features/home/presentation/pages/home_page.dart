@@ -14,7 +14,6 @@ import 'package:a1_workspace/features/service/presentation/pages/himchistka_page
 import 'package:a1_workspace/features/service/presentation/pages/polirovka_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/three_moika_page.dart';
 import 'package:a1_workspace/features/service/presentation/pages/toner_page.dart';
-import 'package:a1_workspace/features/service/presentation/widgets/service_adaptive_text_widget.dart';
 import 'package:a1_workspace/shared/theme/theme_provider.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_error_widget.dart';
 import 'package:a1_workspace/shared/utils/widgets/app_loader_widget.dart';
@@ -61,8 +60,6 @@ class _HomePageState extends State<HomePage> {
 
     // Provider for change theme
     final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
-
-    String mainStatus = 'Ожидание';
 
     return Scaffold(
       appBar: AppBar(
@@ -407,9 +404,8 @@ class PendingSheetActionWidget extends StatelessWidget {
   final Color color;
   final String text;
   final String status;
-  final int
-      index; // Просто передаем индекс напрямую, а не пытаемся парсить модель
-  final HomeRecordsModel record; // Добавляем параметр для записи
+  final int index;
+  final HomeRecordsModel record;
 
   const PendingSheetActionWidget({
     super.key,
@@ -417,7 +413,7 @@ class PendingSheetActionWidget extends StatelessWidget {
     required this.color,
     required this.index,
     required this.status,
-    required this.record, // Получаем запись напрямую
+    required this.record,
   });
 
   @override

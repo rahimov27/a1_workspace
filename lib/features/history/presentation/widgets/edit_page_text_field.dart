@@ -26,9 +26,7 @@ class EditPageTextField extends StatelessWidget {
           style: TextStyle(
               fontFamily: "sf-regualr",
               fontSize: 14,
-              color: isDarkMode
-                  ? AppColors.mainWhite
-                  : AppColors.bottomNavbarGrey),
+              color: isDarkMode ? AppColors.mainWhite : AppColors.mainGrey),
           // ignore: deprecated_member_use
           cursorColor: AppColors.mainRed.withOpacity(0.8),
           decoration: InputDecoration(

@@ -150,16 +150,19 @@ class _EditPageState extends State<EditPage> {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColors.mainGrey,
+                      color:
+                          isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
                     ),
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
                       formatedDate(_selectedDate),
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 14,
                           fontFamily: "sf-regular",
-                          color: AppColors.mainWhite),
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.bottomNavbarGrey),
                     ),
                   ),
                 ),
@@ -171,7 +174,7 @@ class _EditPageState extends State<EditPage> {
                       builder: (_) => SizedBox(
                         height: 250,
                         child: CupertinoPicker(
-                          backgroundColor: AppColors.mainWhite,
+                          backgroundColor: AppColors.mainGrey,
                           itemExtent: 30,
                           scrollController: FixedExtentScrollController(
                             initialItem: statusList.indexOf(_selectedStatus),
@@ -192,14 +195,18 @@ class _EditPageState extends State<EditPage> {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: AppColors.mainGrey,
+                      color:
+                          isDarkMode ? AppColors.mainGrey : AppColors.mainWhite,
                     ),
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
                       _selectedStatus,
-                      style: const TextStyle(
-                          fontFamily: "sf-regular", color: AppColors.mainWhite),
+                      style: TextStyle(
+                          fontFamily: "sf-regular",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.bottomNavbarGrey),
                     ),
                   ),
                 ),

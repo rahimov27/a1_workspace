@@ -133,7 +133,9 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                                 width: MediaQuery.of(context).size.width * 0.50,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    color: AppColors.mainGrey),
+                                    color: isDarkMode
+                                        ? AppColors.mainGrey
+                                        : AppColors.mainWhite),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 20),
@@ -141,7 +143,9 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                                     height: 60,
                                     child: TextField(
                                       style: TextStyle(
-                                          color: AppColors.mainWhite,
+                                          color: isDarkMode
+                                              ? AppColors.mainWhite
+                                              : AppColors.mainGrey,
                                           fontFamily: "sf-medium",
                                           fontSize: 14),
                                       controller: nameProvider.nameController,
@@ -156,6 +160,13 @@ class _ProfileCardWidgetState extends State<ProfileCardWidget> {
                                         }
                                       },
                                       decoration: InputDecoration(
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              borderSide: BorderSide(
+                                                  color: isDarkMode
+                                                      ? AppColors.mainWhite
+                                                      : AppColors.greyAuth)),
                                           contentPadding: EdgeInsets.all(10),
                                           focusColor: AppColors.mainRed,
                                           focusedBorder: OutlineInputBorder(

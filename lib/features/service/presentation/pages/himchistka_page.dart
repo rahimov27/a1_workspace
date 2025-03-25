@@ -299,7 +299,9 @@ class _TState extends State<HimchistkaPage> {
                       height: 50,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.mainGrey),
+                          color: isDarkMode
+                              ? AppColors.mainGrey
+                              : AppColors.mainWhite),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
