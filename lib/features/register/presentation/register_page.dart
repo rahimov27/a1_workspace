@@ -73,12 +73,15 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (state is RegisterUserSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                            content: Text("Регистрация прошла успешно")),
+                            content: Text("Регистрация прошла успешно!")),
                       );
                       Navigator.pop(context);
                     } else if (state is RegisterUserError) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.error)),
+                        SnackBar(
+                          // content: Text(state.error),
+                          content: Text("Произошла ошибка при регистрации!"),
+                        ),
                       );
                     }
                   },
@@ -90,13 +93,20 @@ class _RegisterPageState extends State<RegisterPage> {
                       return AppButtonWidget(
                         text: "Зарегистрироваться",
                         onPressed: () {
-                          context.read<RegisterBloc>().add(
-                                RegisterUserEvent(
-                                  email: emailController.text,
-                                  userName: usernameController.text,
-                                  password: passwordController.text,
-                                ),
-                              );
+                          if (emailController.text.isEmpty ||
+                              passwordController.text.isEmpty ||
+                              usernameController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Заполните все поля!")));
+                          } else {
+                            context.read<RegisterBloc>().add(
+                                  RegisterUserEvent(
+                                    email: emailController.text,
+                                    userName: usernameController.text,
+                                    password: passwordController.text,
+                                  ),
+                                );
+                          }
                           if (kDebugMode) {
                             print("Email: ${emailController.text}");
                           }

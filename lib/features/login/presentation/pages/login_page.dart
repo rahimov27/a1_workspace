@@ -36,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
     if (token != null) {
       Navigator.pushReplacement(
           // ignore: use_build_context_synchronously
-          context, MaterialPageRoute(builder: (context) => MainMenu()));
+          context,
+          MaterialPageRoute(builder: (context) => MainMenu()));
     }
   }
 
@@ -94,7 +95,11 @@ class _LoginPageState extends State<LoginPage> {
                                   builder: (context) => MainMenu()));
                         } else if (state is LoginUserError) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.error)));
+                            SnackBar(
+                              // content: Text(state.error),
+                              content: Text("Неверный пароль или логин!"),
+                            ),
+                          );
                         }
                       },
                       builder: (context, state) {
@@ -105,9 +110,16 @@ class _LoginPageState extends State<LoginPage> {
                         return AppButtonWidget(
                           text: "Войти",
                           onPressed: () async {
-                            context.read<LoginBloc>().add(LoginUserEvent(
-                                userName: userNameController.text,
-                                password: passwordController.text));
+                            if (userNameController.text.isEmpty ||
+                                passwordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text("Заполните все поля!")));
+                            } else {
+                              context.read<LoginBloc>().add(LoginUserEvent(
+                                  userName: userNameController.text,
+                                  password: passwordController.text));
+                            }
                           },
                         );
                       },
