@@ -202,6 +202,7 @@ class _TonerPageState extends State<TonerPage> {
                           isDarkMode
                               ? SvgPicture.asset(
                                   "assets/svg/calendar.svg",
+                                  // ignore: deprecated_member_use
                                   color: isDarkMode
                                       ? AppColors.mainGrey
                                       : AppColors.bottomNavbarGrey,
@@ -213,6 +214,7 @@ class _TonerPageState extends State<TonerPage> {
                                       ? AppColors.mainGrey
                                       : AppColors.mainGrey,
                                 ),
+                          SvgPicture.asset("assets/svg/calendar.svg")
                         ],
                       ),
                     ),
