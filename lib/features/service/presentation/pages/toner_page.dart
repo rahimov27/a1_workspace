@@ -199,22 +199,12 @@ class _TonerPageState extends State<TonerPage> {
                                     ? AppColors.mainWhite
                                     : AppColors.mainGrey),
                           ),
-                          isDarkMode
-                              ? SvgPicture.asset(
-                                  "assets/svg/calendar.svg",
-                                  // ignore: deprecated_member_use
-                                  color: isDarkMode
-                                      ? AppColors.mainGrey
-                                      : AppColors.bottomNavbarGrey,
-                                )
-                              : SvgPicture.asset(
-                                  "assets/svg/calendar.svg",
-                                  // ignore: deprecated_member_use
-                                  color: isDarkMode
-                                      ? AppColors.mainGrey
-                                      : AppColors.mainGrey,
-                                ),
-                          SvgPicture.asset("assets/svg/calendar.svg")
+                          SvgPicture.asset(
+                            "assets/svg/calendar.svg",
+                            color: isDarkMode
+                                ? AppColors.mainWhite
+                                : AppColors.mainGrey,
+                          )
                         ],
                       ),
                     ),
@@ -261,15 +251,12 @@ class _TonerPageState extends State<TonerPage> {
                         dropdownColor: isDarkMode
                             ? AppColors.mainGrey
                             : AppColors.mainWhite,
-                        icon: isDarkMode
-                            ? SvgPicture.asset("assets/svg/down-icon.svg")
-                            : SvgPicture.asset(
-                                "assets/svg/down-icon.svg",
-                                // ignore: deprecated_member_use
-                                color: isDarkMode
-                                    ? AppColors.mainGrey
-                                    : AppColors.mainGrey,
-                              ),
+                        icon: SvgPicture.asset(
+                          "assets/svg/down-icon.svg",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey,
+                        ),
                         isExpanded: true,
                       ),
                     ),
@@ -286,7 +273,7 @@ class _TonerPageState extends State<TonerPage> {
                               borderRadius: BorderRadius.circular(12),
                               color: AppColors.mainGrey),
                           child: CupertinoPicker(
-                            itemExtent: 32,
+                            itemExtent: 30,
                             onSelectedItemChanged: (index) {
                               if (index == 0) {
                                 selectedService = 'Передняя полусфера';

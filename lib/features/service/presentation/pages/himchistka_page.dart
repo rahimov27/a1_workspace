@@ -271,7 +271,7 @@ class _TState extends State<HimchistkaPage> {
                               color: AppColors.mainWhite),
                           child: CupertinoPicker(
                             backgroundColor: AppColors.mainGrey,
-                            itemExtent: 32,
+                            itemExtent: 30,
                             onSelectedItemChanged: (index) {
                               if (index == 0) {
                                 selectedService =

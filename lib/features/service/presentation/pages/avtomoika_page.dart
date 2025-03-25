@@ -246,13 +246,12 @@ class _AvtomoikaPageState extends State<AvtomoikaPage> {
                         dropdownColor: isDarkMode
                             ? AppColors.mainGrey
                             : AppColors.mainWhite,
-                        icon: isDarkMode
-                            ? SvgPicture.asset("assets/svg/down-icon.svg")
-                            : SvgPicture.asset(
-                                "assets/svg/down-icon.svg",
-                                // ignore: deprecated_member_use
-                                color: AppColors.mainGrey,
-                              ),
+                        icon: SvgPicture.asset(
+                          "assets/svg/down-icon.svg",
+                          color: isDarkMode
+                              ? AppColors.mainWhite
+                              : AppColors.mainGrey,
+                        ),
                         isExpanded: true,
                       ),
                     ),
@@ -270,7 +269,7 @@ class _AvtomoikaPageState extends State<AvtomoikaPage> {
                               color: AppColors.mainWhite),
                           child: CupertinoPicker(
                             backgroundColor: AppColors.mainGrey,
-                            itemExtent: 32,
+                            itemExtent: 30,
                             onSelectedItemChanged: (index) {
                               if (index == 0) {
                                 selectedService = 'Комплексная мойка';
