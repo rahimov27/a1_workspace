@@ -267,7 +267,7 @@ class _TonerPageState extends State<TonerPage> {
                           height: 200,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: AppColors.mainWhite),
+                              color: AppColors.mainGrey),
                           child: CupertinoPicker(
                             itemExtent: 32,
                             onSelectedItemChanged: (index) {
@@ -279,7 +279,7 @@ class _TonerPageState extends State<TonerPage> {
                                 selectedService = 'Атермальная пленка';
                               } else if (index == 3) {
                                 selectedService =
-                                    'Чистко стекл от клея тонировки';
+                                    'Очистка стекл от клея тонировки';
                               }
                               setState(() {
                                 selectedService = services[index];
@@ -296,7 +296,7 @@ class _TonerPageState extends State<TonerPage> {
                                 text: "Атермальная пленка",
                               ),
                               ServiceAdaptiveTextWidget(
-                                text: "Чистко стекл от клея тонировки",
+                                text: "Очистка стекл от клея тонировки",
                               ),
                             ],
                           ),
@@ -371,7 +371,7 @@ List<String> services = [
   "Передняя полусфера",
   "Задняя полусфера",
   "Атермальная пленка",
-  "Чистко стекл от клея тонировки"
+  "Очистка стекл от клея тонировки"
 ];
 
 void showCustomOverlay(BuildContext context) {
