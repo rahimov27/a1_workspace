@@ -2,7 +2,6 @@ import 'package:a1_workspace/features/login/presentation/pages/login_page.dart';
 import 'package:a1_workspace/features/login/presentation/widgets/app_button_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/about_us_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/news_page.dart';
-import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/documentation_page.dart';
 import 'package:a1_workspace/features/profile/presentation/pages/profile_pages/pdf_page.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_card_widget.dart';
 import 'package:a1_workspace/features/profile/presentation/widgets/profile_unit_card_widget.dart';
@@ -62,18 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                   child: const ProfileUnitCardWidget(
                     text: "Отчет",
-                  ),
-                ),
-                const SizedBox(height: 5),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const DocumentationPage()));
-                  },
-                  child: const ProfileUnitCardWidget(
-                    text: "Документация",
                   ),
                 ),
                 const SizedBox(height: 5),
